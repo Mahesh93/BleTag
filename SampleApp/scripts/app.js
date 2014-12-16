@@ -1,52 +1,66 @@
-
-(function () {
+var app = (function (win) {
 
     // store a reference to the application object that will be created
     // later on so that we can use it if need be
     var app;
+    var locationData = [];
 
-    // create an object to store the models for each view
-    window.APP = {
-      models: {
-        home: {
-          title: 'Home'
-        },
-        settings: {
-          title: 'Settings'
-        },
-        contacts: {
-          title: 'Contacts',
-          ds: new kendo.data.DataSource({
-            data: [{ id: 1, name: 'Bob' }, { id: 2, name: 'Mary' }, { id: 3, name: 'John' }]
-          }),
-          alert: function(e) {
-            alert(e.data.name);
-          }
+    $.ajax({
+        url: "http://cooler.insigmainc.com/Controllers/Location.ashx?action=List&asArray=0&limit=0&sort=Name&dir=DESC",
+        async: false,
+        dataType: "json",
+        success: function (result) {
+            locationData = result.records;
         }
-      }
+
+    });
+   
+    var onBackKeyDown = function (e) {
+        e.preventDefault();
+
+        navigator.notification.confirm('Do you really want to exit?', function (confirmed) {
+            var exit = function () {
+                navigator.app.exitApp();
+            };
+
+            if (confirmed === true || confirmed === 1) {
+                // Stop EQATEC analytics monitor on app exit
+                if (analytics.isAnalytics()) {
+                    analytics.Stop();
+                }
+            }
+        }, 'Exit', ['OK', 'Cancel']);
     };
+    var onDeviceReady = function () {
+        // Handle "backbutton" event
+        document.addEventListener('backbutton', onBackKeyDown, false);
+
+        navigator.splashscreen.hide();
+    };
+    // create an object to store the models for each view
 
     // this function is called by Cordova when the application is loaded by the device
-    document.addEventListener('deviceready', function () {  
-      
-      // hide the splash screen as soon as the app is ready. otherwise
-      // Cordova will wait 5 very long seconds to do it for you.
-      navigator.splashscreen.hide();
+    document.addEventListener('deviceready', onDeviceReady, false);
 
-      app = new kendo.mobile.Application(document.body, {
-        
-        // you can change the default transition (slide, zoom or fade)
+    // hide the splash screen as soon as the app is ready. otherwise
+    // Cordova will wait 5 very long seconds to do it for you.
+
+
+    var os = kendo.support.mobileOS,
+        statusBarStyle = os.ios && os.flatVersion >= 700 ? 'black-translucent' : 'black';
+
+    // Initialize KendoUI mobile application
+    var mobileApp = new kendo.mobile.Application(document.body, {
         transition: 'slide',
-        
-        // comment out the following line to get a UI which matches the look
-        // and feel of the operating system
+        statusBarStyle: statusBarStyle,
         skin: 'flat',
+        initial: 'views/locations.html'
+    });
+    return {
+        mobileApp: mobileApp,
+        locationData: locationData
+    };
 
-        // the application needs to know which view to load first
-        initial: 'views/home.html'
-      });
-
-    }, false);
 
 
-}());
+}(window));
