@@ -20,10 +20,23 @@ app.Summary = (function () {
                 }
 
             });
+            $("#flat-listview").kendoMobileListView({
+                dataSource: kendo.data.DataSource.create({
+                    data: summaryListData,
+                    group: "SerialNumber"
+                }),
+                template: kendo.template($("#summaryTemplate").html()),            
+                fixedHeaders: true
+            });
+
         };
 
         var summaryDataSource = new kendo.data.DataSource({
-            data: [{ id: 1, SerialNumber: 'DF:34:4F:74:BC:24',Stock: '0',Humidity: '35',LightIntensity: '3',Temperature: '60.8' }, { id: 2, SerialNumber: 'F3:32:33:20:4D:78',Stock: '',Humidity: '0',LightIntensity: '0',Temperature: '0' }]
+            data: [{
+                Temperature: '60.8'
+            }, {
+                Temperature: '0'
+            }]
         });
 
         return {

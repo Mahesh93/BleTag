@@ -1,13 +1,16 @@
 <div data-role="view" data-title="Locations List" data-layout="main" data-model="app.Activities">
-    <ul data-role="listview" data-style="inset" data-template="contactsTemplate" data-bind="source: activities"></ul>
+    <ul data-role="listview" data-template="contactsTemplate" data-bind="source: activities"></ul>
 </div>
 <!-- this is the template used by the listview. template items are automatically
      wrapped in an <li> by Kendo UI Mobile -->
 <script type="text/x-kendo-template" id="contactsTemplate">
     <div id="something" data-role="touch" data-bind="events: { tap: activitySelected }">
         <table style="width:100%">
-            <tr>
+            <tr class="location-list-title">
                 <td>${Name}</td>
+                <td>
+                    <div #if (IsKeyAccount==true) {# class="location-list-image location-list-keyImage" #} #>&nbsp;</div>
+                </td>
             </tr>
             <tr>
                 <td class="location-list-item-label">${Street},${Street2},${City},${Zip}</td>

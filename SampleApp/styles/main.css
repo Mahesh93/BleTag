@@ -244,30 +244,58 @@ html {
     background: linear-gradient(to bottom, #5fb4ed 0%, #0076c5 74%);
     /* W3C */
 }
- .km-ios #my-drawer .km-content, .km-android #my-drawer .km-content, .km-blackberry #my-drawer .km-content,
-    .km-ios #my-drawer .km-list > li, .km-android #my-drawer .km-list > li, .km-blackberry #my-drawer .km-list > li,
-    .km-ios #my-drawer .km-listview-link > .km-icon, .km-android #my-drawer .km-listview-link > .km-icon, .km-blackberry #my-drawer .km-listview-link > .km-icon,
-    .km-ios #my-drawer .km-list li > .km-icon, .km-android #my-drawer .km-list li > .km-icon, .km-blackberry #my-drawer .km-list li > .km-icon
-    {
-        background-color: #4e4e4e;
-        color: #fff;
-    }
-
-    .km-ios #my-drawer .km-group-title,
-    .km-blackberry #my-drawer .km-group-title
-    {
-        background-color: #6e6e6e;
-        color: #fff;
-    }
-
-    .km-drawer-button:before, .km-drawer-button:after  { content: "\E077"; }
-    .km-inbox:before, .km-inbox:after { content: "\E0B0"; }
-    .km-sent:before, .km-sent:after { content: "\E0C6"; }
-    .km-trash:before, .km-trash:after { content: "\E0C3"; }
-    .km-spam:before, .km-spam:after { content: "\E0C5"; }
-    .km-star:before, .km-star:after { content: "\E0D7"; }
-    .km-settings:before, .km-settings:after { content: "\E0DA"; }
-    .km-off:before, .km-off:after { content: "\E0B9"; }
+.km-ios #my-drawer .km-content,
+.km-android #my-drawer .km-content,
+.km-blackberry #my-drawer .km-content,
+.km-ios #my-drawer .km-list > li,
+.km-android #my-drawer .km-list > li,
+.km-blackberry #my-drawer .km-list > li,
+.km-ios #my-drawer .km-listview-link > .km-icon,
+.km-android #my-drawer .km-listview-link > .km-icon,
+.km-blackberry #my-drawer .km-listview-link > .km-icon,
+.km-ios #my-drawer .km-list li > .km-icon,
+.km-android #my-drawer .km-list li > .km-icon,
+.km-blackberry #my-drawer .km-list li > .km-icon {
+    background-color: #4e4e4e;
+    color: #fff;
+}
+.km-ios #my-drawer .km-group-title,
+.km-blackberry #my-drawer .km-group-title {
+    background-color: #6e6e6e;
+    color: #fff;
+}
+.km-drawer-button:before,
+.km-drawer-button:after {
+    content: "\E077";
+}
+.km-inbox:before,
+.km-inbox:after {
+    content: "\E0B0";
+}
+.km-sent:before,
+.km-sent:after {
+    content: "\E0C6";
+}
+.km-trash:before,
+.km-trash:after {
+    content: "\E0C3";
+}
+.km-spam:before,
+.km-spam:after {
+    content: "\E0C5";
+}
+.km-star:before,
+.km-star:after {
+    content: "\E0D7";
+}
+.km-settings:before,
+.km-settings:after {
+    content: "\E0DA";
+}
+.km-off:before,
+.km-off:after {
+    content: "\E0B9";
+}
 .km-ios7 .km-view .weather,
 .km-wp .km-view .weather,
 .km-flat .km-view .weather {
@@ -308,45 +336,161 @@ html {
 }
 /* RETINA DISPLAY STYLES*/
 
-@media only screen and (-webkit-min-device-pixel-ratio: 2),
-(min-resolution: 192dpi) {
-    .img {
-        background-image: url(../styles/images/appbuilder2x.png);
-        background-repeat: no-repeat;
-        background-size: 100%;
-    }
-    .logo {
-        background-image: url(../styles/images/logo2x.png);
-        background-repeat: no-repeat;
-        background-size: 100%;
-    }
-    #map-search {
-        background-image: url(../styles/images/search2x.png);
-        background-repeat: no-repeat;
-        background-size: 100%;
-    }
-    #map-search:active {
-        background-image: url(../styles/images/search_active2x.png);
-        background-repeat: no-repeat;
-        background-size: 100%;
-    }
-    #map-navigate-home {
-        background-image: url(../styles/images/location2x.png);
-        background-repeat: no-repeat;
-        background-size: 100%;
-    }
-    #map-navigate-home:active {
-        background-image: url(../styles/images/location_active2x.png);
-        background-repeat: no-repeat;
-        background-size: 100%;
-    }
-    .weather-icon {
-        background-image: url(../styles/images/sprite-weather2x.png);
-        background-repeat: no-repeat;
-        background-size: 100%;
-    }
-    .location-list-item-label {
-        font-size: 11px;
-        color: #A0A2A2;
-    }
+.location-list-item-label {
+    font-size: 11px;
+    color: #A0A2A2;
+}
+.km-widget .km-view .km-content {
+    background-image: url(../styles/images/default_bg.png);
+}
+.km-widget.km-navbar {
+    background-image: url(../styles/images/titlebar_bg.png);
+    color: white;
+    font-size: 13px;
+}
+.km-icon km-drawer-button km-notext {
+    background-color: none;
+}
+.km-root .right-drawer-view {
+    border: 1px solid rgba(229, 26, 26, 0);
+    background: rgba(229, 26, 26, 0);
+    background-image: url(../styles/images/ic_action_overflow.png);
+    background-position: 4px;
+    background-size: 100%;
+}
+.km-list {
+    background: white;
+}
+.location-list-title {
+    font-size: 14px;
+    font-weight: bold;
+    color: #006666;
+    padding-bottom: 5px;
+}
+.location-list-image {
+    background-position: center right;
+    background-repeat: no-repeat;
+    width: 20px;
+    height: 20px;
+    background-size: contain;
+    float: right;
+}
+.location-list-keyImage {
+    background-image: url(../styles/images/key.png) !important;
+}
+.km-flat .km-group-title {
+    background: #E6E6E6;
+    margin-top: 4px;
+    border-width: 0;
+}
+.km-flat .km-text {
+    color: #CE1A24;
+}
+.container {
+	height: 80px;
+}
+
+	.container table tr td {
+		width: 20%;
+	}
+
+		.container table tr td td {
+			width: 20%;
+		}
+
+			.container table tr td td td {
+				width: 20%;
+			}
+
+				.container table tr td td td td {
+					width: 20%;
+				}
+
+					.container table tr td td td td td {
+						width: 20%;
+					}
+
+.cooler-list-image-small {
+	background-position: center center;
+	background-repeat: no-repeat;
+	width: 100%;
+	height: 40px;
+	background-size: contain;
+}
+.cooler-list-item-device-status-base {
+    float: left;
+ 	width: 17px;
+    height: 17px;
+    background-size: 15px 15px;
+    background-repeat: no-repeat;
+ }
+.cooler-list-quesMarkImage {
+	background-image: url(../styles/images/unknown.png) !important;	
+}
+.cooler-list-image-notfound {
+	background-image: url(../styles/images/notfound.png) !important;	
+}
+.cooler-list-image-found {
+	background-image: url(../styles/images/found.png) !important;
+}
+.cooler-list-label {
+	color: #ff0000;
+	font-size: 8pt;
+	text-align: center;
+}
+.cooler-list-lowtemperature {
+	background-image: url(../styles/images/tam1.png) !important;
+}
+.cooler-list-hightemperature {
+	background-image: url(../styles/images/hightemp.png) !important;
+}
+.cooler-list-inrangetemperature {
+	background-image: url(../styles/images/inrangetemp.png) !important;
+}
+
+.cooler-list-brightlight {
+	background-image: url(../styles/images/brightlight.png) !important;
+}
+.cooler-list-lowlight {
+	background-image: url(../styles/images/lowlight.png) !important;
+}
+.cooler-list-darklight {
+	background-image: url(../styles/images/darklight.png) !important;
+}
+.cooler-list-humidity25 {
+	background-image: url(../styles/images/purity25.png) !important;
+}
+.cooler-list-humidity50 {
+	background-image: url(../styles/images/purity50.png) !important;
+}
+.cooler-list-humidity75 {
+	background-image: url(../styles/images/purity75.png) !important;
+}
+.cooler-list-humidity100 {
+	background-image: url(../styles/images/purity100.png) !important;
+}
+
+.cooler-list-stock25 {
+	background-image: url(../styles/images/stock25.png) !important;
+}
+.cooler-list-stock50 {
+	background-image: url(../styles/images/stock50.png) !important;
+}
+.cooler-list-stock75 {
+	background-image: url(../styles/images/stock75.png) !important;
+}
+.cooler-list-stock100 {
+	background-image: url(../styles/images/stock100.png) !important;
+}
+.cooler-list-image {
+	background-image: url(../styles/images/cooler.png) !important;
+}
+.cooler-list-image-container {
+	/*background-position: left;*/
+	background-repeat: no-repeat;
+	width: 65px;
+	height: 80px;
+	/*float: left;*/
+	background-size: 60px 75px;
+	margin-left: 5px;
 }

@@ -28,6 +28,7 @@ var app = (function (win) {
                 if (analytics.isAnalytics()) {
                     analytics.Stop();
                 }
+                 AppHelper.logout().then(exit, exit);
             }
         }, 'Exit', ['OK', 'Cancel']);
     };

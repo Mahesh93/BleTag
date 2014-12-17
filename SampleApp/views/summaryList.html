@@ -1,17 +1,17 @@
-<div data-role="view" data-title="Summary List" data-layout="main" data-init="app.Summary.init" data-model="app.Summary">
-    <ul data-role="listview" data-style="inset" data-template="summaryTemplate" data-bind="source: summaryList"></ul>
+<div data-role="view" data-title="Summary List" data-layout="main" data-init="app.Summary.init">
+    <ul id="flat-listview"></ul>
 </div>
 <div data-role="layout" data-id="main">
     <div data-role="header">
         <div data-role="navbar">
             <span data-role="view-title"></span>
-            <a data-role="button" href="#appDrawer" data-rel="drawer" class="nav-button" data-align="left" data-icon="drawer-button"></a>
+            <a data-role="button" data-rel="drawer" href="#right-drawer" data-align="right" class="right-drawer-view"></a>
         </div>
     </div>
     <!-- application views will be rendered here -->
 </div>
 <!-- application drawer and contents -->
-<div data-role="drawer" id="appDrawer" style="width: 270px" data-title="Navigation">
+<div data-role="drawer" id="right-drawer" style="width: 100px" data-title="Navigation" data-position="right">
     <div data-role="header">
         <div data-role="navbar">
             <span data-role="view-title"></span>
@@ -25,24 +25,33 @@
         <li>Switch to Test Server</li>
     </ul>
 </div>
-<script type="text/x-kendo-template" id="summaryTemplate">
-    <div id="something" data-role="touch">
-        <table style="width:100%">
-            <tr>
-                <td>${SerialNumber}</td>
-            </tr>
-            <tr>
-                <td>Stock:${Stock}</td>
-            </tr>
-            <tr>
-                <td>Humidity:${Humidity}</td>
-            </tr>
-            <tr>
-                <td>LightIntensity:${LightIntensity}</td>
-            </tr>
-            <tr>
-                <td>Temperature:${Temperature}</td>
-            </tr>
-        </table>
+<script type="text/x-kendo-template" id="summaryTemplate">    
+    <div id="listTemp" data-role="touch" class="container">
+	<table style="width:100%">
+	<tr>
+	<td rowspan="4">
+	<div class="cooler-list-item-device-status-base cooler-list-quesMarkImage">&nbsp;</div>		
+	<div class="cooler-list-image-container cooler-list-image">&nbsp;</div>
+	</td>
+	</tr>
+	 <tr>
+	<td><div class="cooler-list-image-small cooler-list-lowtemperature"></td>
+	<td><div class="cooler-list-image-small cooler-list-lowlight"></td>
+	<td><div class="cooler-list-image-small cooler-list-humidity50"></td>
+	<td><div class="cooler-list-image-small cooler-list-stock25"></tpl></td>
+	</tr>
+	<tr>
+	<td><div class="cooler-list-label">${Temperature}</div></td>
+	<td><div class="cooler-list-label">${LightIntensity}</div></td>
+	<td><div class="cooler-list-label">100%</tpl></td>
+	<td><div class="cooler-list-label">${Stock}</tpl></td>
+	</tr>
+	<tr>
+	<td><div class="cooler-list-label">Cold</div></td>
+	<td><div class="cooler-list-label">Light</div></td>
+	<td><div class="cooler-list-label"><div class="cooler-list-label">Pure</div></tpl></td>
+	<td><div class="cooler-list-label">SoS</tpl></td>
+	</tr>
+	</table>	
     </div>
 </script>
