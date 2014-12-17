@@ -439,7 +439,7 @@ html {
 	text-align: center;
 }
 .cooler-list-lowtemperature {
-	background-image: url(../styles/images/tam1.png) !important;
+	background-image: url(../styles/images/lowtemp.png) !important;
 }
 .cooler-list-hightemperature {
 	background-image: url(../styles/images/hightemp.png) !important;
@@ -493,4 +493,9 @@ html {
 	/*float: left;*/
 	background-size: 60px 75px;
 	margin-left: 5px;
+}
+.cooler-list-labelblack {
+	color: black;
+	font-size: 8pt;
+	text-align: center;
 }

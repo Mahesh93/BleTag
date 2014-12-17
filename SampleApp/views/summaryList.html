@@ -35,22 +35,22 @@
 	</td>
 	</tr>
 	 <tr>
-	<td><div class="cooler-list-image-small cooler-list-lowtemperature"></td>
-	<td><div class="cooler-list-image-small cooler-list-lowlight"></td>
-	<td><div class="cooler-list-image-small cooler-list-humidity50"></td>
-	<td><div class="cooler-list-image-small cooler-list-stock25"></tpl></td>
+	<td><div #if (Temperature < 35.6) {# class="cooler-list-image-small cooler-list-lowtemperature"#}else if(Temperature > 39.2){# class="cooler-list-image-small cooler-list-hightemperature"#}else{# class="cooler-list-image-small cooler-list-inrangetemperature"#}#></td>
+	<td><div #if (LightIntensity < 5) {# class="cooler-list-image-small cooler-list-brightlight"#}else if((LightIntensity > 10) && (LightIntensity < 12)){# class="cooler-list-image-small cooler-list-lowlight"#}else{# class="cooler-list-image-small cooler-list-darklight"#}#></td>
+	<td><div #if ((((Stock - ForeignProduct) * 100) / Stock) > 25 && (((Stock - ForeignProduct) * 100) / Stock) <= 50) {# class="cooler-list-image-small cooler-list-humidity50"#}else if((((Stock - ForeignProduct) * 100) / Stock) > 50 && (((Stock - ForeignProduct) * 100) / Stock) <= 75){# class="cooler-list-image-small cooler-list-humidity75"#}else if((((Stock - ForeignProduct) * 100) / Stock) > 75){# class="cooler-list-image-small cooler-list-humidity100"#}else{# class="cooler-list-image-small cooler-list-humidity25"#}#></td>
+	<td><div #if ((((Stock - ForeignProduct) * 100) / (Columns*Shelves)) <= 25) {# class="cooler-list-image-small cooler-list-stock25"#}else if((((Stock - ForeignProduct) * 100) / (Columns*Shelves)) > 25 && (((Stock - ForeignProduct) * 100) / (Columns*Shelves)) <= 50){# class="cooler-list-image-small cooler-list-stock50"#}else if((((Stock - ForeignProduct) * 100) / (Columns*Shelves)) > 50 && (((Stock - ForeignProduct) * 100) / (Columns*Shelves)) <= 75){# class="cooler-list-image-small cooler-list-stock75"#}else{# class="cooler-list-image-small cooler-list-stock100"#}#></td>
 	</tr>
 	<tr>
 	<td><div class="cooler-list-label">${Temperature}</div></td>
-	<td><div class="cooler-list-label">${LightIntensity}</div></td>
-	<td><div class="cooler-list-label">100%</tpl></td>
-	<td><div class="cooler-list-label">${Stock}</tpl></td>
+	<td><div class="cooler-list-label">${getLightIntensity()}</div></td>
+	<td><div class="cooler-list-label">${getPurityPerc()}</div></td>
+	<td><div #if (Stock >= (((Columns*Shelves) * 60) / 100)) {# class="cooler-list-labelblack" #}else{# class="cooler-list-label"#} #>${getStockPerc()}</div></td>
 	</tr>
 	<tr>
-	<td><div class="cooler-list-label">Cold</div></td>
-	<td><div class="cooler-list-label">Light</div></td>
-	<td><div class="cooler-list-label"><div class="cooler-list-label">Pure</div></tpl></td>
-	<td><div class="cooler-list-label">SoS</tpl></td>
+	<td><div class="cooler-list-label">${getTemperatureText()}</div></td>
+	<td><div class="cooler-list-label">${getLightIntensityText()}</div></td>
+	<td><div class="cooler-list-label">${getPurityPercText()}</td>
+	<td><div #if (Stock >= (((Columns*Shelves) * 60) / 100)) {# class="cooler-list-labelblack" #}else{# class="cooler-list-label"#} #>${getStockPercText()}</div></td>
 	</tr>
 	</table>	
     </div>
