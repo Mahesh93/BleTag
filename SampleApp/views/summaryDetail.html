@@ -1,0 +1,27 @@
+<div data-role="view" data-title="Summary Detail" data-layout="main" data-init="app.SummaryDetail.init" data-model="app.SummaryDetail">
+    <ul id="detail-listview"></ul>
+</div>
+<div data-role="layout" data-id="main">
+    <div data-role="header">
+        <div data-role="navbar">
+            <span data-role="view-title"></span>
+            <a data-role="button" data-rel="drawer" href="#right-drawer" data-align="right" class="right-drawer-view"></a>
+        </div>
+    </div>
+    <!-- application views will be rendered here -->
+</div>
+<!-- application drawer and contents -->
+<div data-role="drawer" id="right-drawer" style="width: 100px" data-title="Navigation" data-position="right">
+    <div data-role="header">
+        <div data-role="navbar">
+            <span data-role="view-title"></span>
+        </div>
+    </div>
+    <ul data-role="listview">
+        <li>Scan</li>
+        <li>Debug</li>
+        <li>Switch Language</li>
+        <!--<a href="views/switchLanguage.html">Switch Language</a>-->
+        <li>Switch to Test Server</li>
+    </ul>
+</div>

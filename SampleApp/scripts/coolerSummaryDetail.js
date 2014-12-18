@@ -1,13 +1,9 @@
 var app = app || {};
 
-app.Summary = (function () {
+app.SummaryDetail = (function () {
     'use strict'
-
-    var summaryListData = [];
-
-    var summaryViewModel = (function () {
-
-        var locationId;
+    var summaryDetailModel = (function () {
+        var summaryDetailData = [];
         var summaryModel = {
 
             id: 'Id',
@@ -150,22 +146,13 @@ app.Summary = (function () {
                     toReturn = toReturn;
                 }
                 return toReturn;
-            },           
+            },
         };
         var init = function (e) {
-            locationId = e.view.params.LocationId;
-            $.ajax({
-                url: "http://cooler.insigmainc.com/Controllers/AssetInfo.ashx?action=list&asArray=0&limit=0&sort=AssetId&dir=DESC&locationId=" + locationId,
-                async: false,
-                dataType: "json",
-                success: function (result) {
-                    summaryListData = result.records;
-                }
-
-            });
-            $("#flat-listview").kendoMobileListView({
+            var locationId;
+            $("#detail-listview").kendoMobileListView({
                 dataSource: {
-                    data: summaryListData,
+                    data: summaryDetailData,
                     group: "SerialNumber",
                     schema: {
                         model: summaryModel
@@ -175,18 +162,9 @@ app.Summary = (function () {
                 fixedHeaders: true
             });
         };
-
-        var summarySelected = function (e) {
-            app.mobileApp.navigate('views/summaryDetail.html');
-        }
         return {
-            init: init,
-            summarySelected: summarySelected,
-            summaryModel:summaryModel
+            init: init
         };
-
     }());
-
-    return summaryViewModel;
-
+    return summaryDetailModel;
 }());
