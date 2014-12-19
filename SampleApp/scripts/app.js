@@ -1,53 +1,29 @@
-var app = (function (win) {
+(function (global) {
 
     // store a reference to the application object that will be created
     // later on so that we can use it if need be
-    var app;
-    var locationData = [];
-
-    $.ajax({
-        url: "http://cooler.insigmainc.com/Controllers/Location.ashx?action=List&asArray=0&limit=0&sort=Name&dir=DESC",
-        async: false,
-        dataType: "json",
-        success: function (result) {
-            locationData = result.records;
-        }
-
-    });
-
-    var onDeviceReady = function () {
+    var  app = global.app = global.app || {};
+    // this function is called by Cordova when the application is loaded by the device
+    document.addEventListener('deviceready', function () {  
+      
         // Handle "backbutton" event
         document.addEventListener("backbutton", function (e) {
-            e.preventDefault();
-            navigator.app.backHistory();            
-        }, true);
+                e.preventDefault();
+                navigator.app.backHistory();
+            }, true);
 
-        navigator.splashscreen.hide();
-    };
-    // create an object to store the models for each view
-
-    // this function is called by Cordova when the application is loaded by the device
-    document.addEventListener('deviceready', onDeviceReady, false);
-
-    // hide the splash screen as soon as the app is ready. otherwise
-    // Cordova will wait 5 very long seconds to do it for you.
-
-
-    var os = kendo.support.mobileOS,
-        statusBarStyle = os.ios && os.flatVersion >= 700 ? 'black-translucent' : 'black';
-
-    // Initialize KendoUI mobile application
-    var mobileApp = new kendo.mobile.Application(document.body, {
-        transition: 'slide',
+      // hide the splash screen as soon as the app is ready. otherwise
+      // Cordova will wait 5 very long seconds to do it for you.
+      navigator.splashscreen.hide();
+      var os = kendo.support.mobileOS,
+                    statusBarStyle = os.ios && os.flatVersion >= 700 ? 'black-translucent' : 'black';
+      app = new kendo.mobile.Application(document.body, {       
+        transition: 'slide',    
         statusBarStyle: statusBarStyle,
         skin: 'flat',
-        initial: 'views/locations.html'
-    });
-    return {
-        mobileApp: mobileApp,
-        locationData: locationData
-    };
+        initial: 'views/LocationList.html'
+      });
 
-
+    }, false);  
 
 }(window));

@@ -1,0 +1,22 @@
+<div data-role="view" data-title="Cooler Info" data-layout="main" data-model="app.viewDataListService.viewModel">
+    <ul data-role="listview" data-template="viewDataTemplate" data-bind="source: CoolerDataListDataSource"></ul>
+</div>
+
+<script type="text/x-kendo-template" id="viewDataTemplate">
+   <div class="dataview-base dataview-data-format">
+	<table style="width:100%; border-spacing: 5px;">
+	<tr><td class="cooler-list-header-text">${SerialNumber}</td><td class="gray-title-right">${CoolerInfoId}</td></tr>
+	<tr><td class="labelStyle" ><div class="cooler-list-image-mini-left cooler-door-open">&nbsp;</div><div class="item-data">${app.viewDataListService.dateRenderer(DoorOpen)}</div></td><td rowspan="2"><div class="cooler-list-image-mini-left cooler-door-open-duration">&nbsp;</div><div class="item-data">${DoorOpenDuration}</div></td></tr>
+	<tr><td class="labelStyle" ><div class="cooler-list-image-mini-left cooler-door-close">&nbsp;</div><div class="item-data">${app.viewDataListService.dateRenderer(DoorClose)}</div></td></tr>
+
+	<tr><td colspan="2"><div class="data-item-container">
+		<table style="width:100%; margin-top: 5px; height:50px; border-top: 1px solid gray;">
+		<tr><td><div #if (Temperature < 35.6) {# class="cooler-list-image-mini cooler-list-lowtemperature"#}else if(Temperature > 39.2){# class="cooler-list-image-mini cooler-list-hightemperature"#}else{# class="cooler-list-image-mini cooler-list-inrangetemperature"#}#></td><td><div #if (LightIntensity > 5) {# class="cooler-list-image-mini cooler-list-lowlight"#}else if(LightIntensity > 15){# class="cooler-list-image-mini cooler-list-brightlight"#}else{# class="cooler-list-image-mini cooler-list-darklight"#}#></td><td><div #if ((((Stock) * 100) / Stock) > 25 && (((Stock) * 100) / Stock) <= 50) {# class="cooler-list-image-mini cooler-list-humidity50"#}else if((((Stock) * 100) / Stock) > 50 && (((Stock) * 100) / Stock) <= 75){# class="cooler-list-image-mini cooler-list-humidity75"#}else if((((Stock) * 100) / Stock) > 75){# class="cooler-list-image-mini cooler-list-humidity100"#}else{# class="cooler-list-image-mini cooler-list-humidity25"#}#></div></td>
+		<td><div #if ((((Stock) * 100) / (Stock)) <= 25) {# class="cooler-list-image-mini cooler-list-stock25"#}else if((((Stock) * 100) / (Stock)) > 25 && (((Stock) * 100) / (Stock)) <= 50){# class="cooler-list-image-mini cooler-list-stock50"#}else if((((Stock) * 100) / (Stock)) > 50 && (((Stock) * 100) / (Stock)) <= 75){# class="cooler-list-image-mini cooler-list-stock75"#}else{# class="cooler-list-image-mini cooler-list-stock100"#}#></div></td><td><div class="cooler-list-image-mini cooler-list-sound">&nbsp;</div></td><td><div class="cooler-list-image-mini cooler-list-sales">&nbsp;</div></td><td><div class="cooler-list-image-mini cooler-list-purity">&nbsp;</div></td></tr>
+		<tr><td><div class="cooler-list-label">${Temperature}</div></td><td><div class="cooler-list-label">${LightIntensity}</div></td><td><div class="cooler-list-label">${Humidity}</div></td>
+		<td><div class="cooler-list-label">${Stock}</div></td><td><div class="cooler-list-label">${SoundLevel}</div></td><td><div class="cooler-list-label">${StockRemoved}</div></td><td><div class="cooler-list-label">${app.viewDataListService.getPurityStatus(PurityIssue)}</div></td></tr>
+		</table>
+	</div></td></tr>
+	</table></div>
+
+</script>

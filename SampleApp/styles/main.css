@@ -533,3 +533,99 @@ html {
     margin-top:9px;
     margin-right:5px;
 }
+.dataview-base{
+	margin: 10px;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	-moz-box-shadow: 5px 5px 1px #cacaca;
+	-webkit-box-shadow: 5px 5px 1px #cacaca;
+	box-shadow: 5px 5px 1px #cacaca;
+}
+.dataview-data-format{
+	font-size: 9pt;
+	padding: 5px 5px 5px 5px;
+}
+.cooler-list-header-text{
+	font-size: 11pt;
+	font-weight: bold;
+	line-height: 25px;
+}
+.gray-title-right{
+	color: #676464;
+	text-align:right;
+}
+.gray-title{
+	color: #676464;	
+	float: left;
+	font-weight: normal;
+}
+.labelStyle {
+	font-weight: bold;
+}
+.cooler-list-image-mini-left{
+	background-position: center center;
+	background-repeat: no-repeat;
+	width: 16px;
+	height: 16px;
+	background-size: contain;
+	float:left;
+}
+.cooler-door-open{
+	background-image: url(../styles/images/door_open_in.png) !important;
+}
+.item-data{
+	float:left;
+	padding-left: 8px;
+	font-weight: normal;
+	margin: 3px;
+}
+.cooler-door-open-duration{
+	background-image: url(../styles/images/timelineIcon.png) !important;
+}
+.labelStyle {
+	font-weight: bold;
+}
+.cooler-door-close{
+	background-image: url(../styles/images/door_arrow.png) !important;
+}
+.data-item-container{
+	width:100%;
+}
+.data-item-container table tr td{
+	width:14.2%;
+}
+.data-item-container table tr td td{
+	width:14.2%;
+}
+.data-item-container table tr td td td{
+	width:14.2%;
+}
+.data-item-container table tr td td td td{
+	width:14.2%;
+}
+.data-item-container table tr td td td td td{
+	width:14.2%;
+}
+.data-item-container table tr td td td td td td{
+	width:14.2%;
+}
+.data-item-container table tr td td td td td td{
+	width:14.2%;
+}
+.cooler-list-image-mini {
+	background-position: center center;
+	background-repeat: no-repeat;
+	width: 100%;
+	height: 20px;
+	background-size: contain;
+}
+.cooler-list-sound {
+	background-image: url(../styles/images/sound_wave.png) !important;
+}
+.cooler-list-sales {
+	background-image: url(../styles/images/sales.png) !important;
+}
+.cooler-list-purity {
+	background-image: url(../styles/images/purity-new.png) !important;
+}

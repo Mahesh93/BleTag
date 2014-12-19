@@ -1,19 +1,19 @@
 (function (global) {
-    var  app = global.app = global.app || {};       
-   
-    CoolerDataListViewModel = kendo.data.ObservableObject.extend({
-        CoolerDataListDataSource: null,        
-        init: function (e) {
+    var  app = global.app = global.app || {};    
+    var SummaryListViewModel = kendo.data.ObservableObject.extend({
+        summaryListDataSource: null,    
+        init: function (e) {             
             var that = this,
                 dataSource,
                 jsonUrlToLoad;
 
             kendo.data.ObservableObject.fn.init.apply(that, []);    
-            jsonUrlToLoad = "http://cooler.insigmainc.com/Controllers/AssetInfo.ashx?action=list&asArray=0&limit=0&sort=AssetId&dir=DESC&locationId=1";
+            jsonUrlToLoad = "http://cooler.insigmainc.com/Controllers/AssetInfo.ashx?action=list&asArray=0&limit=0&sort=AssetId&dir=DESC";
             dataSource = new kendo.data.DataSource({  
+                group: { field: "SerialNumber" },                
                 schema:{
-                   parse: function(response) {       
-                       debugger;
+                   model: app.models.SummaryList,
+                   parse: function(response) {                
                         return response.records;
                     }
                 },
@@ -29,8 +29,10 @@
             that.set("summaryListDataSource", dataSource);
         }
     });
-
-    app.summaryListService = {
+    app.summaryListService = {     
+        show: function(e){            
+          app.summaryListService.viewModel.summaryListDataSource.read({LocationId : e.view.params.locationId});
+        },
         viewModel: new SummaryListViewModel(),
             spaces: function () {
                 var spaces = this.get('Columns') * this.get('Shelves');

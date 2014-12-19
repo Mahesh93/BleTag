@@ -1,5 +1,5 @@
-<div data-role="view" data-title="Summary Detail" data-layout="main" data-init="app.SummaryDetail.init" data-model="app.SummaryDetail">
-    <ul id="detail-listview"></ul>
+<div data-role="view" data-title="Summary Detail" data-layout="main" data-model="app.summaryDetailService.viewModel" data-show="app.summaryDetailService.show">    
+    <ul data-role="listview" data-template="summaryTemplate" data-bind="source: summaryDetailDataSource"></ul> 
     <div id="fusionchartsTitle" class="km-group-title">Product Distribution</div>
     <div id="fusioncharts"></div>
     <div id="distributionData"></div>
@@ -23,9 +23,11 @@
         </div>
     </div>
     <ul data-role="listview">
-        <li>View Data</li>
         <li>
-        <a href="views/coolerImageList.html" data-role="listview-link">View Pictures</a>
+             <a href='views/CoolerDataList.html?' data-role="listview-link">View Data</a>
+        </li>
+        <li>
+            <a href='views/CoolerImageList.html?' data-role="listview-link">View Pictures</a>
         </li>       
         <li>Download Data</li>
         <!--<a href="views/switchLanguage.html">Switch Language</a>-->

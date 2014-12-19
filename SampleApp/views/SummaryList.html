@@ -1,7 +1,7 @@
-<div data-role="view" data-title="Summary List" data-layout="summary" data-init="app.Summary.init" data-model="app.Summary">
-    <ul id="flat-listview" data-bind="click: summarySelected"></ul>
+<div data-role="view" data-title="Summary List" data-layout="main" data-model="app.summaryListService.viewModel" data-show="app.summaryListService.show">
+    <ul data-role="listview" data-template="summaryTemplate" data-bind="source: summaryListDataSource"></ul>    
 </div>
-<div data-role="layout" data-id="summary">
+<div data-role="layout" data-id="main">
     <div data-role="header">
         <div data-role="navbar">
             <span data-role="view-title"></span>
@@ -25,9 +25,9 @@
         <li>Switch to Test Server</li>
     </ul>
 </div>
-
-<script type="text/x-kendo-template" id="summaryTemplate">    
+<script type="text/x-kendo-template" id="summaryTemplate">
     <div id="listtemp" class="container">
+    <a id="locationList" href='views/SummaryDetail.html?assetId=#:AssetId#' data-role="listview-link">
 	<table style="width:100%">
 	<tr>
 	<td rowspan="4">
@@ -43,16 +43,18 @@
 	</tr>
 	<tr>
 	<td><div class="cooler-list-label">${Temperature}</div></td>
-	<td><div class="cooler-list-label">${getLightIntensity()}</div></td>
-	<td><div #if(LatestProcessedImageId!=0){#<div class="cooler-list-label">${getPurityPerc()}</div>#}#</div></td>
-	<td><div #if(LatestProcessedImageId!=0){#<div #if (Stock >= (((Columns*Shelves) * 60) / 100)) {# class="cooler-list-labelblack" #}else{# class="cooler-list-label"#} #>${getStockPerc()}</div>#}#</div></td>
+	<td><div class="cooler-list-label">${app.summaryListService.getLightIntensity(LightIntensity)}</div></td>
+	<td><div #if(LatestProcessedImageId!=0){#<div class="cooler-list-label">${app.summaryListService.getPurityPerc(Stock, ForeignProduct)}</div>#}#</div></td>
+	<td><div #if(LatestProcessedImageId!=0){#<div #if (Stock >= (((Columns*Shelves) * 60) / 100)) {# class="cooler-list-labelblack" #}else{# class="cooler-list-label"#} #>${app.summaryListService.getStockPerc(Columns, Shelves, Stock, ForeignProduct)}</div>#}#</div></td>
 	</tr>
 	<tr>
-	<td><div class="cooler-list-label">${getTemperatureText()}</div></td>
-	<td><div class="cooler-list-label">${getLightIntensityText()}</div></td>
-	<td><div #if(LatestProcessedImageId!=0){#<div class="cooler-list-label">${getPurityPercText()}</div>#}#</div></td>
-	<td><div #if(LatestProcessedImageId!=0){#<div #if (Stock >= (((Columns*Shelves) * 60) / 100)) {# class="cooler-list-labelblack" #}else{# class="cooler-list-label"#} #>${getStockPercText()}</div>#}#</div></td>
+	<td><div class="cooler-list-label">${app.summaryListService.getTemperatureText(Temperature)}</div></td>
+	<td><div class="cooler-list-label">${app.summaryListService.getLightIntensityText(LightIntensity)}</div></td>
+	<td><div #if(LatestProcessedImageId!=0){#<div class="cooler-list-label">${app.summaryListService.getPurityPercText(ForeignProduct)}</div>#}#</div></td>
+	<td><div #if(LatestProcessedImageId!=0){#<div #if (Stock >= (((Columns*Shelves) * 60) / 100)) {# class="cooler-list-labelblack" #}else{# class="cooler-list-label"#} #>${app.summaryListService.getStockPercText(Columns, Shelves, Stock)}</div>#}#</div></td>
 	</tr>
 	</table>	
+    </a>
     </div>
+
 </script>
