@@ -37,62 +37,76 @@ app.SummaryDetail = (function () {
                 }
 
             });
-
-            var chart = new FusionCharts({
-                type: "pie2d",
-                id: 'fu-distributionchart',
-                height: 220,
-                width: 320,
-                dataFormat: "json",
-                dataSource: {
-                    "chart": {                        
-                        "palette": "2",
-                        "animation": "1",
-                        "formatnumberscale": "1",
-                        "decimals": "0",
-                        "pieslicedepth": "30",
-                        "startingangle": "125",
-                        "showBorder": "0"
-                    },
-                    "data": summaryStockData
-                }
-            });
-            chart.render("fusioncharts");
-            $("#distributionData").ready(function () {
-                var details = summaryDetailData.Details;
-                var columns = summaryDetailData.Columns;
-                var table = document.createElement("table");
-                table.style.width = "100%";
-                var row;
-                var td;
-                for (var i = 0; i < details.length; i++) {
-                    var dataItem = details[i];
-                    if ((i / columns) % 1 == 0) {
-                        row = document.createElement("tr");
-                        table.appendChild(row);
+            var latestProcessedImageId = summaryDetailData.LatestProcessedImageId;
+            if(latestProcessedImageId==0){
+                $("#fusionchartsTitle").hide();
+                $("#coolerImageTitle").hide();
+            }
+            else if (latestProcessedImageId != 0) {
+                var chart = new FusionCharts({
+                    type: "pie2d",
+                    id: 'fu-distributionchart',
+                    height: 220,
+                    width: 320,
+                    dataFormat: "json",
+                    dataSource: {
+                        "chart": {
+                            "palette": "2",
+                            "animation": "1",
+                            "formatnumberscale": "1",
+                            "decimals": "0",
+                            "pieslicedepth": "30",
+                            "startingangle": "125",
+                            "showBorder": "0"
+                        },
+                        "data": summaryStockData
                     }
-                    td = document.createElement("td");
-                    var valueDiv = document.createElement("div");
-                    valueDiv.textContent = dataItem.Name;
-                    valueDiv.style.fontSize = "4px";
-                    td.appendChild(valueDiv);
+                });
+                chart.render("fusioncharts");
+                $("#distributionData").ready(function () {
+                    var details = summaryDetailData.Details;
+                    var columns = summaryDetailData.Columns;
+                    var table = document.createElement("table");
+                    table.style.width = "100%";
+                    var row;
+                    var td;
+                    for (var i = 0; i < details.length; i++) {
+                        var dataItem = details[i];
+                        if ((i / columns) % 1 == 0) {
+                            row = document.createElement("tr");
+                            table.appendChild(row);
+                        }
+                        td = document.createElement("td");
+                        var valueDiv = document.createElement("div");
+                        valueDiv.textContent = dataItem.Name;
+                        valueDiv.style.fontSize = "4px";
+                        td.appendChild(valueDiv);
 
-                    var iconDiv = document.createElement("div");
-                    iconDiv.textContent = " ";
-                    iconDiv.className = "circle";
+                        var iconDiv = document.createElement("div");
+                        iconDiv.textContent = " ";
+                        iconDiv.className = "circle";
 
-                    iconDiv.style.backgroundColor = dataItem.GraphColor;
-                    td.appendChild(iconDiv);
+                        iconDiv.style.backgroundColor = dataItem.GraphColor;
+                        td.appendChild(iconDiv);
 
-                    row.appendChild(td);
-                }
-                document.getElementById("distributionData").innerHTML = table.outerHTML;
-
-
-            });
-        };       
+                        row.appendChild(td);
+                    }
+                    document.getElementById("distributionData").innerHTML = table.outerHTML;
+                });
+                $('#coolerImageTitle').text(summaryDetailData.LatestProcessedImageId + "-" + summaryDetailData.LatestProcessedImageDateTime);
+                $("#cooler_image").attr("src", "http://cooler.insigmainc.com/Controllers/CoolerImage.ashx?action=other&otherAction=Download&width=320&height=220&id=" + summaryDetailData.LatestProcessedImageId);
+                $("#cooler_image").click(function () {
+                    app.mobileApp.navigate('views/coolerImage.html');
+                });
+            }
+        };
+        var Imageinit = function (e) {
+            $("#coolerPageTitle").html(summaryDetailData.LatestProcessedImageId + "-" + summaryDetailData.LatestProcessedImageDateTime)
+            $("#coolerpage_image").attr("src", "http://cooler.insigmainc.com/Controllers/CoolerImage.ashx?action=other&otherAction=Download&width=320&height=460&id=" + summaryDetailData.LatestProcessedImageId);
+        };
         return {
-            init: init           
+            init: init,
+            Imageinit: Imageinit
         };
     }());
     return summaryDetailModel;
