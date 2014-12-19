@@ -382,6 +382,7 @@ html {
     background: #E6E6E6;
     margin-top: 4px;
     border-width: 0;
+    color: #CE1A24;
 }
 .km-flat .km-text {
     color: #CE1A24;
@@ -497,5 +498,12 @@ html {
 .cooler-list-labelblack {
 	color: black;
 	font-size: 8pt;
+	text-align: center;
+}
+.circle {
+	border-radius: 50%;
+	width: 17px;
+	height: 17px;
+	background-position: center center;
 	text-align: center;
 }

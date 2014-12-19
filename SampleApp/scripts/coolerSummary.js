@@ -3,6 +3,7 @@ var app = app || {};
 app.Summary = (function () {
     'use strict'
 
+    var summaryData = [];
     var summaryListData = [];
 
     var summaryViewModel = (function () {
@@ -150,7 +151,7 @@ app.Summary = (function () {
                     toReturn = toReturn;
                 }
                 return toReturn;
-            },           
+            },
         };
         var init = function (e) {
             locationId = e.view.params.LocationId;
@@ -177,12 +178,14 @@ app.Summary = (function () {
         };
 
         var summarySelected = function (e) {
+            summaryData.push(e.dataItem);
             app.mobileApp.navigate('views/summaryDetail.html');
         }
         return {
             init: init,
             summarySelected: summarySelected,
-            summaryModel:summaryModel
+            summaryModel: summaryModel,
+            summaryData:summaryData
         };
 
     }());
