@@ -1,0 +1,31 @@
+<div data-role="view" id="SettingsForm" data-layout="Settings" data-init="app.loginService.filterinit" data-model="app.loginService.viewModel">
+    <div class="imagePageTitle">Settings</div>   
+    <form action="" method="post" class="settings-button">       
+        <label>
+            <span>Production</span>
+            <select name="production">
+                <option value="production">Production</option>
+                <option value="test">Test</option>
+            </select>
+        </label>
+        <label>
+            <span>Enable Notification</span>
+            <select name="notification">
+                <option value="enable">Enable</option>
+                <option value="disable">Disable</option>
+            </select>
+        </label>
+        <label>
+            <span>Language</span>
+            <select name="language">
+                <option value="english">English</option>
+                <option value="hindi">Hindi</option>
+                <option value="hindi">Chinese</option>
+            </select>
+        </label>
+        <label class="button-label">           
+            <input type="button" id="settingsApplyBtn" class="button" value="Apply" />
+            <input type="button" id="settingsCancelBtn" class="buttonleft" value="Cancel" />
+        </label>
+    </form>
+</div>

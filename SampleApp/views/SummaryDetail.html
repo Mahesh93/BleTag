@@ -1,4 +1,4 @@
-<div data-role="view" data-title="Summary Detail" data-layout="main" data-model="app.summaryDetailService.viewModel" data-show="app.summaryDetailService.show">    
+<div data-role="view" data-title="Summary Detail" data-layout="summaryDetail" data-model="app.summaryDetailService.viewModel" data-show="app.summaryDetailService.show">    
     <ul data-role="listview" data-template="summaryTemplate" data-bind="source: summaryDetailDataSource"></ul> 
     <div id="fusionchartsTitle" class="km-group-title">Product Distribution</div>
     <div id="fusioncharts"></div>
@@ -6,23 +6,23 @@
     <div id="coolerImageTitle" class="km-group-title"></div>
     <img id="cooler_image" />
 </div>
-<div data-role="layout" data-id="main">
+<div data-role="layout" data-id="summaryDetail">
     <div data-role="header">
         <div data-role="navbar">
             <span data-role="view-title"></span>
-            <a data-role="button" data-rel="drawer" href="#right-drawer" data-align="right" class="right-drawer-view"></a>
+            <a data-role="button" data-rel="drawer" href="#right-detail-drawer" data-align="right" class="right-drawer-view"></a>
         </div>
     </div>
     <!-- application views will be rendered here -->
 </div>
 <!-- application drawer and contents -->
-<div data-role="drawer" id="right-drawer" style="width: 100px" data-title="Navigation" data-position="right">
+<div data-role="drawer" id="right-detail-drawer" style="width: 100px" data-title="Navigation" data-position="right" data-swipe-to-open=false>
     <div data-role="header">
         <div data-role="navbar">
             <span data-role="view-title"></span>
         </div>
     </div>
-    <ul data-role="listview">
+    <ul class="navmenu" data-role="listview">
         <li>
              <a href='views/CoolerDataList.html?' data-role="listview-link">View Data</a>
         </li>

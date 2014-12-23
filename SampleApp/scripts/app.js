@@ -21,7 +21,7 @@
         transition: 'slide',    
         statusBarStyle: statusBarStyle,
         skin: 'flat',
-        initial: 'views/LocationList.html'
+        initial: 'views/Login.html'
       });
 
     }, false);  

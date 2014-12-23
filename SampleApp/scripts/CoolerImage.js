@@ -13,7 +13,6 @@
             dataSource = new kendo.data.DataSource({
                 schema: {
                     parse: function (response) {
-                        debugger;
                         return response.records;
                     }
                 },

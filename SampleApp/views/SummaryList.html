@@ -1,7 +1,7 @@
-<div data-role="view" data-title="Summary List" data-layout="main" data-model="app.summaryListService.viewModel" data-show="app.summaryListService.show">
+<div data-role="view" id="two-drawer-home" data-title="Summary List" data-layout="summary" data-model="app.summaryListService.viewModel" data-show="app.summaryListService.show">
     <ul data-role="listview" data-template="summaryTemplate" data-bind="source: summaryListDataSource"></ul>    
 </div>
-<div data-role="layout" data-id="main">
+<div data-role="layout" data-id="summary">
     <div data-role="header">
         <div data-role="navbar">
             <span data-role="view-title"></span>
@@ -11,15 +11,15 @@
     <!-- application views will be rendered here -->
 </div>
 <!-- application drawer and contents -->
-<div data-role="drawer" id="right-drawer" style="width: 100px" data-title="Navigation" data-position="right">
-    <div data-role="header">
+<div data-role="drawer" id="right-drawer" style="width: 130px" data-title="Navigation" data-position="right" data-swipe-to-open=false>
+    <header data-role="header">
         <div data-role="navbar">
             <span data-role="view-title"></span>
         </div>
-    </div>
-    <ul data-role="listview">
+    </header>
+    <ul class="navmenu" data-role="listview">
         <li>Scan</li>
-        <li>Debug</li>
+        <li>Debug</li>       
         <li>Switch Language</li>
         <!--<a href="views/switchLanguage.html">Switch Language</a>-->
         <li>Switch to Test Server</li>

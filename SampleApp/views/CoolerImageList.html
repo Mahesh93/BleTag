@@ -1,3 +1,27 @@
-<div id="coolerImagePage">
-    <div class="imagePageTitle">Cooler Images<a data-role="listview-link" class="location-list-image" href="views/locations.html"></a></div>    
+<div data-role="view" data-layout="imagelist" data-init="app.viewImageListService.init" data-model="app.viewImageListService.imageModel">
+    <div class="imagePageTitle">Cooler Images<a data-role="listview-link" class="location-list-image" href="views/CoolerImageFilter.html"></a></div>    
+    <ul data-role="listview" data-template="viewDataTemplate" data-bind="source: CoolerImageListDataSource"></ul>
 </div>
+<script type="text/x-kendo-template" id="viewDataTemplate">
+<div class="container">
+	<table style="width:100%">
+	<tr>
+	<td rowspan="4">
+    <div class="image-shadow"><img src="${app.viewImageListService.getImgUrl(CoolerImageId)}"  height="80" width="85"></img></div>
+    </td>
+	</tr>
+	<tr>
+	<td><div #if ((((Stock - ForeignProduct) * 100) / Stock) > 25 && (((Stock - ForeignProduct) * 100) / Stock) <= 50) {# class="cooler-list-image-small cooler-list-humidity50"#}else if((((Stock - ForeignProduct) * 100) / Stock) > 50 && (((Stock - ForeignProduct) * 100) / Stock) <= 75){# class="cooler-list-image-small cooler-list-humidity75"#}else if((((Stock - ForeignProduct) * 100) / Stock) > 75){# class="cooler-list-image-small cooler-list-humidity100"#}else{# class="cooler-list-image-small cooler-list-humidity25"#}#></div></td>
+	<td><div #if ((((Stock - ForeignProduct) * 100) / (Columns*Shelves)) <= 25) {# class="cooler-list-image-small cooler-list-stock25"#}else if((((Stock - ForeignProduct) * 100) / (Columns*Shelves)) > 25 && (((Stock - ForeignProduct) * 100) / (Columns*Shelves)) <= 50){# class="cooler-list-image-small cooler-list-stock50"#}else if((((Stock - ForeignProduct) * 100) / (Columns*Shelves)) > 50 && (((Stock - ForeignProduct) * 100) / (Columns*Shelves)) <= 75){# class="cooler-list-image-small cooler-list-stock75"#}else{# class="cooler-list-image-small cooler-list-stock100"#}#></div></td>
+	</tr>
+	<tr>
+	<td><div class="cooler-list-label">${app.summaryListService.getPurityPerc(Stock, ForeignProduct)}</div></td>
+	<td><div #if ((Stock - ForeignProduct)< 60) {# class="cooler-list-labelblack" #}else{# class="cooler-list-label"#} #>${app.viewImageListService.getStockValue(Stock, ForeignProduct)}</div></td>
+	</tr>
+	<tr>
+	<td><div #if (ForeignProduct === 0) {# class="cooler-list-labelblack" #}else{# class="cooler-list-label"#} #>${app.viewImageListService.getPurityValue(ForeignProduct)}</div></td>
+	<td><div #if (Stock >= (((Columns*Shelves) * 60) / 100)) {# class="cooler-list-label" #}else{# class="cooler-list-labelblack"#} #>${app.summaryListService.getStockPerc(Columns, Shelves, Stock, ForeignProduct)}</div></td>
+	</tr>
+	</table>
+	</div>
+</script>
