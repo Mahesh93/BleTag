@@ -1,6 +1,6 @@
-<div data-role="view" data-layout="imagelist" data-init="app.viewImageListService.init" data-model="app.viewImageListService.imageModel">
+<div data-role="view" data-layout="imagelist" data-model="app.viewImageListService.imageModel" data-show="app.viewImageListService.show">
     <div class="imagePageTitle">Cooler Images<a data-role="listview-link" class="location-list-image" href="views/CoolerImageFilter.html"></a></div>    
-    <ul data-role="listview" data-template="viewDataTemplate" data-bind="source: CoolerImageListDataSource"></ul>
+    <ul data-role="listview" data-template="viewDataTemplate" data-auto-bind="false" data-bind="source: CoolerImageListDataSource"></ul>
 </div>
 <script type="text/x-kendo-template" id="viewDataTemplate">
 <div class="container">

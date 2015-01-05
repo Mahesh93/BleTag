@@ -4,12 +4,14 @@
     CoolerDataListViewModel = kendo.data.ObservableObject.extend({
         CoolerDataListDataSource: null,
         init: function (e) {
+            debugger;
             var that = this,
                 dataSource,
                 jsonUrlToLoad;
             var assetId = app.summaryDetailService.assetId;
+            console.log('Cooler Image asset Id : ' + assetId);
             kendo.data.ObservableObject.fn.init.apply(that, []);
-            jsonUrlToLoad = "http://cooler.insigmainc.com/Controllers/CoolerInfo.ashx?action=list&AsArray=0&sort=CoolerInfoId&dir=DESC&assetId=" + assetId;
+            jsonUrlToLoad = "http://cooler.insigmainc.com/Controllers/CoolerInfo.ashx?action=list&AsArray=0&sort=CoolerInfoId&dir=DESC";
             dataSource = new kendo.data.DataSource({
                 schema: {
                     parse: function (response) {
@@ -32,7 +34,7 @@
     app.viewDataListService = {
         show: function (e) {
             app.viewDataListService.viewModel.CoolerDataListDataSource.read({
-                AssetId: app.summaryDetailService.assetId
+                assetId: app.summaryDetailService.assetId
             });
         },
         viewModel: new CoolerDataListViewModel(),
@@ -76,7 +78,7 @@
         getPurityStatus: function (PurityIssue) {
             return PurityIssue ? 'Yes' : 'No';
         },
-        getStockImg: function (Stock, baseCls) {            
+        getStockImg: function (Stock, baseCls) {
             var stockPerc = (((Stock) * 100) / Stock);
 
             var base = baseCls || 'cooler-list-image-small';

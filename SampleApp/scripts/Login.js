@@ -36,13 +36,10 @@
     app.loginService = {
         viewModel: new loginViewModel(),
         filterinit: function (e) {
-            debugger;
             $("#settingsApplyBtn").click(function () {
-                debugger;
                 history.go(-1);
             });
             $("#settingsCancelBtn").click(function () {
-                debugger;
                 history.go(-1);
             });
         },

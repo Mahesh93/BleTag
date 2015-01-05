@@ -1,61 +1,61 @@
 (function (global) {
     var app = global.app = global.app || {};
-    var isComingfromFilterScreen = false;
-    CoolerImageListViewModel = kendo.data.ObservableObject.extend({
-
-        CoolerImageListDataSource: null,
-
-        init: function (e) {
-            var that = this,
-                dataSource,
-                jsonUrlToLoad;
-            var assetId = app.summaryDetailService.assetId;
-            kendo.data.ObservableObject.fn.init.apply(that, []);
-            if (!isComingfromFilterScreen) {
-                jsonUrlToLoad = "http://cooler.insigmainc.com/Controllers/CoolerImage.ashx?asArray=0&dir=DESC&action=list&assetId"+assetId;
-            } else {
-                var dateFrom = $("#fromDate").val();
-                var dateTo = $("#toDate").val();
-                var processed = $("#processedVal").val();
-                var purityFrom = $("#purityFrom").val();
-                var purityTo = $("#purityTo").val();
-                var stockFrom = $("#stockFrom").val();
-                var stockTo = $("#stockTo").val();
-                var foreignProductFrom = $("#foreginFrom").val();
-                var foreignProductTo = $("#foreginTo").val();
-                var filters = "&dateFrom=" + dateFrom + "&dateTo=" + dateTo + "&processed=" + processed + "&stockFrom=" + stockFrom + "&stockTo=" + stockTo + "&purityFrom=" + purityFrom + "&purityTo=" + purityTo + "&foreignProductFrom=" + foreignProductFrom + "&foreignProductTo=" + foreignProductTo;
-                jsonUrlToLoad = "http://cooler.insigmainc.com/Controllers/CoolerImage.ashx?asArray=0&dir=DESC&action=list&assetId=" + assetId + filters;
-            }
-            dataSource = new kendo.data.DataSource({
-                schema: {
-                    parse: function (response) {
-                        debugger;
-                        return response.records;
-                    }
-                },
-                transport: {
-                    read: {
-                        url: jsonUrlToLoad,
-                        dataType: "json",
-                        type: "GET"
-                    }
+    var isComingfromFilterScreen = false,
+        CoolerImageListViewModel = kendo.data.ObservableObject.extend({
+            CoolerImageListDataSource: null,
+            init: function (e) {
+                var that = this,
+                    dataSource,
+                    jsonUrlToLoad;
+                var assetId = app.summaryDetailService.assetId;
+                kendo.data.ObservableObject.fn.init.apply(that, []);
+                console.log('asset Id : ' + assetId);
+                if (!isComingfromFilterScreen) {
+                    jsonUrlToLoad = "http://cooler.insigmainc.com/Controllers/CoolerImage.ashx?asArray=0&dir=DESC&action=list";
+                } else {
+                    var dateFrom = $("#fromDate").val();
+                    var dateTo = $("#toDate").val();
+                    var processed = $("#processedVal").val();
+                    var purityFrom = $("#purityFrom").val();
+                    var purityTo = $("#purityTo").val();
+                    var stockFrom = $("#stockFrom").val();
+                    var stockTo = $("#stockTo").val();
+                    var foreignProductFrom = $("#foreginFrom").val();
+                    var foreignProductTo = $("#foreginTo").val();
+                    var filters = "&dateFrom=" + dateFrom + "&dateTo=" + dateTo + "&processed=" + processed + "&stockFrom=" + stockFrom + "&stockTo=" + stockTo + "&purityFrom=" + purityFrom + "&purityTo=" + purityTo + "&foreignProductFrom=" + foreignProductFrom + "&foreignProductTo=" + foreignProductTo;
+                    jsonUrlToLoad = "http://cooler.insigmainc.com/Controllers/CoolerImage.ashx?asArray=0&dir=DESC&action=list" + assetId + filters;
                 }
 
-            });
-            that.set("CoolerImageListDataSource", dataSource);
+                dataSource = new kendo.data.DataSource({
+                    autoSync: true,
+                    schema: {
+                        parse: function (response) {
+                            return response.records;
+                        }
+                    },
+                    transport: {
+                        read: {
+                            url: jsonUrlToLoad,
+                            dataType: "json",
+                            type: "GET"
+                        }
+                    }
 
-        }
+                });
+                that.set("CoolerImageListDataSource", dataSource);
 
-    });
+            }
+
+        });
     app.viewImageListService = {
-        imageModel: new CoolerImageListViewModel(),
-        show: function (e) {
+        show: function (e) {  
             app.viewImageListService.imageModel.CoolerImageListDataSource.read({
-                AssetId: app.summaryDetailService.assetId
+                assetId: app.summaryDetailService.assetId
             });
         },
+        imageModel: new CoolerImageListViewModel(),
         filterinit: function (e) {
-            app.viewImageListService.setDate();
+            //app.viewImageListService.setDate();
             $("#filterBtn").click(function () {
                 isComingfromFilterScreen = true;
                 app.viewImageListService.imageModel.init();
