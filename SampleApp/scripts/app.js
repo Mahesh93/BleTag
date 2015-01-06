@@ -3,6 +3,9 @@
     // store a reference to the application object that will be created
     // later on so that we can use it if need be
     var  app = global.app = global.app || {};
+    app.dateRegex = /(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})(\d{3})/;
+    app.dateTimeFormat = "d/m/Y g:i A";
+    
     // this function is called by Cordova when the application is loaded by the device
     document.addEventListener('deviceready', function () {  
       

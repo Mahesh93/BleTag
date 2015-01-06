@@ -10,27 +10,27 @@
     <div data-role="header">
         <div data-role="navbar">
             <span data-role="view-title"></span>
-            <a data-role="button" data-rel="drawer" href="#right-detail-drawer" data-align="right" class="right-drawer-view"></a>
+            <a data-role="button" data-rel="drawer" href="#right-drawer" data-align="right" class="right-drawer-view"></a>
         </div>
     </div>
     <!-- application views will be rendered here -->
 </div>
 <!-- application drawer and contents -->
-<div data-role="drawer" id="right-detail-drawer" style="width: 100px" data-title="Navigation" data-position="right" data-swipe-to-open=false>
+<div data-role="drawer" id="right-drawer" style="width: 150px" data-title="Navigation" data-position="right" data-swipe-to-open=false>
     <div data-role="header">
         <div data-role="navbar">
             <span data-role="view-title"></span>
         </div>
     </div>
     <ul class="navmenu" data-role="listview">
-        <li>
-             <a href='views/CoolerDataList.html?' data-role="listview-link">View Data</a>
+       <li><div class="cooler-list-navigation-icon-base scan-nav"></div>
+           <a style="text-decoration:none;" href='views/CoolerDataList.html?' data-role="listview-link">View Data</a>
         </li>
-        <li>
-            <a href='views/CoolerImageList.html?' data-role="listview-link">View Pictures</a>
+        <li><div class="cooler-list-navigation-icon-base debug-nav"></div>
+            <a style="text-decoration:none;" href='views/CoolerImageList.html?' data-role="listview-link">View Pictures</a>
         </li>       
-        <li>Download Data</li>
+        <li><div class="cooler-list-navigation-icon-base lang-nav"></div>Download Data</li>
         <!--<a href="views/switchLanguage.html">Switch Language</a>-->
-        <li>Take Picture</li>
+        <li><div class="cooler-list-navigation-icon-base server-nav"></div>Take Picture</li>
     </ul>
 </div>

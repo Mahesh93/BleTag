@@ -11,18 +11,18 @@
     <!-- application views will be rendered here -->
 </div>
 <!-- application drawer and contents -->
-<div data-role="drawer" id="right-drawer" style="width: 130px" data-title="Navigation" data-position="right" data-swipe-to-open=false>
+<div data-role="drawer" id="right-drawer" style="width: 150px" data-title="Navigation" data-position="right" data-swipe-to-open=false>
     <header data-role="header">
         <div data-role="navbar">
             <span data-role="view-title"></span>
         </div>
     </header>
     <ul class="navmenu" data-role="listview">
-        <li>Scan</li>
-        <li>Debug</li>       
-        <li>Switch Language</li>
+        <li><div class="cooler-list-navigation-icon-base scan-nav"></div>Scan</li>
+        <li><div class="cooler-list-navigation-icon-base debug-nav"></div>Debug</li>       
+        <li><div class="cooler-list-navigation-icon-base lang-nav"></div>Switch Language</li>
         <!--<a href="views/switchLanguage.html">Switch Language</a>-->
-        <li>Switch to Test Server</li>
+        <li><div class="cooler-list-navigation-icon-base server-nav"></div>Switch to Test Server</li>
     </ul>
 </div>
 <script type="text/x-kendo-template" id="summaryTemplate">

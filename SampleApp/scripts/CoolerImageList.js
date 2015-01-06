@@ -9,7 +9,6 @@
                     jsonUrlToLoad;
                 var assetId = app.summaryDetailService.assetId;
                 kendo.data.ObservableObject.fn.init.apply(that, []);
-                console.log('asset Id : ' + assetId);
                 if (!isComingfromFilterScreen) {
                     jsonUrlToLoad = "http://cooler.insigmainc.com/Controllers/CoolerImage.ashx?asArray=0&dir=DESC&action=list";
                 } else {
@@ -23,7 +22,7 @@
                     var foreignProductFrom = $("#foreginFrom").val();
                     var foreignProductTo = $("#foreginTo").val();
                     var filters = "&dateFrom=" + dateFrom + "&dateTo=" + dateTo + "&processed=" + processed + "&stockFrom=" + stockFrom + "&stockTo=" + stockTo + "&purityFrom=" + purityFrom + "&purityTo=" + purityTo + "&foreignProductFrom=" + foreignProductFrom + "&foreignProductTo=" + foreignProductTo;
-                    jsonUrlToLoad = "http://cooler.insigmainc.com/Controllers/CoolerImage.ashx?asArray=0&dir=DESC&action=list" + assetId + filters;
+                    jsonUrlToLoad = "http://cooler.insigmainc.com/Controllers/CoolerImage.ashx?asArray=0&dir=DESC&action=list&assetId=" + assetId + filters;
                 }
 
                 dataSource = new kendo.data.DataSource({

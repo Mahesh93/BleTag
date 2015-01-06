@@ -4,12 +4,10 @@
     CoolerDataListViewModel = kendo.data.ObservableObject.extend({
         CoolerDataListDataSource: null,
         init: function (e) {
-            debugger;
             var that = this,
                 dataSource,
                 jsonUrlToLoad;
             var assetId = app.summaryDetailService.assetId;
-            console.log('Cooler Image asset Id : ' + assetId);
             kendo.data.ObservableObject.fn.init.apply(that, []);
             jsonUrlToLoad = "http://cooler.insigmainc.com/Controllers/CoolerInfo.ashx?action=list&AsArray=0&sort=CoolerInfoId&dir=DESC";
             dataSource = new kendo.data.DataSource({
@@ -39,8 +37,19 @@
         },
         viewModel: new CoolerDataListViewModel(),
         dateRenderer: function (date) {
-            var currentDate = new Date(parseInt(date.substr(6)));
-            return currentDate;
+            var options = {
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit",
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit"
+            }
+            var dateArray = date.match(app.dateRegex).slice(1);
+            var dt = dateArray[1] + "/" + dateArray[2] + "/" + dateArray[0] + " " + dateArray[3] + ":" + dateArray[4] + ":" + dateArray[5] + ":" + dateArray[6];
+            var currentDate = new Date(dt);
+            var renderDate = currentDate.toLocaleString("en-us",options).replace(/,/g , "");
+            return renderDate;
         },
         getTemperatureImg: function (Temperature, baseCls) {
             var base = baseCls || 'cooler-list-image-small';
