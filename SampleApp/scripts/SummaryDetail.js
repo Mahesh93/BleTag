@@ -74,8 +74,8 @@
             chartRegion.show();
             var chart = new FusionCharts({
                 type: "pie2d",
-                height: 220,
-                width: 320,
+                height: '40%',
+                width: '100%',
                 dataFormat: "json",
                 dataSource: {
                     "chart": {                        
