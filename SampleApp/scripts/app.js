@@ -3,6 +3,7 @@
     // store a reference to the application object that will be created
     // later on so that we can use it if need be
     var  app = global.app = global.app || {};
+    app.models = {};
     app.dateRegex = /(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})(\d{3})/;
     app.dateTimeFormat = "d/m/Y g:i A";
     
@@ -20,13 +21,15 @@
       navigator.splashscreen.hide();
       var os = kendo.support.mobileOS,
                     statusBarStyle = os.ios && os.flatVersion >= 700 ? 'black-translucent' : 'black';
-      app = new kendo.mobile.Application(document.body, {       
+     var application = new kendo.mobile.Application(document.body, {       
         transition: 'slide',    
         statusBarStyle: statusBarStyle,
         skin: 'flat',
         initial: 'views/Login.html'
       });
-
+     app.BleTag = {
+         main: application
+      };  
     }, false);  
 
 }(window));

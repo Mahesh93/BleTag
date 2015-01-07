@@ -1,41 +1,69 @@
 <div data-role="view" id="imageFilterForm" data-layout="imagefilter" data-init="app.viewImageListService.filterinit" data-model="app.viewImageListService.imageModel">
     <div class="imagePageTitle">Image Filters</div>
     <form class="filter-form-background">
-        <div id="coolerFilterTitle" class="form-field-title">Date</div>
-        <label class="field">From</label>
-        <input type="date" id="fromDate" class="fieldtext" name="From" value="2011-01-13">
-        <br>
-        <label class="field">To</label>
-        <input type="date" id="toDate" class="fieldTotext" name="To" value="2011-01-13">
-        <br>
-        <div id="coolerFilterTitle" class="form-field-title">Processed</div>
-        <label class="field">Processed</label>
-        <select class="selectText" id="processedVal">
-            <option value="yes">Yes</option>
-            <option value="no">No</option>
-            <option value="all">All</option>
-        </select>
-        <div id="coolerFilterTitle" class="form-field-title">Purity</div>
-        <label class="field">From</label>
-        <input type="text" id="purityFrom" class="fieldtext">
-        <br>
-        <label class="field">To</label>
-        <input type="text" id="purityTo" class="fieldTotext">
-        <div id="coolerFilterTitle" class="form-field-title">Stock</div>
-        <label class="field">From</label>
-        <input type="text" id="stockFrom" class="fieldtext">
-        <br>
-        <label class="field">To</label>
-        <input type="text" id="stockTo" class="fieldTotext">
-        <div id="coolerFilterTitle" class="form-field-title">Foreign Product</div>
-        <label class="field">From</label>
-        <input type="text" id="foreginFrom" class="fieldtext">
-        <br>
-        <label class="field">To</label>
-        <input type="text" id="foreginTo" class="fieldTotext">
-        <br>
-        <div class="btnApplyDiv">
+        <table class="form-fields">
+            <tr><td colspan="2"><div class="form-field-title">Date</div> </td></tr>
+            <tr><td>
+                <table>
+                    <tr><td><label class="field">From</label> </td>
+                    <td><input type="date" id="fromDate" name="From" ></td>
+                    </tr>
+                    <tr><td>  <label class="field">To</label> </td>
+                    <td><input type="date" id="toDate" name="To" ></td>
+                    </tr>
+                </table>               
+             </td></tr>
+            
+             <tr><td colspan="2"><div class="form-field-title">Processed</div> </td></tr>
+            <tr><td>
+                <table>
+                    <tr><td><label class="field">Processed</label></td>
+                    <td>  <select id="processedVal">
+                        <option value="yes">Yes</option>
+                        <option value="no">No</option>
+                        <option value="all">All</option>
+                    </select></td>
+                    </tr>
+                </table>               
+             </td></tr>
+            <tr><td colspan="2"><div class="form-field-title">Purity</div> </td></tr>
+            <tr><td>
+                <table>
+                    <tr><td>  <label class="field">From</label> </td>
+                    <td><input type="number" id="purityFrom"></td>
+                    </tr>
+                    <tr><td>  <label class="field">To</label> </td>
+                    <td> <input type="number" id="purityTo" ></td>
+                    </tr>
+                </table>               
+             </td></tr>
+            <tr><td colspan="2"><div class="form-field-title">Stock</div> </td></tr>
+            <tr><td>
+                <table>
+                    <tr><td>  <label class="field">From</label> </td>
+                    <td><input type="number" id="stockFrom" ></td>
+                    </tr>
+                    <tr><td>  <label class="field">To</label> </td>
+                    <td> <input type="number" id="stockTo"></td>
+                    </tr>
+                </table>               
+             </td></tr>
+            <tr><td colspan="2"><div class="form-field-title">Foreign Product</div> </td></tr>
+            <tr><td>
+                <table>
+                    <tr><td>  <label class="field">From</label> </td>
+                    <td><input type="number" id="foreginFrom"></td>
+                    </tr>
+                    <tr><td>  <label class="field">To</label> </td>
+                    <td> <input type="number" id="foreginTo"></td>
+                    </tr>
+                </table>               
+             </td></tr>
+             <tr><td colspan="2"> <div class="btnApplyDiv">
             <a id="filterBtn" class="applyBtn" data-role="button">Apply</a>
-        </div>
+            </div></td></tr>
+        </table>          
+       
+       
     </form>
 </div>

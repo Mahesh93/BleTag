@@ -1,12 +1,12 @@
-<div data-role="view" data-title="Cooler Info" data-layout="main" data-model="app.viewDataListService.viewModel">
-    <ul data-role="listview" data-template="viewDataTemplate" data-bind="source: CoolerDataListDataSource"></ul>
+<div data-role="view" data-title="Cooler Info" data-layout="main" data-model="app.viewDataListService.viewModel" data-show="app.viewDataListService.show">
+    <ul data-role="listview" data-template="coolerDataTemplate" data-auto-bind="false" data-bind="source: CoolerDataListDataSource"></ul>
 </div>
-<script type="text/x-kendo-template" id="viewDataTemplate">
+<script type="text/x-kendo-template" id="coolerDataTemplate">
    <div class="dataview-base dataview-data-format">
 	<table style="width:100%; border-spacing: 5px;">
 	<tr><td class="cooler-list-header-text">${SerialNumber}</td><td class="gray-title-right">${CoolerInfoId}</td></tr>
-	<tr><td class="labelStyle" ><div class="cooler-list-image-mini-left cooler-door-open">&nbsp;</div><div class="item-data">${app.viewDataListService.dateRenderer(DoorOpen)}</div></td><td rowspan="2"><div class="cooler-list-image-mini-left cooler-door-open-duration">&nbsp;</div><div class="item-data">${DoorOpenDuration}</div></td></tr>
-	<tr><td class="labelStyle" ><div class="cooler-list-image-mini-left cooler-door-close">&nbsp;</div><div class="item-data">${app.viewDataListService.dateRenderer(DoorClose)}</div></td></tr>
+	<tr><td class="labelStyle" ><div class="cooler-list-image-mini-left cooler-door-open">&nbsp;</div><div class="item-data">${app.Utility.getDate(DoorOpen)}</div></td><td rowspan="2"><div class="cooler-list-image-mini-left cooler-door-open-duration">&nbsp;</div><div class="item-data">${DoorOpenDuration}</div></td></tr>
+	<tr><td class="labelStyle" ><div class="cooler-list-image-mini-left cooler-door-close">&nbsp;</div><div class="item-data">${app.Utility.getDate(DoorClose)}</div></td></tr>
 
 	<tr><td colspan="2"><div class="data-item-container">
 		<table style="width:100%; margin-top: 5px; height:50px; border-top: 1px solid gray;">

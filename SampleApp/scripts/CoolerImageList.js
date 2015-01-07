@@ -9,26 +9,16 @@
                     jsonUrlToLoad;
                 var assetId = app.summaryDetailService.assetId;
                 kendo.data.ObservableObject.fn.init.apply(that, []);
-                if (!isComingfromFilterScreen) {
-                    jsonUrlToLoad = "http://cooler.insigmainc.com/Controllers/CoolerImage.ashx?asArray=0&dir=DESC&action=list";
-                } else {
-                    var dateFrom = $("#fromDate").val();
-                    var dateTo = $("#toDate").val();
-                    var processed = $("#processedVal").val();
-                    var purityFrom = $("#purityFrom").val();
-                    var purityTo = $("#purityTo").val();
-                    var stockFrom = $("#stockFrom").val();
-                    var stockTo = $("#stockTo").val();
-                    var foreignProductFrom = $("#foreginFrom").val();
-                    var foreignProductTo = $("#foreginTo").val();
-                    var filters = "&dateFrom=" + dateFrom + "&dateTo=" + dateTo + "&processed=" + processed + "&stockFrom=" + stockFrom + "&stockTo=" + stockTo + "&purityFrom=" + purityFrom + "&purityTo=" + purityTo + "&foreignProductFrom=" + foreignProductFrom + "&foreignProductTo=" + foreignProductTo;
-                    jsonUrlToLoad = "http://cooler.insigmainc.com/Controllers/CoolerImage.ashx?asArray=0&dir=DESC&action=list&assetId=" + assetId + filters;
-                }
+                jsonUrlToLoad = "http://cooler.insigmainc.com/Controllers/CoolerImage.ashx?asArray=0&dir=DESC&action=list";
 
                 dataSource = new kendo.data.DataSource({
-                    autoSync: true,
+                    group: {
+                        field: "AssetId",
+                        field: "ImageDateTime"
+                    },
                     schema: {
-                        parse: function (response) {
+                        model: app.models.CoolerImageList,
+                        parse: function (response) {                            
                             return response.records;
                         }
                     },
@@ -47,33 +37,51 @@
 
         });
     app.viewImageListService = {
-        show: function (e) {  
+        isFilterLoad: false,
+        show: function (e) {
+            if(app.viewImageListService.isFilterLoad){
+                app.viewImageListService.isFilterLoad = false;
+                return;
+            }
+                
             app.viewImageListService.imageModel.CoolerImageListDataSource.read({
                 assetId: app.summaryDetailService.assetId
             });
         },
         imageModel: new CoolerImageListViewModel(),
         filterinit: function (e) {
-            //app.viewImageListService.setDate();
+            app.viewImageListService.setDate();
             $("#filterBtn").click(function () {
-                isComingfromFilterScreen = true;
-                app.viewImageListService.imageModel.init();
+
+                var dateFrom = $("#fromDate").val();
+                var dateTo = $("#toDate").val();
+                var processed = $("#processedVal").val();
+                var purityFrom = $("#purityFrom").val();
+                var purityTo = $("#purityTo").val();
+                var stockFrom = $("#stockFrom").val();
+                var stockTo = $("#stockTo").val();
+                var foreignProductFrom = $("#foreginFrom").val();
+                var foreignProductTo = $("#foreginTo").val();                
+
+            app.viewImageListService.imageModel.CoolerImageListDataSource.read({
+                assetId: app.summaryDetailService.assetId,
+                dateFrom: dateFrom,
+                dateTo: dateTo,
+                processed: processed,
+                purityFrom: purityFrom,
+                purityTo: purityTo,
+                stockFrom: stockFrom,
+                stockTo: stockTo,
+                foreignProductFrom: foreignProductFrom,
+                foreignProductTo: foreignProductTo
+                });
+                app.viewImageListService.isFilterLoad = true;
                 history.go(-1);
             })
         },
         setDate: function () {
-            var currentDate = new Date();
-            var currentMonth = currentDate.getMonth() + 1;
-            var currentDay = currentDate.getDate();
-            var currentYear = currentDate.getFullYear();
-            var curDate = currentYear + "-" + currentMonth + "-" + currentDay;
-            var previousDate = new Date(currentYear, currentMonth - 1, currentDay);
-            var previoustMonth = previousDate.getMonth();
-            var previousDay = previousDate.getDate();
-            var previousYear = previousDate.getFullYear();
-            var prevDate = previousYear + "-" + previoustMonth + "-" + previousDay;
-            document.getElementById("fromDate").value = prevDate;
-            document.getElementById("toDate").value = curDate;
+            document.getElementById("fromDate").value = new Date();
+            document.getElementById("toDate").value = new Date();
 
         },
         getImgUrl: function (CoolerImageId) {

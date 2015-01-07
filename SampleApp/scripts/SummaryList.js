@@ -1,12 +1,11 @@
 (function (global) {
-    var app = global.app = global.app || {};
+    var app = global.app = global.app || {};    
     var SummaryListViewModel = kendo.data.ObservableObject.extend({
         summaryListDataSource: null,
         init: function (e) {
             var that = this,
                 dataSource,
-                jsonUrlToLoad;
-
+                jsonUrlToLoad;            
             kendo.data.ObservableObject.fn.init.apply(that, []);
             jsonUrlToLoad = "http://cooler.insigmainc.com/Controllers/AssetInfo.ashx?action=list&asArray=0&limit=0&sort=AssetId&dir=DESC";
             dataSource = new kendo.data.DataSource({
@@ -36,9 +35,7 @@
             app.summaryListService.viewModel.summaryListDataSource.read({
                 LocationId: e.view.params.locationId
             });
-             $("#summary-drawer").click(function () {
-                debugger;
-            })
+           
         },
         viewModel: new SummaryListViewModel(),
         spaces: function () {
@@ -94,8 +91,8 @@
             }
             return toReturn;
         },
-        getLightIntensity: function (lightIntensity) {
-            return (80 - lightIntensity);
+        getLightIntensity: function (lightIntensity) {                    
+            return lightIntensity;            
         },
         getPurityPerc: function (stock, foreignProduct) {
             var toReturn;
@@ -130,19 +127,18 @@
             }
             return toReturn
         },
-        getLightIntensityText: function (lightIntensity) {
+        getLightIntensityText: function (lightIntensity) {            
             var toReturn;
-
-            if (lightIntensity < 5) {
+            if (lightIntensity > 15) 
                 toReturn = "Bright";
-            } else if (lightIntensity > 10 && lightIntensity < 12) {
+             else if (lightIntensity > 5) 
                 toReturn = "Low";
-            } else if (lightIntensity > 12) {
+             else 
                 toReturn = "Dark";
-            }
+            
             return toReturn;
         },
-        getPurityPercText: function (foreignProduct) {
+        getPurityPercText: function (columns, shelves, stock, foreignProduct) {          
             var toReturn = "Impure";
             if (foreignProduct == 0) {
                 toReturn = "Pure";

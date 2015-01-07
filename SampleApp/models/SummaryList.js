@@ -45,7 +45,6 @@
         'DeviceStatus':{ defaultValue: 0, type: 'int' }       
         }        
     });    
-    app.models = {
-        SummaryList: model
-    };    
+   
+    app.models.SummaryList = model;    
 })(window);

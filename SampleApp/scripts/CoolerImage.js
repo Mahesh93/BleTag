@@ -12,7 +12,7 @@
             jsonUrlToLoad = "http://cooler.insigmainc.com/Controllers/CoolerInfo.ashx?action=list&AsArray=0&sort=CoolerInfoId&dir=DESC";
             dataSource = new kendo.data.DataSource({
                 schema: {
-                    parse: function (response) {
+                    parse: function (response) {                        
                         return response.records;
                     }
                 },
@@ -30,27 +30,12 @@
     });
 
     app.viewDataListService = {
-        show: function (e) {
+        show: function (e) {            
             app.viewDataListService.viewModel.CoolerDataListDataSource.read({
                 assetId: app.summaryDetailService.assetId
             });
         },
-        viewModel: new CoolerDataListViewModel(),
-        dateRenderer: function (date) {
-            var options = {
-                year: "numeric",
-                month: "2-digit",
-                day: "2-digit",
-                hour: "2-digit",
-                minute: "2-digit",
-                second: "2-digit"
-            }
-            var dateArray = date.match(app.dateRegex).slice(1);
-            var dt = dateArray[1] + "/" + dateArray[2] + "/" + dateArray[0] + " " + dateArray[3] + ":" + dateArray[4] + ":" + dateArray[5] + ":" + dateArray[6];
-            var currentDate = new Date(dt);
-            var renderDate = currentDate.toLocaleString("en-us",options).replace(/,/g , "");
-            return renderDate;
-        },
+        viewModel: new CoolerDataListViewModel(),       
         getTemperatureImg: function (Temperature, baseCls) {
             var base = baseCls || 'cooler-list-image-small';
             var toReturn = '<div class="cooler-list-image-mini cooler-list-inrangetemperature">&nbsp;</div>';

@@ -57,11 +57,21 @@
         assetId: null,
         record: null,
         imageLoad: function(e){
-            $("#coolerPageTitle").html(e.view.params.imageId + "-" + e.view.params.latestProcessedImageDateTime)
+            if(e.view.params.latestProcessedImageDateTime)
+                $("#coolerPageTitle").html(e.view.params.imageId + "-" + app.Utility.getDate(e.view.params.latestProcessedImageDateTime));
             $("#coolerImagePreview").attr("src", "http://cooler.insigmainc.com/Controllers/CoolerImage.ashx?action=other&otherAction=Download&id=" + e.view.params.imageId);
         },
         viewModel: new SummaryDetailDataModel(),
         loadChart: function(summaryStockData){
+            var chartTitle = $("#fusionchartsTitle");
+            var chartRegion = $("#fusioncharts");
+            if(summaryStockData.length == 0){
+                chartTitle.hide();
+                chartRegion.hide();
+                return;
+            }
+            chartTitle.show();
+            chartRegion.show();
             var chart = new FusionCharts({
                 type: "pie2d",
                 height: 220,
@@ -110,23 +120,38 @@
                 }
                 document.getElementById("distributionData").innerHTML = table.outerHTML;
         },
-        loadImages: function(summaryDetailData){           
+        loadImages: function(summaryDetailData){            
+            var latestProcessTitle = $('#lastProcessedImageTitle');
+            var latestProcessImage = $("#lastProcessedImage");
+            var latestImageTitle= $('#lastImageTitle');
+            var latestImage = $("#lastImage");
+            
+            latestProcessTitle.hide();
+            latestProcessImage.hide();
+            latestImageTitle.hide();
+            latestImage.hide();
+            
            if (summaryDetailData.LatestProcessedImageId > 0) {
-                 $('#coolerImageTitle').text(summaryDetailData.LatestProcessedImageId + "-" + summaryDetailData.LatestProcessedImageDateTime);
-                 $("#lastProcessedImage").attr("src", "http://cooler.insigmainc.com/Controllers/CoolerImage.ashx?action=other&otherAction=Download&width=320&height=220&id=" + summaryDetailData.LatestProcessedImageId);
-                 $("#lastProcessedImage").click(function () {                 
+                latestProcessTitle.show();
+                latestProcessImage.show();
+                latestProcessTitle.text(summaryDetailData.LatestProcessedImageId + "-" + app.Utility.getDate(summaryDetailData.LatestProcessedImageDateTime));
+                latestProcessImage.attr("src", "http://cooler.insigmainc.com/Controllers/CoolerImage.ashx?action=other&otherAction=Download&width=320&height=220&id=" + summaryDetailData.LatestProcessedImageId);
+                latestProcessImage.click(function () {                 
                      app.BleTag.main.navigate('views/CoolerImageView.html?imageId= '+ app.summaryDetailService.record.LatestProcessedImageId +'&latestProcessedImageDateTime='+ app.summaryDetailService.record.LatestProcessedImageDateTime);                 
-                 });   
+                });   
             }
             if (summaryDetailData.LatestProcessedImageId != summaryDetailData.LatestImageId && summaryDetailData.LatestImageId > 0) {
-                 $('#lastImageTitle').text(summaryDetailData.LatestImageId + "-" + summaryDetailData.LatestProcessedImageDateTime);
-                 $("#lastImage").attr("src", "http://cooler.insigmainc.com/Controllers/CoolerImage.ashx?action=other&otherAction=Download&width=320&height=220&id=" + summaryDetailData.LatestImageId);
-                 $("#lastImage").click(function () {                 
+                latestImageTitle.show();
+                latestImage.show();
+                latestImageTitle.text(summaryDetailData.LatestImageId + "-" + app.Utility.getDate(summaryDetailData.LatestProcessedImageDateTime));
+                latestImage.attr("src", "http://cooler.insigmainc.com/Controllers/CoolerImage.ashx?action=other&otherAction=Download&width=320&height=220&id=" + summaryDetailData.LatestImageId);
+                latestImage.click(function () {                 
                      app.BleTag.main.navigate('views/CoolerImageView.html?imageId= '+ app.summaryDetailService.record.LatestImageId +'&latestProcessedImageDateTime='+ app.summaryDetailService.record.LatestProcessedImageDateTime);                 
                  }); 
             }
         },
-        show: function(e){          
+        show: function(e){         
+          app.BleTag.main.view().header.find(".km-navbar").data("kendoMobileNavBar").title(e.view.params.serialNumber);
           app.summaryDetailService.assetId = e.view.params.assetId;
           app.summaryDetailService.viewModel.summaryDetailDataSource.read({Id : e.view.params.assetId});
         }        
