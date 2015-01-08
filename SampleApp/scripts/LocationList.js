@@ -13,10 +13,19 @@
             jsonUrlToLoad = "http://cooler.insigmainc.com/Controllers/Location.ashx?action=List&asArray=0&limit=0&sort=Name&dir=DESC";
 
             dataSource = new kendo.data.DataSource({  
+                group: {
+                    field: "LocationIndex"
+                },
                 schema:{
-                   parse: function(response) {                    
-                        //console.log(JSON.stringify(response, null, 4));                        
-                        return response.records;
+                    model: app.models.LocationList,
+                   parse: function(response) { 
+                        //console.log(JSON.stringify(response, null, 4));
+                       var count=response.recordCount;
+                       var records=response.records;
+                       for(var i=0;i<count;i++){                           
+                           records[i].LocationIndex=records[i].Name[0];
+                       }
+                        return records;
                     }
                 },
                 transport: {

@@ -1,4 +1,11 @@
-<div data-role="view" data-title="Locations List" data-layout="main" data-model="app.locationService.viewModel">
+<div data-role="view" data-title="Locations List" data-layout="main" data-model="app.locationService.viewModel">  
+    <header data-role="header">
+            <div data-role="navbar">
+                <span data-role="view-title"></span>
+                <input type='text' placeholder='Location Search...' class='search-text-input' data-align="right"/>
+                <!--<a id="skin-change" data-role="button" data-align="right" data-click="app.changeSkin">Flat</a>-->
+            </div>
+        </header>
     <ul data-role="listview" data-template="locationTemplate" data-bind="source: locationDataSource"></ul>
 </div>
 <!-- this is the template used by the listview. template items are automatically

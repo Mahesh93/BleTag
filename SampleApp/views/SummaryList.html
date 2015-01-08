@@ -37,21 +37,21 @@
 	</tr>
 	 <tr>
 	<td><div #if (Temperature < 35.6) {# class="cooler-list-image-small cooler-list-lowtemperature"#}else if(Temperature > 39.2){# class="cooler-list-image-small cooler-list-hightemperature"#}else{# class="cooler-list-image-small cooler-list-inrangetemperature"#}#></td>
-	<td><div #if (LightIntensity > 15) {# class="cooler-list-image-small cooler-list-brightlight"#}else if(LightIntensity > 5){# class="cooler-list-image-small cooler-list-lowlight"#}else{# class="cooler-list-image-small cooler-list-darklight"#}#></td>
-	<td><div #if(LatestProcessedImageId!=0){#<div #if ((((Stock - ForeignProduct) * 100) / Stock) > 25 && (((Stock - ForeignProduct) * 100) / Stock) <= 50) {# class="cooler-list-image-small cooler-list-humidity50"#}else if((((Stock - ForeignProduct) * 100) / Stock) > 50 && (((Stock - ForeignProduct) * 100) / Stock) <= 75){# class="cooler-list-image-small cooler-list-humidity75"#}else if((((Stock - ForeignProduct) * 100) / Stock) > 75){# class="cooler-list-image-small cooler-list-humidity100"#}else{# class="cooler-list-image-small cooler-list-humidity25"#}#></div>#}#</div></td>
-	<td><div #if(LatestProcessedImageId!=0){#<div #if ((((Stock - ForeignProduct) * 100) / (Columns*Shelves)) <= 25) {# class="cooler-list-image-small cooler-list-stock25"#}else if((((Stock - ForeignProduct) * 100) / (Columns*Shelves)) > 25 && (((Stock - ForeignProduct) * 100) / (Columns*Shelves)) <= 50){# class="cooler-list-image-small cooler-list-stock50"#}else if((((Stock - ForeignProduct) * 100) / (Columns*Shelves)) > 50 && (((Stock - ForeignProduct) * 100) / (Columns*Shelves)) <= 75){# class="cooler-list-image-small cooler-list-stock75"#}else{# class="cooler-list-image-small cooler-list-stock100"#}#></div>#}#</div></td>
+	<td><div>#= app.summaryListService.getLightImg(LightIntensity)#</td>
+	<td><div #if(LatestProcessedImageId!=0){#<div>#= app.summaryListService.getPurityImg(Stock, ForeignProduct,Columns,Shelves)#</div>#}#</div></td>
+	<td><div #if(LatestProcessedImageId!=0){#<div>#= app.summaryListService.getStockImg(Stock, ForeignProduct,Columns,Shelves)#</div>#}#</div></td>
 	</tr>
 	<tr>
-	<td><div class="cooler-list-label">${Temperature}</div></td>
-	<td><div class="cooler-list-label">${app.summaryListService.getLightIntensity(LightIntensity)}</div></td>
-	<td><div #if(LatestProcessedImageId!=0){#<div class="cooler-list-label">${app.summaryListService.getPurityPerc(Stock, ForeignProduct)}</div>#}#</div></td>
-	<td><div #if(LatestProcessedImageId!=0){#<div #if (Stock >= (((Columns*Shelves) * 60) / 100)) {# class="cooler-list-labelblack" #}else{# class="cooler-list-label"#} #>${app.summaryListService.getStockPerc(Columns, Shelves, Stock, ForeignProduct)}</div>#}#</div></td>
+	<td><div class="cooler-list-label">${Temperature.toFixed(1)}</div></td>
+	<td><div class="cooler-list-label">#=app.summaryListService.getLightIntensityValue(LightIntensity)#</div></td>
+	<td><div #if(LatestProcessedImageId!=0){#<div class="cooler-list-label">#= app.summaryListService.getPurityPerc(Stock, ForeignProduct,Columns,Shelves)#</div>#}#</div></td>
+	<td><div #if(LatestProcessedImageId!=0){#<div>#=app.summaryListService.getStockPerc(Columns, Shelves, Stock, ForeignProduct)#</div>#}#</div></td>
 	</tr>
 	<tr>
 	<td><div class="cooler-list-label">${app.summaryListService.getTemperatureText(Temperature)}</div></td>
-	<td><div class="cooler-list-label">${app.summaryListService.getLightIntensityText(LightIntensity)}</div></td>
-	<td><div #if(LatestProcessedImageId!=0){#<div class="cooler-list-label">${app.summaryListService.getPurityPercText(Columns, Shelves, Stock, ForeignProduct)}</div>#}#</div></td>
-	<td><div #if(LatestProcessedImageId!=0){#<div #if (Stock >= (((Columns*Shelves) * 60) / 100)) {# class="cooler-list-labelblack" #}else{# class="cooler-list-label"#} #>${app.summaryListService.getStockPercText(Columns, Shelves, Stock)}</div>#}#</div></td>
+	<td><div class="cooler-list-label">#=app.summaryListService.getLightIntensityText(LightIntensity)#</div></td>
+	<td><div #if(LatestProcessedImageId!=0){#<div class="cooler-list-label">#=app.summaryListService.getPurityPercText(Columns, Shelves, Stock, ForeignProduct)#</div>#}#</div></td>
+	<td><div #if(LatestProcessedImageId!=0){#<div>#=app.summaryListService.getStockPercText(Columns, Shelves, Stock,ForeignProduct)#</div>#}#</div></td>
 	</tr>
 	</table>	
     </a>

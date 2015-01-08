@@ -52,71 +52,94 @@
             }
             return toReturn;
         },
-        getLightImg: function (values, baseCls) {
-            var base = baseCls || 'cooler-list-image-small';
-            var toReturn = '<div class="' + Ext.String.format("{0} {1}", base, "cooler-list-darklight") + '">&nbsp;</div>';
-            if (values.LightIntensity < 5)
-                toReturn = '<div class="' + Ext.String.format("{0} {1}", base, " cooler-list-brightlight") + '">&nbsp;</div>';
-            else if (values.LightIntensity > 10 && values.LightIntensity < 12)
-                toReturn = '<div class="' + Ext.String.format("{0} {1}", base, "cooler-list-lowlight") + '">&nbsp;</div>';
+        getLightImg: function (lightIntensity) {
+            var toReturn;
+            if (lightIntensity > 15)
+                toReturn = "<div class='cooler-list-image-small cooler-list-brightlight'></div>";
+            else if (lightIntensity > 5)
+                toReturn = "<div class='cooler-list-image-small cooler-list-lowlight'></div>";
+            else
+                toReturn = "<div class='cooler-list-image-small cooler-list-darklight'></div>";
 
             return toReturn;
         },
-        getPurityImg: function (values, baseCls) {
-            var purityPerc = (((values.Stock - values.ForeignProduct) * 100) / values.Stock);
-            var base = baseCls || 'cooler-list-image-small';
-            var toReturn = '<div class="' + Ext.String.format("{0} {1}", base, "cooler-list-humidity25") + '">&nbsp;</div>';
-            if (purityPerc > 25 && purityPerc <= 50)
-                toReturn = '<div class="' + Ext.String.format("{0} {1}", base, "cooler-list-humidity50") + '">&nbsp;</div>';
-            else if (purityPerc > 50 && purityPerc <= 75)
-                toReturn = '<div class="' + Ext.String.format("{0} {1}", base, "cooler-list-humidity75") + '">&nbsp;</div>';
-            else if (purityPerc > 75)
-                toReturn = '<div class="' + Ext.String.format("{0} {1}", base, "cooler-list-humidity100") + '">&nbsp;</div>';
-
+        getPurityImg: function (Stock, ForeignProduct, Columns, Shelves) {
+            var toReturn;
+            var stock = Stock - ForeignProduct;
+            var foreignProduct = ForeignProduct;
+            var spaces = Columns * Shelves;
+            if (stock > 0 && spaces > 0) {
+                var purityPerc = Math.round(stock * 100 / Stock);
+                var stockPerc = Math.round(stock * 100 / spaces);
+                if (purityPerc <= 25)
+                    toReturn = "<div class='cooler-list-image-small cooler-list-humidity25'></div>";
+                else if (purityPerc > 25 && purityPerc <= 50)
+                    toReturn = "<div class='cooler-list-image-small cooler-list-humidity50'></div>";
+                else if (purityPerc > 50 && purityPerc <= 75)
+                    toReturn = "<div class='cooler-list-image-small cooler-list-humidity75'></div>";
+                else if (purityPerc > 75)
+                    toReturn = "<div class='cooler-list-image-small cooler-list-humidity100'></div>";
+            } else
+                toReturn = "<div class='cooler-list-image-small cooler-list-humidity100'></div>"
             return toReturn;
         },
-        getStockImg: function (values, baseCls) {
-            var spaces = values.Columns * values.Shelves;
-            var stockPerc = (((values.Stock - values.ForeignProduct) * 100) / spaces);
+        getStockImg: function (Stock, ForeignProduct, Columns, Shelves) {
+            var spaces = Columns * Shelves;
+            var stockPerc = (((Stock - ForeignProduct) * 100) / spaces);
 
-            var base = baseCls || 'cooler-list-image-small';
-            var toReturn = '<div class="' + Ext.String.format("{0} {1}", base, "cooler-list-stock100") + '">&nbsp;</div>'
+            var toReturn = "<div class='cooler-list-image-small cooler-list-stock100'></div>"
 
             if (stockPerc <= 25) {
-                toReturn = '<div class="' + Ext.String.format("{0} {1}", base, "cooler-list-stock25") + '">&nbsp;</div>'
+                toReturn = "<div class='cooler-list-image-small cooler-list-stock25'></div>"
             } else if (stockPerc > 25 && stockPerc <= 50) {
-                toReturn = '<div class="' + Ext.String.format("{0} {1}", base, "cooler-list-stock50") + '">&nbsp;</div>'
+                toReturn = "<div class='cooler-list-image-small cooler-list-stock50'></div>"
             } else if (stockPerc > 50 && stockPerc <= 75) {
-                toReturn = '<div class="' + Ext.String.format("{0} {1}", base, "cooler-list-stock75") + '">&nbsp;</div>'
+                toReturn = "<div class='cooler-list-image-small cooler-list-stock75'></div>"
+            } else if (stockPerc > 75) {
+                toReturn = "<div class='cooler-list-image-small cooler-list-stock100'></div>"
             }
             return toReturn;
         },
-        getLightIntensity: function (lightIntensity) {
-            return lightIntensity;
-        },
-        getPurityPerc: function (stock, foreignProduct) {
+        getPurityPerc: function (Stock, ForeignProduct, Columns, Shelves) {
             var toReturn;
-            if (stock === null || stock === 0) {
-                toReturn = (0).toFixed(1); // to avoid divide by zero
-            } else {
-                toReturn = (((stock - foreignProduct) * 100) / stock).toFixed(1);
-                toReturn = Math.floor(toReturn).toFixed(1);
-            }
-            if (foreignProduct === 0) {
-                toReturn = toReturn;
-            }
+            var stock = Stock - ForeignProduct;
+            var foreignProduct = ForeignProduct;
+            var spaces = Columns * Shelves;
+            if (stock > 0 && spaces > 0) {
+                var purityPerc = Math.round(stock * 100 / Stock);
+                var stockPerc = Math.round(stock * 100 / spaces);
+                toReturn = purityPerc + "%";
+                if (foreignProduct == 0) {
+                    toReturn = "<div class='cooler-list-labelblack'>" + toReturn + "</div>"
+                } else {
+                    toReturn = "<div class='cooler-list-label'>" + toReturn + "</div>"
+                }
+            } else
+                toReturn = "<div class='cooler-list-labelblack'>100%</div>"
             return toReturn;
         },
-        getStockPerc: function (columns, shelves, stock, foreignProduct) {
+        getStockPerc: function (columns, shelves, Stock, ForeignProduct) {
             var spaces = columns * shelves;
             var toReturn;
-            if (foreignProduct === null || foreignProduct === 0 || spaces < 0) {
+            var clsReturn;
+            var stock = Stock - ForeignProduct;
+            if (ForeignProduct === null || ForeignProduct === 0 || spaces < 0) {
                 toReturn = (0).toFixed(2); // to avoid divide by zero
             }
-            toReturn = (((stock - foreignProduct) * 100) / spaces).toFixed(1);
-            //toReturn = Math.floor(toReturn);
-            toReturn = toReturn + "%"
-            return toReturn;
+            toReturn = (((Stock - ForeignProduct) * 100) / spaces).toFixed(1);
+            toReturn = Math.floor(toReturn);
+            if (toReturn != 0)
+                toReturn = toReturn + "%";
+            if (stock > 0 && spaces > 0) {
+                clsReturn = "<div class='cooler-list-label'>" + toReturn + "</div>"
+                if (stock >= ((spaces * 60) / 100)) {
+                    clsReturn = "";
+                    clsReturn = "<div class='cooler-list-labelblack'>" + toReturn + "</div>"
+                }
+            } else
+                clsReturn = "<div class='cooler-list-labelblack'>" + toReturn + "</div>"
+
+            return clsReturn;
         },
         getTemperatureText: function (temperature) {
             var toReturn = "In Range";
@@ -127,10 +150,19 @@
             }
             return toReturn
         },
+        getLightIntensityValue: function (lightIntensity) {
+            var toReturn;
+            if (lightIntensity > 15)
+                toReturn = "<div class='cooler-list-labelblack'>" + lightIntensity.toFixed(1) + "</div>";
+            else
+                toReturn = lightIntensity.toFixed(1);
+
+            return toReturn;
+        },
         getLightIntensityText: function (lightIntensity) {
             var toReturn;
             if (lightIntensity > 15)
-                toReturn = "Bright";
+                toReturn = '<div class="cooler-list-labelblack">Bright</div>';
             else if (lightIntensity > 5)
                 toReturn = "Low";
             else
@@ -138,19 +170,34 @@
 
             return toReturn;
         },
-        getPurityPercText: function (columns, shelves, stock, foreignProduct) {
-            var toReturn = "Impure";
-            if (foreignProduct == 0) {
-                toReturn = "Pure";
-            }
+        getPurityPercText: function (Columns, Shelves, Stock, ForeignProduct) {
+            var toReturn;
+            var stock = Stock - ForeignProduct;
+            var foreignProduct = ForeignProduct;
+            var spaces = Columns * Shelves;
+            if (stock > 0 && spaces > 0) {
+                if (foreignProduct == 0) {
+                    toReturn = '<div class="cooler-list-labelblack">Pure</div>'
+                } else {
+                    toReturn = '<div class="cooler-list-label">Pure</div>'
+                }
+            } else
+                toReturn = '<div class="cooler-list-labelblack">Pure</div>'
             return toReturn;
+
         },
-        getStockPercText: function (columns, shelves, stock) {
+        getStockPercText: function (columns, shelves, Stock, ForeignProduct) {
+            var toReturn;
             var spaces = columns * shelves;
-            var toReturn = "Sos";
-            if (stock >= ((spaces * 60) / 100)) {
-                toReturn = toReturn;
-            }
+            var stock = Stock - ForeignProduct;
+            var foreignProduct = ForeignProduct;
+            if (stock > 0 && spaces > 0) {
+                toReturn = '<div class="cooler-list-label">SoS</div>'
+                if (stock >= ((spaces * 60) / 100)) {
+                    toReturn = '<div class="cooler-list-labelblack">SoS</div>'
+                }
+            } else
+                toReturn = '<div class="cooler-list-labelblack">SoS</div>'
             return toReturn;
         }
 

@@ -20,12 +20,12 @@
         <td><div #if ((((Stock - ForeignProduct) * 100) / (Columns*Shelves)) <= 25) {# class="cooler-list-image-small cooler-list-stock25"#}else if((((Stock - ForeignProduct) * 100) / (Columns*Shelves)) > 25 && (((Stock - ForeignProduct) * 100) / (Columns*Shelves)) <= 50){# class="cooler-list-image-small cooler-list-stock50"#}else if((((Stock - ForeignProduct) * 100) / (Columns*Shelves)) > 50 && (((Stock - ForeignProduct) * 100) / (Columns*Shelves)) <= 75){# class="cooler-list-image-small cooler-list-stock75"#}else{# class="cooler-list-image-small cooler-list-stock100"#}#></div></td>
         </tr>
         <tr>
-        <td><div class="cooler-list-label">${app.summaryListService.getPurityPerc(Stock, ForeignProduct)}</div></td>
+        <td><div class="cooler-list-label">#=app.summaryListService.getPurityPerc(Stock, ForeignProduct)#</div></td>
         <td><div #if ((Stock - ForeignProduct)< 60) {# class="cooler-list-labelblack" #}else{# class="cooler-list-label"#} #>${app.viewImageListService.getStockValue(Stock, ForeignProduct)}</div></td>
         </tr>
         <tr>
         <td><div #if (ForeignProduct === 0) {# class="cooler-list-labelblack" #}else{# class="cooler-list-label"#} #>${app.viewImageListService.getPurityValue(ForeignProduct)}</div></td>
-        <td><div #if (Stock >= (((Columns*Shelves) * 60) / 100)) {# class="cooler-list-label" #}else{# class="cooler-list-labelblack"#} #>${app.summaryListService.getStockPerc(Columns, Shelves, Stock, ForeignProduct)}</div></td>
+        <td><div>#=app.summaryListService.getStockPerc(Columns, Shelves, Stock, ForeignProduct)#</div></td>
         </tr>
         </table>
         </a>

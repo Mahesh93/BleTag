@@ -30,7 +30,8 @@
     padding-bottom: 5px;
 }
 .fit {
-    /* set relative picture size */    
+    /* set relative picture size */
+    
     max-width: 100%;
     max-height: 100%;
 }
@@ -114,13 +115,13 @@
     background-image: url(../styles/images/inrangetemp.png) !important;
 }
 .cooler-list-brightlight {
-    background-image: url(../styles/images/brightlight.png) !important;
+    background-image: url(../styles/images/darklight.png) !important;
 }
 .cooler-list-lowlight {
     background-image: url(../styles/images/lowlight.png) !important;
 }
 .cooler-list-darklight {
-    background-image: url(../styles/images/darklight.png) !important;
+    background-image: url(../styles/images/brightlight.png) !important;
 }
 .cooler-list-humidity25 {
     background-image: url(../styles/images/purity25.png) !important;
@@ -340,14 +341,13 @@ input.fieldtext {
 }
 .navmenu li {
     color: black;
-    font-size: 14px;   
+    font-size: 14px;
 }
-.login-page {      
-    background-image: url(../styles/images/loginpage.png) !important;      
+.login-page {
+    background-image: url(../styles/images/loginpage.png) !important;
     background-position: center center;
-    background-repeat: no-repeat;         
+    background-repeat: no-repeat;
     background-size: 100% 100%;
-   
 }
 .image-shadow {
     width: 87px;
@@ -356,8 +356,8 @@ input.fieldtext {
     border: 1px solid rgba(43, 124, 231, 0.8);
 }
 .login-form {
-   text-align: center; 
-   margin-top: 30%;
+    text-align: center;
+    margin-top: 30%;
 }
 .searchbox {
     background-image: url(../styles/images/ic_action_overflow.png) !important;
@@ -459,7 +459,7 @@ a.settings-text {
     -webkit-border-radius: 5px;
     -moz-border-border-radius: 5px;
     border: none;
-    padding: 10px 25px 10px 25px;  
+    padding: 10px 25px 10px 25px;
     color: #FFF;
     text-shadow: 1px 1px 1px #949494;
 }
@@ -520,7 +520,6 @@ a.settings-text {
     border-bottom: 1px solid #ccc;
     line-height: 30px;
 }
-
 .km-ios #left-drawer .km-group-title,
 .km-ios7 #left-drawer .km-group-title,
 .km-blackberry #left-drawer .km-group-title {
@@ -568,7 +567,7 @@ a.settings-text {
     height: 30px;
     float: left;
     margin-right: 5px;
-    background-size: contain;  
+    background-size: contain;
 }
 .scan-nav {
     background-image: url(../styles/images/scan.png) !important;
@@ -582,9 +581,36 @@ a.settings-text {
 .server-nav {
     background-image: url(../styles/images/test-server.png) !important;
 }
-.form-fields{
+.form-fields {
     width: 100%;
 }
-.form-fields td{
+.form-fields td {
     width: 100px;
+}
+.imagePageTitle {
+    border-width: 0 0 1px;
+    background-image: url(../styles/images/titlebar_bg.png);
+    color: white;
+    position: relative;
+    visibility: visible;
+    text-align: center;
+    font-size: 1.2em;
+    line-height: 2.3em;
+    margin-left: auto;
+    margin-right: auto;
+}
+.search-text-input {
+   background: white; 
+    border: 1px double #DDD; 
+    border-radius: 5px; 
+    box-shadow: 0 0 5px #333; 
+    color: #666; 
+    outline: none; 
+    height:30px; 
+    width: 300px; 
+    padding: 6px 15px 6px 35px;
+}
+.search-text-input:focus,
+.search-text-input.focus {
+  border-bottom: solid 2px #969696;
 }
