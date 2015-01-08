@@ -1,11 +1,11 @@
 (function (global) {
-    var app = global.app = global.app || {};    
+    var app = global.app = global.app || {};
     var SummaryListViewModel = kendo.data.ObservableObject.extend({
         summaryListDataSource: null,
         init: function (e) {
             var that = this,
                 dataSource,
-                jsonUrlToLoad;            
+                jsonUrlToLoad;
             kendo.data.ObservableObject.fn.init.apply(that, []);
             jsonUrlToLoad = "http://cooler.insigmainc.com/Controllers/AssetInfo.ashx?action=list&asArray=0&limit=0&sort=AssetId&dir=DESC";
             dataSource = new kendo.data.DataSource({
@@ -35,7 +35,7 @@
             app.summaryListService.viewModel.summaryListDataSource.read({
                 LocationId: e.view.params.locationId
             });
-           
+
         },
         viewModel: new SummaryListViewModel(),
         spaces: function () {
@@ -91,8 +91,8 @@
             }
             return toReturn;
         },
-        getLightIntensity: function (lightIntensity) {                    
-            return lightIntensity;            
+        getLightIntensity: function (lightIntensity) {
+            return lightIntensity;
         },
         getPurityPerc: function (stock, foreignProduct) {
             var toReturn;
@@ -114,8 +114,8 @@
                 toReturn = (0).toFixed(2); // to avoid divide by zero
             }
             toReturn = (((stock - foreignProduct) * 100) / spaces).toFixed(1);
-            toReturn = Math.floor(toReturn);
-
+            //toReturn = Math.floor(toReturn);
+            toReturn = toReturn + "%"
             return toReturn;
         },
         getTemperatureText: function (temperature) {
@@ -127,18 +127,18 @@
             }
             return toReturn
         },
-        getLightIntensityText: function (lightIntensity) {            
+        getLightIntensityText: function (lightIntensity) {
             var toReturn;
-            if (lightIntensity > 15) 
+            if (lightIntensity > 15)
                 toReturn = "Bright";
-             else if (lightIntensity > 5) 
+            else if (lightIntensity > 5)
                 toReturn = "Low";
-             else 
+            else
                 toReturn = "Dark";
-            
+
             return toReturn;
         },
-        getPurityPercText: function (columns, shelves, stock, foreignProduct) {          
+        getPurityPercText: function (columns, shelves, stock, foreignProduct) {
             var toReturn = "Impure";
             if (foreignProduct == 0) {
                 toReturn = "Pure";
@@ -150,8 +150,8 @@
             var toReturn = "Sos";
             if (stock >= ((spaces * 60) / 100)) {
                 toReturn = toReturn;
-            }           
-            return toReturn;            
+            }
+            return toReturn;
         }
 
     };
