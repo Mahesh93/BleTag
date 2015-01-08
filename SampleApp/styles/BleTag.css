@@ -472,23 +472,23 @@ a.settings-text {
 .settings-button .button-label {
     margin-top: 10px;
 }
-.km-ios #right-drawer .km-content,
-.km-ios7 #right-drawer .km-content,
-.km-flat #right-drawer .km-content,
-.km-blackberry #right-drawer .km-content,
-.km-ios #right-drawer .km-list > li,
-.km-ios7 #right-drawer .km-list > li,
-.km-flat #right-drawer .km-list > li,
-.km-blackberry #right-drawer .km-list > li,
-.km-ios #right-drawer .km-listview-link > .km-icon,
-.km-ios7 #right-drawer .km-listview-link > .km-icon,
-.km-flat #right-drawer .km-listview-link > .km-icon,
-.km-blackberry #right-drawer .km-listview-link > .km-icon,
-.km-ios #right-drawer .km-list li > .km-icon,
-.km-ios7 #right-drawer .km-list li > .km-icon,
-.km-flat #right-drawer .km-list li > .km-icon,
-.km-blackberry #right-drawer .km-list li > .km-icon,
-#right-drawer .km-content {
+.km-ios #summary-list-menu .km-content,
+.km-ios7 #summary-list-menu .km-content,
+.km-flat #summary-list-menu .km-content,
+.km-blackberry #summary-list-menu .km-content,
+.km-ios #summary-list-menu .km-list > li,
+.km-ios7 #summary-list-menu .km-list > li,
+.km-flat #summary-list-menu .km-list > li,
+.km-blackberry #summary-list-menu .km-list > li,
+.km-ios #summary-list-menu .km-listview-link > .km-icon,
+.km-ios7 #summary-list-menu .km-listview-link > .km-icon,
+.km-flat #summary-list-menu .km-listview-link > .km-icon,
+.km-blackberry #summary-list-menu .km-listview-link > .km-icon,
+.km-ios #summary-list-menu .km-list li > .km-icon,
+.km-ios7 #summary-list-menu .km-list li > .km-icon,
+.km-flat #summary-list-menu .km-list li > .km-icon,
+.km-blackberry #summary-list-menu .km-list li > .km-icon,
+#summary-list-menu .km-content {
     background-color: #4e4e4e;
     color: #fff;
     background: #4e4e4e;
@@ -496,6 +496,31 @@ a.settings-text {
     border-bottom: 1px solid #ccc;
     line-height: 30px;
 }
+.km-ios #summary-detail-menu .km-content,
+.km-ios7 #summary-detail-menu .km-content,
+.km-flat #summary-detail-menu .km-content,
+.km-blackberry #summary-detail-menu .km-content,
+.km-ios #summary-detail-menu .km-list > li,
+.km-ios7 #summary-detail-menu .km-list > li,
+.km-flat #summary-detail-menu .km-list > li,
+.km-blackberry #summary-detail-menu .km-list > li,
+.km-ios #summary-detail-menu .km-listview-link > .km-icon,
+.km-ios7 #summary-detail-menu .km-listview-link > .km-icon,
+.km-flat #summary-detail-menu .km-listview-link > .km-icon,
+.km-blackberry #summary-detail-menu .km-listview-link > .km-icon,
+.km-ios #summary-detail-menu .km-list li > .km-icon,
+.km-ios7 #summary-detail-menu .km-list li > .km-icon,
+.km-flat #summary-detail-menu .km-list li > .km-icon,
+.km-blackberry #summary-detail-menu .km-list li > .km-icon,
+#summary-detail-menu .km-content {
+    background-color: #4e4e4e;
+    color: #fff;
+    background: #4e4e4e;
+    font-size: 11px;
+    border-bottom: 1px solid #ccc;
+    line-height: 30px;
+}
+
 .km-ios #left-drawer .km-group-title,
 .km-ios7 #left-drawer .km-group-title,
 .km-blackberry #left-drawer .km-group-title {
