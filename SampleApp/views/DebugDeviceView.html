@@ -1,0 +1,31 @@
+<div data-role="view" data-title="Scan Device" data-layout="main" data-init="app.DebugDeviceService.debugInit">
+    <ul id="debuglistview" data-role="listview" data-template="deviceStatusTemplate"></ul>
+    <div class="toolbar">
+        <button type="button" class="debugBtn" id="fetchButton">Fetch Data</button>
+        <button type="button" class="debugBtn" id="disconnectButton">Disconnect</button>
+        <a data-role="button" data-rel="modalview" href="#sample" class="debugBtn" id="scanButton">Scan</a>
+    </div> 
+    
+    <div data-role="modalview" id="sample" data-title="Scanning List" data-layout="main" data-model="app.DebugDeviceService.debugModel">  
+    <header data-role="header">
+            <div data-role="navbar">
+                <span data-role="view-title"></span>               
+                <!--<a id="skin-change" data-role="button" data-align="right" data-click="app.changeSkin">Flat</a>-->
+            </div>
+        </header>
+    <ul data-role="listview" data-template="deviceStatusTemplate" data-bind="source: DebugDeviceDataSource"></ul>
+</div>
+
+
+</div>
+<!-- this is the template used by the listview. template items are automatically
+     wrapped in an <li> by Kendo UI Mobile -->
+<script type="text/x-kendo-template" id="deviceStatusTemplate">
+  <div class="device-name-title"><table style="width:100%">
+    <tr><td>Device Name: </td><td> FF:E9:G3:F8:S2</td></tr>
+    <tr><td>UUID:</td><td>335935937jsd9qw010323</td></tr>
+    <tr><td>Major: 1</td><td>Minor: 2</td></tr>
+    <tr><td>RSSI:</td><td>-23</td></tr>
+    <tr><td>Status:</td><td>Disconnect</td></tr>
+    </table></div>
+</script>
