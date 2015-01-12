@@ -13,7 +13,7 @@
                 <!--<a id="skin-change" data-role="button" data-align="right" data-click="app.changeSkin">Flat</a>-->
             </div>
         </header>
-    <ul data-role="listview" data-template="deviceStatusTemplate" data-bind="source: DebugDeviceDataSource"></ul>
+    <ul data-role="listview" data-template="scanStatusTemplate" data-bind="source: DebugDeviceDataSource"></ul>
 </div>
 
 
@@ -24,6 +24,16 @@
   <div class="device-name-title"><table style="width:100%">
     <tr><td>Device Name: </td><td> FF:E9:G3:F8:S2</td></tr>
     <tr><td>UUID:</td><td>335935937jsd9qw010323</td></tr>
+    <tr><td>Major: 1</td><td>Minor: 2</td></tr>
+    <tr><td>RSSI:</td><td>-23</td></tr>
+    <tr><td>Status:</td><td>Disconnect</td></tr>
+    </table></div>
+</script>
+
+<script type="text/x-kendo-template" id="scanStatusTemplate">
+  <div class="device-name-title"><table style="width:100%">
+    <tr><td>Device Name: </td><td>MA:E9:G3:F8:S2</td></tr>
+    <tr><td>UUID:</td><td>3e43444444444566</td></tr>
     <tr><td>Major: 1</td><td>Minor: 2</td></tr>
     <tr><td>RSSI:</td><td>-23</td></tr>
     <tr><td>Status:</td><td>Disconnect</td></tr>
