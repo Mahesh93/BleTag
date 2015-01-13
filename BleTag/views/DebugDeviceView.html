@@ -3,39 +3,116 @@
     <div class="toolbar">
         <button type="button" class="debugBtn" id="fetchButton">Fetch Data</button>
         <button type="button" class="debugBtn" id="disconnectButton">Disconnect</button>
-        <a data-role="button" data-rel="modalview" href="#sample" class="debugBtn" id="scanButton">Scan</a>
-    </div> 
-    
-    <div data-role="modalview" id="sample" data-title="Scanning List" data-layout="main" data-model="app.DebugDeviceService.debugModel">  
+        <a data-role="button" data-rel="modalview" href="#modalview-sample" class="debugBtn" id="scanButton">Scan</a>
+    </div>  
+</div>
+<div data-role="layout" data-id="main">
+    <div data-role="header">
+        <div data-role="navbar">
+            <span data-role="view-title"></span>
+            <a data-role="button" data-rel="drawer" href="#debug-list-menu" data-align="right" class="right-drawer-view"></a>
+        </div>
+    </div>   
+    <!-- application views will be rendered here -->
+</div>
+<div data-role="modalview" id="modalview-sample" data-title="Scanning List" data-layout="main" data-model="app.DebugDeviceService.debugModel">
     <header data-role="header">
-            <div data-role="navbar">
-                <span data-role="view-title"></span>               
-                <!--<a id="skin-change" data-role="button" data-align="right" data-click="app.changeSkin">Flat</a>-->
-            </div>
-        </header>
+        <div data-role="navbar">
+            <span data-role="view-title"></span>
+        </div>
+    </header>
     <ul data-role="listview" data-template="scanStatusTemplate" data-bind="source: DebugDeviceDataSource"></ul>
 </div>
-
-
+<div data-role="drawer" id="debug-list-menu" style="width: 60%" data-title="Navigation" data-position="right" data-swipe-to-open=false>
+    <header data-role="header">
+        <div data-role="navbar">
+            <span data-role="view-title"></span>
+        </div>
+    </header>
+    <ul class="navmenu" data-role="listview">
+        <li>Request all saved sensor event/data</li>
+        <li>Get Firmware Detail</li>
+        <li>Get current time</li>
+        <li>Get Serial Number of Device</li>
+        <li>Restart Device</li>
+        <li>Reset device</li>
+        <li>Turn sensor on</li>
+        <li>Turn sensor off</li>
+        <li>Read current sensor data</li>
+        <li>Get event count</li>
+        <li>Download image</li>
+        <li>Take Picture</li>
+        <li>Read Gyroscope</li>
+        <li>Get latest n events</li>
+        <li>Event/data from ID x to ID Y</li>
+        <li>Erase all event data</li>
+        <li>Sound Buzzer</li>
+        <li id="setIntervalToRead">Set interval to read sensor periodically</li>
+        <li id="setRealTime">Set real time clock</li>
+        <li id="setGPSLocation">Set GPS location of device</li>
+        <li id="setMajorMinor">Set Major/ Minor versoin of device</li>
+        <li id="setSerialOfDevice">Set Serial# of device</li>
+        <li id="setAdvertising">Set Advertising period</li>
+        <li id="setSenorThreshold">Set sensor threshold</li>
+        <li>Set standby mode on</li>
+        <li>Set standby mode off</li>
+        <li>Put device in DFU</li>
+        <li id="changePassword">Change Password</li>
+        <li id="setRSSI">Set RSSI for iBeacon Frame</li>
+        <li>Read Configuration Parameter</li>
+    </ul>
 </div>
 <!-- this is the template used by the listview. template items are automatically
      wrapped in an <li> by Kendo UI Mobile -->
 <script type="text/x-kendo-template" id="deviceStatusTemplate">
-  <div class="device-name-title"><table style="width:100%">
-    <tr><td>Device Name: </td><td> FF:E9:G3:F8:S2</td></tr>
-    <tr><td>UUID:</td><td>335935937jsd9qw010323</td></tr>
-    <tr><td>Major: 1</td><td>Minor: 2</td></tr>
-    <tr><td>RSSI:</td><td>-23</td></tr>
-    <tr><td>Status:</td><td>Disconnect</td></tr>
-    </table></div>
+    <div class="device-name-title">
+        <table style="width:100%">
+            <tr>
+                <td>Device Name: </td>
+                <td> FF:E9:G3:F8:S2</td>
+            </tr>
+            <tr>
+                <td>UUID:</td>
+                <td>335935937jsd9qw010323</td>
+            </tr>
+            <tr>
+                <td>Major: 1</td>
+                <td>Minor: 2</td>
+            </tr>
+            <tr>
+                <td>RSSI:</td>
+                <td>-23</td>
+            </tr>
+            <tr>
+                <td>Status:</td>
+                <td>Disconnect</td>
+            </tr>
+        </table>
+    </div>
 </script>
-
 <script type="text/x-kendo-template" id="scanStatusTemplate">
-  <div class="device-name-title"><table style="width:100%">
-    <tr><td>Device Name: </td><td>MA:E9:G3:F8:S2</td></tr>
-    <tr><td>UUID:</td><td>3e43444444444566</td></tr>
-    <tr><td>Major: 1</td><td>Minor: 2</td></tr>
-    <tr><td>RSSI:</td><td>-23</td></tr>
-    <tr><td>Status:</td><td>Disconnect</td></tr>
-    </table></div>
+    <div class="device-name-title">
+        <table style="width:100%">
+            <tr>
+                <td>Device Name: </td>
+                <td>MA:E9:G3:F8:S2</td>
+            </tr>
+            <tr>
+                <td>UUID:</td>
+                <td>3e43444444444566</td>
+            </tr>
+            <tr>
+                <td>Major: 1</td>
+                <td>Minor: 2</td>
+            </tr>
+            <tr>
+                <td>RSSI:</td>
+                <td>-23</td>
+            </tr>
+            <tr>
+                <td>Status:</td>
+                <td>Disconnect</td>
+            </tr>
+        </table>
+    </div>
 </script>

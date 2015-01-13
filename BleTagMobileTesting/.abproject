@@ -1,0 +1,8 @@
+{
+  "ProjectName": "BleTagMobileTesting",
+  "ProjectGuid": "1ebdf119-0c68-4663-9da2-e549feabf144",
+  "projectVersion": 1,
+  "ProjectTypeGuids": "{6319b66f-8dff-4073-91be-3cd48a2fdeb3}",
+  "FrameworkVersion": "1.0",
+  "Framework": "MobileTesting"
+}
