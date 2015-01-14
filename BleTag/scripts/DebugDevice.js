@@ -195,6 +195,7 @@
             });
         },
         createWindow: function (obj) {
+            debugger;
             var table = document.createElement("table");
             var tr;
             var td;
@@ -205,6 +206,7 @@
                 var label = document.createElement("label");
                 label.textContent = obj.fields[i].field;
                 var box = document.createElement("input");
+                box.className = "TextBoxCmd";
                 box.type = obj.fields[i].dataType;
                 box.defaultValue = obj.fields[i].defaultValue;
                 fieldLabel.appendChild(label);
@@ -214,28 +216,37 @@
                 table.appendChild(tr);
             }
             var toolRow = document.createElement("tr");
+            toolRow.className = "window-footer";
             var toolCancel = document.createElement("td")
             var button = document.createElement("button");
             button.className = "debugBtn";
             button.textContent = "Cancel";
             button.id = "CancelCmdBtn";
+            var toolOk = document.createElement("td")
+            var buttonOk = document.createElement("button");
+            buttonOk.className = "debugBtn";
+            buttonOk.textContent = "Ok";
+            buttonOk.id = "OkCmdBtn";
             toolCancel.appendChild(button);
             toolRow.appendChild(toolCancel);
+            toolOk.appendChild(buttonOk);
+            toolRow.appendChild(toolOk);
             table.appendChild(toolRow);
             var commandWindow = $("#commandDialog");
-            commandWindow.append(table.innerHTML);                 
+            commandWindow.append(table.innerHTML);
 
             var accessWindow = $("#commandDialog").kendoWindow({
                 actions: {},
-                draggable: true,
+                draggable: false,
                 modal: true,
                 resizable: false,
-                title: obj.title,               
+                minWidth: 250,
                 visible: false,
                 //width:"100%",
             }).data("kendoWindow");
-          $("#commandDialog").data("kendoWindow").title(obj.title);            
-            
+            $("#commandDialog").data("kendoWindow").title(obj.title);
+            $('#commandDialog').parent().addClass("CommandWinTitlebar");
+
             accessWindow.center();
             accessWindow.open();
         }

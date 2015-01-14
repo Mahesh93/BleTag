@@ -1,6 +1,6 @@
 (function (global) {
-     var  app = global.app = global.app || {};          
-     var LocationViewModel = kendo.data.ObservableObject.extend({
+    var app = global.app = global.app || {};
+    var LocationViewModel = kendo.data.ObservableObject.extend({
         locationDataSource: null,
         init: function () {
             var that = this,
@@ -12,38 +12,40 @@
             //jsonUrlToLoad = app.makeUrlAbsolute("data/weather.json");
             jsonUrlToLoad = "http://cooler.insigmainc.com/Controllers/Location.ashx?action=List&asArray=0&limit=0&sort=Name&dir=DESC";
 
-            dataSource = new kendo.data.DataSource({  
+            dataSource = new kendo.data.DataSource({
                 group: {
                     field: "LocationIndex"
-                },
-                schema:{
+                },               
+                schema: {
                     model: app.models.LocationList,
-                   parse: function(response) { 
+                    parse: function (response) {
                         //console.log(JSON.stringify(response, null, 4));
-                       var count=response.recordCount;
-                       var records=response.records;
-                       for(var i=0;i<count;i++){                           
-                           records[i].LocationIndex=records[i].Name[0];
-                       }
+                        var count = response.recordCount;
+                        var records = response.records;
+                        for (var i = 0; i < count; i++) {
+                            records[i].LocationIndex = records[i].Name[0];
+                        }
                         return records;
                     }
                 },
                 transport: {
-                       read:  {
-                           url: jsonUrlToLoad,
-                           dataType: "json",
-                           type: "GET"                           
-                      }  
-                }
+                    read: {
+                        url: jsonUrlToLoad,
+                        dataType: "json",
+                        type: "GET"
+                    }                   
+                },
                 
+
             });
 
             that.set("locationDataSource", dataSource);
+            //that.set("{ operator: "ci" }", filterable);
         }
     });
 
     app.locationService = {
         viewModel: new LocationViewModel()
-    };    
-  
+    };
+
 })(window);
