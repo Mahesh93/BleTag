@@ -5,8 +5,7 @@
         init: function () {
             var that = this,
                 dataSource,
-                jsonUrlToLoad;
-
+                jsonUrlToLoad;           
             kendo.data.ObservableObject.fn.init.apply(that, []);
             //When you build for Apache Cordova 3.0.0, apply this code instead of using relative URLs. In Apache Cordova 3.0.0, relative URLs might not work properly.
             //jsonUrlToLoad = app.makeUrlAbsolute("data/weather.json");
@@ -34,8 +33,7 @@
                         dataType: "json",
                         type: "GET"
                     }                   
-                },
-                
+                }                
 
             });
 
@@ -45,7 +43,13 @@
     });
 
     app.locationService = {
-        viewModel: new LocationViewModel()
+        viewModel: new LocationViewModel(),
+        searchChange: function(field){
+            var val = field.sender.value();
+            app.locationService.viewModel.locationDataSource.read({
+                Name: val
+            });            
+        }
     };
 
 })(window);

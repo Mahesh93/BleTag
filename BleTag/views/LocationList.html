@@ -1,8 +1,7 @@
-<div data-role="view" data-title="Locations List" data-layout="main" data-model="app.locationService.viewModel">  
+<div data-role="view" data-layout="main" data-model="app.locationService.viewModel">  
     <header data-role="header">
-            <div data-role="navbar">
-                <span data-role="view-title"></span>
-                <input type='text' placeholder='Location Search...' class='search-text-input' data-align="right"/>
+        <div data-role="navbar" style="height:45px">                
+                <input data-role="autocomplete" data-change="app.locationService.searchChange" placeholder='Location Search...' data-stretch="true"/>
                 <!--<a id="skin-change" data-role="button" data-align="right" data-click="app.changeSkin">Flat</a>-->
             </div>
         </header>
