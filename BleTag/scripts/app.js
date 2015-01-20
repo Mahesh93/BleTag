@@ -8,8 +8,7 @@
     app.dateTimeFormat = "d/m/Y g:i A";
     
     // this function is called by Cordova when the application is loaded by the device
-    document.addEventListener('deviceready', function () {  
-      
+    document.addEventListener('deviceready', function () {      
         // Handle "backbutton" event
         document.addEventListener("backbutton", function (e) {
                 e.preventDefault();

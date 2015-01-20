@@ -8,42 +8,28 @@
                 jsonUrlToLoad;
 
             kendo.data.ObservableObject.fn.init.apply(that, []);
-            //When you build for Apache Cordova 3.0.0, apply this code instead of using relative URLs. In Apache Cordova 3.0.0, relative URLs might not work properly.
-            //jsonUrlToLoad = app.makeUrlAbsolute("data/weather.json");
-            jsonUrlToLoad = "http://cooler.insigmainc.com/Controllers/Location.ashx?action=List&asArray=0&limit=0&sort=Name&dir=DESC";
+            //When you build for Apache Cordova 3.0.0, apply this code instead of using relative URLs. In Apache Cordova 3.0.0, relative URLs might not work properly.           
 
-            dataSource = new kendo.data.DataSource({
+            var dataSource = new kendo.data.DataSource({
                 schema: {
-                    model: app.models.LocationList,
-                    parse: function (response) {
-                        //console.log(JSON.stringify(response, null, 4));
-                        var count = response.recordCount;
-                        var records = response.records;
-                        for (var i = 0; i < count; i++) {
-                            records[i].LocationIndex = records[i].Name[0];
-                        }
-                        return records;
-                    }
+                    model: app.models.BleTag
                 },
-                transport: {
-                    read: {
-                        url: jsonUrlToLoad,
-                        dataType: "json",
-                        type: "GET"
-                    }
-                }
-
+                data: []
             });
 
             that.set("DebugDeviceDataSource", dataSource);
         }
     });
     app.DebugDeviceService = {
-        show: function (e) {
-            app.DebugDeviceService.debugModel.DebugDeviceDataSource.read({
-                //LocationId: e.view.params.locationId
-            });
-
+        scanListSelection: function (obj) {
+            var data = obj.dataItem;
+            console.log(data.MacAddress);
+            app.bluetoothService.bluetooth.startScan(data.MacAddress, "ins!gm@?", data);
+            $("#scanningList").kendoMobileModalView("close");
+        },
+        show: function (e) {            
+            console.log('On Show');
+            app.bluetoothService.bluetooth.startScan();
         },
         debugModel: new DebugDeviceModel(),
         debugInit: function () {
@@ -195,7 +181,6 @@
             });
         },
         createWindow: function (obj) {
-            debugger;
             var table = document.createElement("table");
             var tr;
             var td;
@@ -250,6 +235,7 @@
             accessWindow.center();
             accessWindow.open();
         }
+
     };
 
 })(window);

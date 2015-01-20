@@ -657,6 +657,10 @@ a.settings-text {
     font-size: 13px;
     color: black;
 }
+.listview-select{
+    color: black;
+}
+.listview-select .alt { background-color: #EEE; }
 //testing
 #modalview-login-button,
 #modalview-reg-button,

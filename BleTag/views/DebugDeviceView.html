@@ -1,10 +1,10 @@
 <div data-role="view" data-title="Scan Device" data-layout="main" data-init="app.DebugDeviceService.debugInit">
     <ul id="debuglistview" data-role="listview" data-template="deviceStatusTemplate"></ul>
-    <div class="toolbar">
-        <button type="button" class="debugBtn" id="fetchButton">Fetch Data</button>
-        <button type="button" class="debugBtn" id="disconnectButton">Disconnect</button>
-        <a data-role="button" data-rel="modalview" href="#modalview-sample" class="debugBtn" id="scanButton">Scan</a>
-    </div>  
+    <div data-role="toolbar" data-resizable="false">
+        <a class="nav-button" data-rel="drawer" data-icon="action" data-role="button">Fetch Data</a>
+        <a class="nav-button" data-rel="drawer" data-icon="delete" data-role="button">Disconnect</a>
+        <a class="nav-button" data-icon="search" data-rel="modalview" data-align="right" href="#scanningList" data-role="button">Scan</a>
+    </div>
 </div>
 <div data-role="layout" data-id="main">
     <div data-role="header">
@@ -12,17 +12,44 @@
             <span data-role="view-title"></span>
             <a data-role="button" data-rel="drawer" href="#debug-list-menu" data-align="right" class="right-drawer-view"></a>
         </div>
-    </div>   
+    </div>
     <!-- application views will be rendered here -->
 </div>
-<div data-role="modalview" id="modalview-sample" data-title="Scanning List" data-layout="main" data-model="app.DebugDeviceService.debugModel">
+<div data-role="modalview" style="width:90%;height:85%" id="scanningList" data-title="Scanning List" data-open="app.DebugDeviceService.show" data-model="app.DebugDeviceService.debugModel">
     <header data-role="header">
         <div data-role="navbar">
             <span data-role="view-title"></span>
         </div>
     </header>
-    <ul data-role="listview" data-template="scanStatusTemplate" data-bind="source: DebugDeviceDataSource"></ul>
+    <ul data-role="listview" data-click="app.DebugDeviceService.scanListSelection" data-template="scanStatusTemplate" id="scanList" data-init="app.bluetoothService.bluetooth.init" data-bind="source: DebugDeviceDataSource"></ul>
 </div>
+<script type="text/x-kendo-template" id="scanStatusTemplate">    
+         <a data-role="listview-link"> 
+            <table style="width:100%">
+                <tr>
+                    <td>Device Name: </td>
+                    <td>${MacAddress}</td>
+                </tr>
+                <tr>
+                    <td>UUID:</td>
+                    <td>${ManufacturerUUID}</td>
+                </tr>
+                <tr>
+                    <td>Major: ${Major}</td>
+                    <td>Minor: ${Minor}</td>
+                </tr>
+                <tr>
+                    <td>RSSI:</td>
+                    <td>${Rssi}</td>
+                </tr>
+                <tr>
+                    <td>Status:</td>
+                    <td>${IsConnected}</td>
+                </tr>
+            </table>
+        </a>
+    
+</script>
 <div data-role="drawer" id="debug-list-menu" style="width: 60%" data-title="Navigation" data-position="right" data-swipe-to-open=false>
     <header data-role="header">
         <div data-role="navbar">
@@ -74,32 +101,6 @@
             <tr>
                 <td>UUID:</td>
                 <td>335935937jsd9qw010323</td>
-            </tr>
-            <tr>
-                <td>Major: 1</td>
-                <td>Minor: 2</td>
-            </tr>
-            <tr>
-                <td>RSSI:</td>
-                <td>-23</td>
-            </tr>
-            <tr>
-                <td>Status:</td>
-                <td>Disconnect</td>
-            </tr>
-        </table>
-    </div>
-</script>
-<script type="text/x-kendo-template" id="scanStatusTemplate">
-    <div class="device-name-title">
-        <table style="width:100%">
-            <tr>
-                <td>Device Name: </td>
-                <td>MA:E9:G3:F8:S2</td>
-            </tr>
-            <tr>
-                <td>UUID:</td>
-                <td>3e43444444444566</td>
             </tr>
             <tr>
                 <td>Major: 1</td>
