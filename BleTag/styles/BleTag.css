@@ -649,18 +649,19 @@ a.settings-text {
     color: #2e2e2e;
 }
 .debugBtn.km-widget.km-button {
-    background: white;
-    margin-top: 3px;
+    background: #E1D4D4;
     border-radius: 8px;
 }
 .device-name-title {
     font-size: 13px;
     color: black;
 }
-.listview-select{
+.listview-select {
     color: black;
 }
-.listview-select .alt { background-color: #EEE; }
+.listview-select .alt {
+    background-color: #EEE;
+}
 //testing
 #modalview-login-button,
 #modalview-reg-button,
@@ -773,5 +774,13 @@ button#OkCmdBtn.debugBtn {
     padding: .5em .8em;
     border-style: solid;
     margin-left: 50%;
-    width:66px;
+    width: 66px;
+}
+.km-close-e:after,
+.km-close-e:before {
+    content: "\e038";
+}
+.km-ble-loading:after,
+.km-ble-loading:before {
+    content: "\e0f3";
 }

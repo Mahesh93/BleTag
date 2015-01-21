@@ -15,10 +15,12 @@
     </div>
     <!-- application views will be rendered here -->
 </div>
-<div data-role="modalview" style="width:90%;height:85%" id="scanningList" data-title="Scanning List" data-open="app.DebugDeviceService.show" data-model="app.DebugDeviceService.debugModel">
+<div data-role="modalview" style="width:90%;height:85%" data-modal="false" id="scanningList" data-title="Scanning List" data-open="app.DebugDeviceService.show" data-model="app.DebugDeviceService.debugModel">
     <header data-role="header">
         <div data-role="navbar">
-            <span data-role="view-title"></span>
+            <a data-role="button" class="debugBtn" data-align="left" data-click="app.DebugDeviceService.closeScanWindow">Close</a>
+            <span data-role="view-title" data-align="center"></span>
+            <a data-role="button" class="debugBtn" data-align="right" data-icon="ble-loading" data-click="app.DebugDeviceService.scanButtonClick">Scan</a>
         </div>
     </header>
     <ul data-role="listview" data-click="app.DebugDeviceService.scanListSelection" data-template="scanStatusTemplate" id="scanList" data-init="app.bluetoothService.bluetooth.init" data-bind="source: DebugDeviceDataSource"></ul>

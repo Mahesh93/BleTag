@@ -3,10 +3,16 @@
     var bluetooth = kendo.ui.Widget.extend({
         config: {
             scanDuration: 10000,
-            record: null,
-            isConnected: false,
+            manufactureUuid: "48F8C9EFAEF9482D987F3752F1C51DA1",
+            serviceUuid: "81469e83-ef6f-42af-b1c6-f339dbdce2ea",
+            characteristicUuid: "8146c203-ef6f-42af-b1c6-f339dbdce2ea",
+            noitfyCharacteristicUuid: "8146c201-ef6f-42af-b1c6-f339dbdce2ea",
             password: null,
-            activeDeviceAddress: null
+            activeCommand: null,
+            activeDeviceAddress: null,
+            isConnected: false,
+            record: null,
+            responseCount: 0
         },
         init: function (element, options) {
             if (typeof ble === "undefined") {
@@ -29,7 +35,7 @@
             console.log("Connected initial");
             var me = app.bluetoothService.bluetooth;
             me.config.isConnected = false;
-            me.activeDeviceAddress = obj.id;
+            me.config.activeDeviceAddress = obj.id;
             ble.startNotification(obj.id, me.config.serviceUuid, me.config.noitfyCharacteristicUuid, me.onData, me.onError);
 
             var password = app.Utility.getPasswordBytes(me.config.password);
@@ -38,10 +44,22 @@
         },
         connectError: function (reason) {
             console.log("CONNECT ERROR: " + reason);
-            var me = Ext.ComponentQuery.query('ble-bluetooth')[0];            
+            var me = app.bluetoothService.bluetooth;
             me.stopNotification();
-            me.fireEvent('updatestatus', "CONNECT ERROR: " + reason, true);
-            me.fireEvent('connectError', reason);
+            me.onUpdateStatus("CONNECT ERROR: " + reason, true);
+        },
+        onUpdateStatus: function (arg, canClose) {
+            console.log("calling status  : param 1" + arg + " Param 2:" + canClose);
+            if (canClose) {
+                console.log("disable mask");
+                //Ext.Viewport.setMasked(false);
+                return;
+            }
+            /*
+            Ext.Viewport.setMasked({
+                xtype: 'loadmask',
+                message: arg
+            });*/
         },
         startScan: function () {
             console.log('start scan');
@@ -52,63 +70,69 @@
 
         },
         onDisconnectDevice: function () {
-            var me = Ext.ComponentQuery.query('ble-bluetooth')[0];
-            var record = me.getRecord();
+            var me = app.bluetoothService.bluetooth;
+            var record = me.config.record;
+
             if (!record) {
-                Ext.Msg.alert(BleTag.Localization.Error, BleTag.Localization.ConnectDeviceErrorMessage);
+                alert('Please connect device first');
                 return;
             }
-            ble.disconnect(record.get('MacAddress'), this.disconnectSuccess, this.disconnectError);
+            ble.disconnect(record.MacAddress, this.disconnectSuccess, this.disconnectError);
         },
         disconnectSuccess: function (obj) {
             console.log("disconnectSuccess");
-            var me = Ext.ComponentQuery.query('ble-bluetooth')[0];
-            me.fireEvent('disconnectSuccess', obj);
-            me.fireEvent('stopNotification');
+            var me = app.bluetoothService.bluetooth;
+            var record = me.config.record;
+            record.IsConnected = false;
+            //panel.fireEvent('updateselection', record);
+            me.config.record = null;
+            me.config.IsConnected = false;
+            me.stopNotification();
         },
         disconnectError: function (error) {
             console.log("disconnectError : " + error);
-            var me = Ext.ComponentQuery.query('ble-bluetooth')[0];
-            me.fireEvent('disconnectError', error);
         },
         startScanSuccess: function (obj) {
             console.log("Scan result... - " + obj.id);
-            //var store = this.getScanningDeviceList().getStore();
+            var store = app.DebugDeviceService.debugModel.DebugDeviceDataSource;
             // var index = store.findExact('MacAddress', obj.id);
-            if (-1 === -1) {
-                var bytes = new Uint8Array(obj.advertising);
+            var data = store.get(obj.id);
+            if (data)
+                return;
 
-                var BEACON_LENGTH = app.Utility.readSingle(bytes.subarray(0, 1));
-                var AD_TYPE = app.Utility.readSingle(bytes.subarray(1, 2));
-                var BEACON_FLAGS = app.Utility.readSingle(bytes.subarray(2, 3));
-                var BEACON_DATA_LENGTH = app.Utility.readSingle(bytes.subarray(3, 4));
-                var BEACON_AD_TYPE = app.Utility.readSingle(bytes.subarray(4, 5));
+            var bytes = new Uint8Array(obj.advertising);
 
-                var BEACON_COMPANY_IDENTIFIER = app.Utility.bytesToString(bytes.subarray(5, 7));
+            var BEACON_LENGTH = app.Utility.readSingle(bytes.subarray(0, 1));
+            var AD_TYPE = app.Utility.readSingle(bytes.subarray(1, 2));
+            var BEACON_FLAGS = app.Utility.readSingle(bytes.subarray(2, 3));
+            var BEACON_DATA_LENGTH = app.Utility.readSingle(bytes.subarray(3, 4));
+            var BEACON_AD_TYPE = app.Utility.readSingle(bytes.subarray(4, 5));
 
-                var BEACON_TYPE = app.Utility.readWord(bytes.subarray(7, 9));
-                var uuid = app.Utility.bytesToHex(obj.advertising, 9, 25);
+            var BEACON_COMPANY_IDENTIFIER = app.Utility.bytesToString(bytes.subarray(5, 7));
 
-                var MAJOR_VER = app.Utility.bytesToHex(obj.advertising, 25, 27);
-                var MINOR_VER = app.Utility.bytesToHex(obj.advertising, 27, 29);
-                var MEASURED_POWER = app.Utility.readSingle(bytes.subarray(29, 30));
-                //Second part
-                var DEVICE_DATA_LENGTH = app.Utility.readSingle(bytes.subarray(30, 31));
-                var DEVICE_AD_TYPE = app.Utility.readSingle(bytes.subarray(31, 32));
-                var DEVICE_NAME = app.Utility.readSingle(bytes.subarray(33, 34));
-                console.log('before add');
-                var record = new app.models.BleTag({
-                    MacAddress: obj.id,
-                    Advertisement: app.Utility.arrayBufferToBase64(obj.advertising),
-                    DeviceName: obj.name,
-                    ManufacturerUUID: uuid,
-                    Major: MAJOR_VER,
-                    Minor: MINOR_VER,
-                    Rssi: MEASURED_POWER,
-                    IsConnected: false
-                });
-                app.DebugDeviceService.debugModel.DebugDeviceDataSource.add(record);
-            }
+            var BEACON_TYPE = app.Utility.readWord(bytes.subarray(7, 9));
+            var uuid = app.Utility.bytesToHex(obj.advertising, 9, 25);
+
+            var MAJOR_VER = app.Utility.bytesToHex(obj.advertising, 25, 27);
+            var MINOR_VER = app.Utility.bytesToHex(obj.advertising, 27, 29);
+            var MEASURED_POWER = app.Utility.readSingle(bytes.subarray(29, 30));
+            //Second part
+            var DEVICE_DATA_LENGTH = app.Utility.readSingle(bytes.subarray(30, 31));
+            var DEVICE_AD_TYPE = app.Utility.readSingle(bytes.subarray(31, 32));
+            var DEVICE_NAME = app.Utility.readSingle(bytes.subarray(33, 34));
+            console.log('before add');
+            var record = new app.models.BleTag({
+                MacAddress: obj.id,
+                Advertisement: app.Utility.arrayBufferToBase64(obj.advertising),
+                DeviceName: obj.name,
+                ManufacturerUUID: uuid,
+                Major: MAJOR_VER,
+                Minor: MINOR_VER,
+                Rssi: MEASURED_POWER,
+                IsConnected: false
+            });
+            store.add(record);
+
         },
         startScanError: function (obj) {
             console.log("Start scan error: " + obj.error + " - " + obj.message);
@@ -121,22 +145,21 @@
         },
         initializeSuccess: function (obj) {
             console.log("initializeSuccess");
-            // var store = this.getScanningDeviceList().getStore();
-            // store.removeAll();
+            app.DebugDeviceService.debugModel.DebugDeviceDataSource.read([]);
             app.bluetoothService.bluetooth.startScan();
         },
         initializeError: function () {
             alert("Please enable bluetooth and try again");
         },
         writeBleCommand: function (command, param) {
-            var me = Ext.ComponentQuery.query('ble-bluetooth')[0];
-            me.setActiveCommand(command);
-            me.setResponseCount(0);
+            var me = app.bluetoothService.bluetooth;
+            me.activeCommand = command;
+            me.responseCount = 0;
 
             console.log("Command write : " + command + " Param : " + param);
+            console.log("writeBleCommand : " + me.responseCount);
+            me.onUpdateStatus('Writing command...', false);
 
-            console.log("writeBleCommand : " + me.getResponseCount());
-            me.fireEvent('updatestatus', 'Writing command...', false);
             var bytes = [];
             bytes.push(command);
 
@@ -146,40 +169,49 @@
                 }
             }
             console.log("Command Bytes : " + bytes + " Param : " + param);
-            var cmd = BleTag.util.Utility.bytesToEncodedString(bytes);
-            ble.write(me.getActiveDeviceAddress(), me.getServiceUuid(), me.getCharacteristicUuid(), cmd, me.writeSuccess, me.writeFailure);
+            var cmd = app.Utility.bytesToEncodedString(bytes);
+            ble.write(me.config.activeDeviceAddress, me.config.serviceUuid, me.config.characteristicUuid, cmd, me.writeSuccess, me.writeFailure);
         },
         writeSuccess: function (data) {
             console.log("Write success");
-            var me = Ext.ComponentQuery.query('ble-bluetooth')[0];
-            me.fireEvent('updatestatus', 'Writing command completed...', true);
+            var me = app.bluetoothService.bluetooth;
+            me.onUpdateStatus('Writing command completed...', true);
             console.log(data);
         },
         writeFailure: function (reason) {
-            var me = Ext.ComponentQuery.query('ble-bluetooth')[0];
-            me.fireEvent('updatestatus', 'Writing command completed...', true);
-            me.fireEvent('stopNotificatoin');
+            var me = app.bluetoothService.bluetooth;
+            me.onUpdateStatus('Writing command error completed...', true);
+            me.stopNotification();
             console.log("WRITE ERROR: " + reason);
         },
         onData: function (data) {
-
-            var me = Ext.ComponentQuery.query('ble-bluetooth')[0];
-
-            var resCount = me.getResponseCount();
+            var me = app.bluetoothService.bluetooth;
+            var resCount = me.config.responseCount;
             resCount++;
 
-            me.setResponseCount(resCount);
+            me.config.responseCount = resCount;
 
-            console.log("notify success " + (resCount) + ": " + me.getActiveCommand());
+            console.log("notify success " + (resCount) + ": " + me.config.activeCommand);
             console.log(new Uint8Array(data));
-
-            me.fireEvent('bleresponse', data);
-
+            app.BluetoothDeviceActor.onBleResponse(data);
         },
         onError: function (reason) {
-            var me = Ext.ComponentQuery.query('ble-bluetooth')[0];
-            me.fireEvent('stopNotificatoin');
+            var me = app.bluetoothService.bluetooth;
+            me.stopNotification();
             console.log("ERROR: " + reason); // real apps should use notification.alert
+        },
+        stopNotification: function (obj) {
+            console.log("Stop Notification");
+            var me = app.bluetoothService.bluetooth;
+            if (!me.config.activeDeviceAddress)
+                return;
+            ble.stopNotification(me.config.activeDeviceAddress, me.config.serviceUuid, me.config.noitfyCharacteristicUuid, me.onStopNotifySuccess, me.onStopNotifyError);
+        },
+        onStopNotifyError: function (reason) {
+            console.log("Stop Notification error : " + reason);
+        },
+        onStopNotifySuccess: function (obj) {
+            console.log("Stop Notification success : " + obj);
         }
 
     });

@@ -4,19 +4,19 @@
         id: "AssetId", // the identifier of the model
         fields: {
             'AssetId': {
-                type: 'int '
+                type: 'number '
             },
             'AssignedToUserId': {
-                type: 'int '
+                type: 'number '
             },
             'Columns': {
-                type: 'int '
+                type: 'number '
             },
             'CoolerImageId': {
-                type: 'int '
+                type: 'number '
             },
             'ForeignProduct': {
-                type: 'int '
+                type: 'number '
             },
             'ImageDateTime': {
                 type: 'date '
@@ -28,34 +28,34 @@
                 type: 'boolean '
             },
             'ItemsPerColumn': {
-                type: 'int '
+                type: 'number '
             },
             'Priority': {
-                type: 'int '
+                type: 'number '
             },
             'ProcessSecond': {
-                type: 'int '
+                type: 'number '
             },
             'PurityIssue': {
-                type: 'int '
+                type: 'number '
             },
             'PurityPerc': {
-                type: 'int '
+                type: 'number '
             },
             'PurityStatus': {
                 type: 'string '
             },
             'RowNumber': {
-                type: 'int '
+                type: 'number '
             },
             'Shelves': {
-                type: 'int '
+                type: 'number '
             },
             'StatusId': {
-                type: 'int '
+                type: 'number '
             },
             'Stock': {
-                type: 'int '
+                type: 'number '
             },
             'VerifiedOn': {
                 type: 'date '

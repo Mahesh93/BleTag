@@ -28,7 +28,7 @@
             return currentDate.toLocaleString("en-us", options).replace(/,/g, "");
         },
         getPasswordBytes: function (password) {
-            var buffer = BleTag.util.Utility.stringToBytes(password);
+            var buffer = app.Utility.stringToBytes(password);
             var passwordBytes = new Uint8Array(buffer);
             var bytes = [];
             for (var i = 0; i < 19; i++) {

@@ -24,24 +24,21 @@
         scanListSelection: function (obj) {
             var data = obj.dataItem;
             console.log(data.MacAddress);
-            app.bluetoothService.bluetooth.startScan(data.MacAddress, "ins!gm@?", data);
+            app.bluetoothService.bluetooth.onConnectWithPassword(data.MacAddress, "ins!gm@?", data);
             $("#scanningList").kendoMobileModalView("close");
         },
-        show: function (e) {            
+        show: function (e) {
             console.log('On Show');
-            app.bluetoothService.bluetooth.startScan();
+            app.bluetoothService.bluetooth.initializeBluetooth();
+        },
+        closeScanWindow: function (e) {
+            $("#scanningList").kendoMobileModalView("close");
+        },
+        scanButtonClick: function (e) {
+            app.bluetoothService.bluetooth.initializeBluetooth();
         },
         debugModel: new DebugDeviceModel(),
         debugInit: function () {
-            $("#fetchButton").kendoMobileButton({
-                icon: "action"
-            });
-            $("#disconnectButton").kendoMobileButton({
-                icon: "share"
-            });
-            $("#scanButton").kendoMobileButton({
-                icon: "search"
-            });
             $("#debuglistview").kendoMobileListView({
                 template: kendo.template($("#deviceStatusTemplate").html()),
                 dataSource: kendo.data.DataSource.create([{

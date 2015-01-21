@@ -10,16 +10,16 @@
                 type: 'string'
             },
             'Advertisement': {
-                type: 'int'
+                type: 'number'
             },
             'ManufacturerUUID': {
                 type: 'string'
             },
             'Major': {
-                type: 'int'
+                type: 'number'
             },
             'Minor': {
-                type: 'int'
+                type: 'number'
             },
             'Rssi': {
                 type: 'string'
