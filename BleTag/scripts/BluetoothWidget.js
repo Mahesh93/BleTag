@@ -32,6 +32,7 @@
             ble.connect(deviceAddress, me.connectSuccess, me.connectError);
         },
         connectSuccess: function (obj) {
+            debugger;
             console.log("Connected initial");
             var me = app.bluetoothService.bluetooth;
             me.config.isConnected = false;
@@ -185,6 +186,7 @@
             console.log("WRITE ERROR: " + reason);
         },
         onData: function (data) {
+            debugger;
             var me = app.bluetoothService.bluetooth;
             var resCount = me.config.responseCount;
             resCount++;

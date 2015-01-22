@@ -2,6 +2,8 @@
     var app = global.app = global.app || {};
     var DebugDeviceModel = kendo.data.ObservableObject.extend({
         DebugDeviceDataSource: null,
+        DebugDeviceListDataSource: null,
+        CommandDataSource: null,
         init: function (e) {
             var that = this,
                 dataSource,
@@ -18,6 +20,24 @@
             });
 
             that.set("DebugDeviceDataSource", dataSource);
+
+            var listDataSource = new kendo.data.DataSource({
+                schema: {
+                    model: app.models.DeviceData
+                },
+                data: []
+            });
+
+            that.set("DebugDeviceListDataSource", listDataSource);
+
+            var commandSource = new kendo.data.DataSource({
+                schema: {
+                    model: app.models.CommandData
+                },
+                data: []
+            });
+
+            that.set("CommandDataSource", commandSource);
         }
     });
     app.DebugDeviceService = {
@@ -50,11 +70,6 @@
                 dataSource: kendo.data.DataSource.create([{
                     foo: "bar"
                 }])
-            });
-            $(document).on('click', '.km-shim', function (event) {
-                if (event.target.className == "km-shim km-modalview-root k-state-border-down") {
-                    $("#modalview-sample").kendoMobileModalView("close");
-                }
             });
             $("#scanlist").kendoMobileListView({
                 template: kendo.template($("#deviceStatusTemplate").html()),
@@ -231,6 +246,21 @@
 
             accessWindow.center();
             accessWindow.open();
+        },
+        executeCommand: function (command, param) {
+            app.DebugDeviceService.debugModel.CommandDataSource.read([]);
+            app.bluetoothService.bluetooth.writeBleCommand(command, param);
+        },
+        onFetchDataButtonClick: function (button) {
+            debugger;
+            var bluetooth = app.bluetoothService.bluetooth;
+           /* if (!bluetooth || !bluetooth.config.isConnected) {
+                alert('Please connect device');
+                return;
+            } */
+            app.DebugDeviceService.debugModel.DebugDeviceListDataSource.read([]);
+
+            app.DebugDeviceService.executeCommand(app.BleCommands.FETCH_DATA);
         }
 
     };

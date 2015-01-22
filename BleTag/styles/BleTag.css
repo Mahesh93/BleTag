@@ -784,3 +784,14 @@ button#OkCmdBtn.debugBtn {
 .km-ble-loading:before {
     content: "\e0f3";
 }
+.device-data-list-container {	
+	font-size:13px;
+}
+.device-data-title{
+    font-weight: bold;
+    background-color: #ffcc66;
+    font-size: 18px;
+    color: #256882;
+    text-align: center;
+    width: 100px;
+}

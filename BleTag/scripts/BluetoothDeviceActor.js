@@ -9,6 +9,7 @@
             commandData: null
         },
         onBleResponse: function (data) {
+            debugger;
             var me = this,
                 bluetooth = app.bluetoothService.bluetooth;
 
@@ -37,6 +38,7 @@
             }
         },
         processData: function (bytes) {
+            debugger;
             console.log("first response  : " + new Uint8Array(bytes));
             var me = this,
                 bluetooth = app.bluetoothService.bluetooth,
@@ -124,12 +126,9 @@
             console.log("first response total count : " + me.config.totalRecords + " Command : " + command);
 
             if (command == app.BleCommands.SET_VALIDATE_PASSWORD) {
-                /*
-                var store = Ext.getStore('DeviceData');
-                store.removeAll();
-                */
+                app.DebugDeviceService.debugModel.DebugDeviceListDataSource.read([]);
             } else
-                me.showResponseWindow();
+               // me.showResponseWindow();
         },
         showResponseWindow: function () {
             console.log('show response window');
@@ -142,7 +141,7 @@
         */
         },
         processListData: function (bytes) {
-
+            debugger;
             if (bytes == null || bytes.bytesLength == 0)
                 return;
 
@@ -158,19 +157,20 @@
                 bluetooth.onUpdateStatus('Processing list data...');
                 var data = me.config.listData;
                 var storeData = [];
-                //var store = Ext.getStore('DeviceData');
+                var store = app.DebugDeviceService.debugModel.DebugDeviceListDataSource;
                 for (var i in data) {
                     console.log(data[i].data);
                     var record = me.processDeviceDataToStore(data[i].data);
                     storeData.push(record);
                 }
                 me.config.deviceData = storeData;
-                //store.applyData(storeData);
+                store.applyData(storeData);
                 me.fireEvent('updatestatus', 'Process completed.', true);
             }
 
         },
         processDeviceDataToStore: function (bytes) {
+            debugger;
             var recordType = app.Utility.readSingle(bytes.subarray(0, 1)); //Read single byte		
             var eventId = app.Utility.readWord(bytes.subarray(1, 3)); //Two byte
             var eventTime = app.Utility.readFourByte(bytes.subarray(3, 7)); //Four byte		
@@ -294,7 +294,8 @@
                 StartTimeMovement: startTimeMovement,
                 EndTimeMovement: endTimeMovement
             });
-            //store.add(model);
+            var store = app.DebugDeviceService.debugModel.DebugDeviceListDataSource;
+            store.add(model);
             return model;
         },
         addListData: function (bytes) {
