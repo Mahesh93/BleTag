@@ -143,16 +143,16 @@
             switch (values.RecordType) {
                 case app.RecordTypes.HELTHY_EVENT:
 
-                    template = Ext.XTemplate.create('<table style="margin-left: 10px; width:100%">',
-                        '<tr><td class="device-data-subtitle">' + BleTag.Localization.RecordType + '</td><td class="device-data-value">{RecordTypeText}</td></tr>',
-                        '<tr><td class="device-data-subtitle">' + BleTag.Localization.Door + '</td><td class="device-data-value">{DoorStatus}</td></tr>',
-                        '<tr><td class="device-data-subtitle">' + BleTag.Localization.Temperature + '</td><td class="device-data-value">{TemperatureValue}</td></tr>',
-                        '<tr><td class="device-data-subtitle">' + BleTag.Localization.Humidity + '</td><td class="device-data-value">{HumidityValue} %rH</td></tr>',
-                        '<tr><td class="device-data-subtitle">' + BleTag.Localization.AmbientLight + '</td><td class="device-data-value">{AmbientlightValue} lux</td></tr>',
-                        '<tr><td class="device-data-subtitle">' + BleTag.Localization.SoundLevel + '</td><td class="device-data-value">{SoundLevel}</td></tr>',
-                        '<tr><td class="device-data-subtitle">' + BleTag.Localization.BatteryLevel + '</td><td class="device-data-value">{BatteryLevel}</td></tr>',
-                        '<tr><td class="device-data-subtitle">' + BleTag.Localization.Time + '</td><td class="device-data-value">' + app.Utility.getDateFromMilliseconds(values.EventTime) + '</td></tr>',
-                        '</table>');
+                    template = '<table style="margin-left: 10px; width:100%">'+
+                        '<tr><td class="device-data-subtitle">' + "Record Type" + '</td><td class="device-data-value">{RecordTypeText}</td></tr>'+
+                        '<tr><td class="device-data-subtitle">' + "Door" + '</td><td class="device-data-value">{DoorStatus}</td></tr>'+
+                        '<tr><td class="device-data-subtitle">' + "Temperature" + '</td><td class="device-data-value">{TemperatureValue}</td></tr>'+
+                        '<tr><td class="device-data-subtitle">' + "Humidity" + '</td><td class="device-data-value">{HumidityValue} %rH</td></tr>'+
+                        '<tr><td class="device-data-subtitle">' + "AmbientLight" + '</td><td class="device-data-value">{AmbientlightValue} lux</td></tr>'+
+                        '<tr><td class="device-data-subtitle">' + "SoundLevel" + '</td><td class="device-data-value">{SoundLevel}</td></tr>'+
+                        '<tr><td class="device-data-subtitle">' + "BatteryLevel" + '</td><td class="device-data-value">{BatteryLevel}</td></tr>'+
+                        '<tr><td class="device-data-subtitle">' + "Time" + '</td><td class="device-data-value">' + app.Utility.getDateFromMilliseconds(values.EventTime) + '</td></tr>'+
+                        '</table>';
                     break;
                 case app.RecordTypes.LINEAR_MOTION:
 
@@ -172,81 +172,81 @@
                             measurement = "ft";
                     }
 
-                    template = Ext.XTemplate.create('<table style="margin-left: 10px; width:100%">',
-                        '<tr><td class="device-data-subtitle">' + BleTag.Localization.RecordType + '</td><td class="device-data-value">{RecordTypeText}</td></tr>',
-                        '<tr><td class="device-data-subtitle">' + BleTag.Localization.Door + '</td><td class="device-data-value">{DoorStatus}</td></tr>',
-                        '<tr><td class="device-data-subtitle">' + BleTag.Localization.Distance + '</td><td class="device-data-value">{DistanceLsb} ' + measurement + '</td></tr>',
-                        '<tr><td class="device-data-subtitle">' + BleTag.Localization.Angle + '</td><td class="device-data-value">{Angle}</td></tr>',
-                        '<tr><td class="device-data-subtitle">' + BleTag.Localization.MagnetX + '</td><td class="device-data-value">{MagnetX}</td></tr>',
-                        '<tr><td class="device-data-subtitle">' + BleTag.Localization.MagnetY + '</td><td class="device-data-value">{MagnetY}</td></tr>',
-                        '<tr><td class="device-data-subtitle">' + BleTag.Localization.Time + '</td><td class="device-data-value">' + app.Utility.getDateFromMilliseconds(values.EventTime) + '</td></tr>',
-                        '</table>');
+                    template ='<table style="margin-left: 10px; width:100%">'+
+                        '<tr><td class="device-data-subtitle">' + "Record Type" + '</td><td class="device-data-value">{RecordTypeText}</td></tr>'+
+                        '<tr><td class="device-data-subtitle">' + "Door" + '</td><td class="device-data-value">{DoorStatus}</td></tr>'+
+                        '<tr><td class="device-data-subtitle">' + "Distance" + '</td><td class="device-data-value">{DistanceLsb} ' + measurement + '</td></tr>'+
+                        '<tr><td class="device-data-subtitle">' + "Angle" + '</td><td class="device-data-value">{Angle}</td></tr>'+
+                        '<tr><td class="device-data-subtitle">' + "MagnetX" + '</td><td class="device-data-value">{MagnetX}</td></tr>'+
+                        '<tr><td class="device-data-subtitle">' + "MagnetY" + '</td><td class="device-data-value">{MagnetY}</td></tr>'+
+                        '<tr><td class="device-data-subtitle">' + "Time" + '</td><td class="device-data-value">' + app.Utility.getDateFromMilliseconds(values.EventTime) + '</td></tr>'+
+                        '</table>';
                     break;
                 case app.RecordTypes.ANGULAR_MOTION:
 
-                    template = Ext.XTemplate.create('<table style="margin-left: 10px; width:100%">',
-                        '<tr><td class="device-data-subtitle">' + BleTag.Localization.RecordType + '</td><td class="device-data-value">{RecordTypeText}</td></tr>',
-                        '<tr><td class="device-data-subtitle">' + BleTag.Localization.Door + '</td><td class="device-data-value">{DoorStatus}</td></tr>',
-                        '<tr><td class="device-data-subtitle">' + BleTag.Localization.PosXNegX + '</td><td class="device-data-value">{PosX}/ {NegX}</td></tr>',
-                        '<tr><td class="device-data-subtitle">' + BleTag.Localization.PosYNegY + '</td><td class="device-data-value">{PosY}/ {NegY}</td></tr>',
-                        '<tr><td class="device-data-subtitle">' + BleTag.Localization.PosZNegZ + '</td><td class="device-data-value">{PosZ}/ {NegZ}</td></tr>',
-                        '<tr><td class="device-data-subtitle">' + BleTag.Localization.Time + '</td><td class="device-data-value">' + app.Utility.getDateFromMilliseconds(values.EventTime) + '</td></tr>',
-                        '</table>');
+                    template ='<table style="margin-left: 10px; width:100%">'+
+                        '<tr><td class="device-data-subtitle">' + "Record Type" + '</td><td class="device-data-value">{RecordTypeText}</td></tr>'+
+                        '<tr><td class="device-data-subtitle">' + "Door" + '</td><td class="device-data-value">{DoorStatus}</td></tr>'+
+                        '<tr><td class="device-data-subtitle">' + "PosXNegX" + '</td><td class="device-data-value">{PosX}/ {NegX}</td></tr>'+
+                        '<tr><td class="device-data-subtitle">' + "PosYNegY" + '</td><td class="device-data-value">{PosY}/ {NegY}</td></tr>'+
+                        '<tr><td class="device-data-subtitle">' + "PosZNegZ" + '</td><td class="device-data-value">{PosZ}/ {NegZ}</td></tr>'+
+                        '<tr><td class="device-data-subtitle">' + "Time" + '</td><td class="device-data-value">' + app.Utility.getDateFromMilliseconds(values.EventTime) + '</td></tr>'+
+                        '</table>';
                     break;
                 case app.RecordTypes.MAGNET_MOTION:
-                    template = Ext.XTemplate.create('<table style="margin-left: 10px; width:100%">',
-                        '<tr><td class="device-data-subtitle">' + BleTag.Localization.RecordType + '</td><td class="device-data-value">{RecordTypeText}</td></tr>',
-                        '<tr><td class="device-data-subtitle">' + BleTag.Localization.Door + '</td><td class="device-data-value">{DoorStatus}</td></tr>',
-                        '<tr><td class="device-data-subtitle">' + BleTag.Localization.MagnetX + '</td><td class="device-data-value">{MagnetX}</td></tr>',
-                        '<tr><td class="device-data-subtitle">' + BleTag.Localization.MagnetY + '</td><td class="device-data-value">{MagnetY}</td></tr>',
-                        '<tr><td class="device-data-subtitle">' + BleTag.Localization.MagnetZ + '</td><td class="device-data-value">{MagnetZ}</td></tr>',
-                        '<tr><td class="device-data-subtitle">' + BleTag.Localization.Time + '</td><td class="device-data-value">' + app.Utility.getDateFromMilliseconds(values.EventTime) + '</td></tr>',
-                        '</table>');
+                    template = '<table style="margin-left: 10px; width:100%">'+
+                        '<tr><td class="device-data-subtitle">' + "Record Type" + '</td><td class="device-data-value">{RecordTypeText}</td></tr>'+
+                        '<tr><td class="device-data-subtitle">' + "Door" + '</td><td class="device-data-value">{DoorStatus}</td></tr>'+
+                        '<tr><td class="device-data-subtitle">' + "MagnetX" + '</td><td class="device-data-value">{MagnetX}</td></tr>'+
+                        '<tr><td class="device-data-subtitle">' + "MagnetY" + '</td><td class="device-data-value">{MagnetY}</td></tr>'+
+                        '<tr><td class="device-data-subtitle">' + "MagnetZ" + '</td><td class="device-data-value">{MagnetZ}</td></tr>'+
+                        '<tr><td class="device-data-subtitle">' + "Time" + '</td><td class="device-data-value">' + app.Utility.getDateFromMilliseconds(values.EventTime) + '</td></tr>'+
+                        '</table>';
                     break;
                 case app.RecordTypes.DOOR_EVENT:
-                    template = Ext.XTemplate.create('<table style="margin-left: 10px; width:100%">',
-                        '<tr><td class="device-data-subtitle">' + BleTag.Localization.RecordType + '</td><td class="device-data-value">{RecordTypeText}</td></tr>',
-                        '<tr><td class="device-data-subtitle">' + BleTag.Localization.Door + '</td><td class="device-data-value">{DoorStatus}</td></tr>',
-                        '<tr><td class="device-data-subtitle">' + BleTag.Localization.Time + '</td><td class="device-data-value">' + app.Utility.getDateFromMilliseconds(values.EventTime) + '</td></tr>',
-                        '</table>');
+                    template ='<table style="margin-left: 10px; width:100%">'+
+                        '<tr><td class="device-data-subtitle">' + "RecordType" + '</td><td class="device-data-value">{RecordTypeText}</td></tr>'+
+                        '<tr><td class="device-data-subtitle">' + "Door" + '</td><td class="device-data-value">{DoorStatus}</td></tr>'+
+                        '<tr><td class="device-data-subtitle">' + "Time" + '</td><td class="device-data-value">' + app.Utility.getDateFromMilliseconds(values.EventTime) + '</td></tr>'+
+                        '</table>';
                     break;
                 case app.RecordTypes.IMAGE_EVENT:
-                    template = Ext.XTemplate.create('<table style="margin-left: 10px; width:100%">',
-                        '<tr><td class="device-data-subtitle">' + BleTag.Localization.RecordType + '</td><td class="device-data-value">{RecordTypeText}</td></tr>',
-                        '<tr><td class="device-data-subtitle">' + BleTag.Localization.PosX + '</td><td class="device-data-value">{PosX}</td></tr>',
-                        '<tr><td class="device-data-subtitle">' + BleTag.Localization.NegX + '</td><td class="device-data-value">{NegX}</td></tr>',
-                        '<tr><td class="device-data-subtitle">' + BleTag.Localization.PosY + '</td><td class="device-data-value">{PosY}</td></tr>',
-                        '<tr><td class="device-data-subtitle">' + BleTag.Localization.NegY + '</td><td class="device-data-value">{NegY}</td></tr>',
-                        '<tr><td class="device-data-subtitle">' + BleTag.Localization.PosZ + '</td><td class="device-data-value">{PosZ}</td></tr>',
-                        '<tr><td class="device-data-subtitle">' + BleTag.Localization.NegZ + '</td><td class="device-data-value">{NegZ}</td></tr>',
-                        '<tr><td class="device-data-subtitle">' + BleTag.Localization.ImageSize + '</td><td class="device-data-value">{ImageSize}</td></tr>',
-                        '<tr><td class="device-data-subtitle">' + BleTag.Localization.Time + '</td><td class="device-data-value">' + app.Utility.getDateFromMilliseconds(values.EventTime) + '</td></tr>',
-                        '</table>');
+                    template ='<table style="margin-left: 10px; width:100%">'+
+                        '<tr><td class="device-data-subtitle">' + "Record Type" + '</td><td class="device-data-value">{RecordTypeText}</td></tr>'+
+                        '<tr><td class="device-data-subtitle">' + "PosX" + '</td><td class="device-data-value">{PosX}</td></tr>'+
+                        '<tr><td class="device-data-subtitle">' + "NegX" + '</td><td class="device-data-value">{NegX}</td></tr>'+
+                        '<tr><td class="device-data-subtitle">' + "PosY" + '</td><td class="device-data-value">{PosY}</td></tr>'+
+                        '<tr><td class="device-data-subtitle">' + "NegY" + '</td><td class="device-data-value">{NegY}</td></tr>'+
+                        '<tr><td class="device-data-subtitle">' + "PosZ" + '</td><td class="device-data-value">{PosZ}</td></tr>'+
+                        '<tr><td class="device-data-subtitle">' + "NegZ" + '</td><td class="device-data-value">{NegZ}</td></tr>'+
+                        '<tr><td class="device-data-subtitle">' + "ImageSize" + '</td><td class="device-data-value">{ImageSize}</td></tr>'+
+                        '<tr><td class="device-data-subtitle">' + "Time" + '</td><td class="device-data-value">' + app.Utility.getDateFromMilliseconds(values.EventTime) + '</td></tr>'+
+                        '</table>';
                     break;
                 case app.RecordTypes.GPS_EVENT:
-                    template = Ext.XTemplate.create('<table style="margin-left: 10px; width:100%">',
-                        '<tr><td class="device-data-subtitle">' + BleTag.Localization.RecordType + '</td><td class="device-data-value">{RecordTypeText}</td></tr>',
-                        '<tr><td class="device-data-subtitle">' + BleTag.Localization.Door + '</td><td class="device-data-value">{DoorStatus}</td></tr>',
-                        '<tr><td class="device-data-subtitle">' + BleTag.Localization.Latitude + '</td><td class="device-data-value">{Latitude}</td></tr>',
-                        '<tr><td class="device-data-subtitle">' + BleTag.Localization.Longitude + '</td><td class="device-data-value">{Longitude}</td></tr>',
-                        '<tr><td class="device-data-subtitle">' + BleTag.Localization.Time + '</td><td class="device-data-value">' + app.Utility.getDateFromMilliseconds(values.EventTime) + '</td></tr>',
-                        '</table>');
+                    template ='<table style="margin-left: 10px; width:100%">'+
+                        '<tr><td class="device-data-subtitle">' + "RecordType" + '</td><td class="device-data-value">{RecordTypeText}</td></tr>'+
+                        '<tr><td class="device-data-subtitle">' + "Door" + '</td><td class="device-data-value">{DoorStatus}</td></tr>'+
+                        '<tr><td class="device-data-subtitle">' + "Latitude" + '</td><td class="device-data-value">{Latitude}</td></tr>'+
+                        '<tr><td class="device-data-subtitle">' + "Longitude" + '</td><td class="device-data-value">{Longitude}</td></tr>'+
+                        '<tr><td class="device-data-subtitle">' + "Time" + '</td><td class="device-data-value">' + app.Utility.getDateFromMilliseconds(values.EventTime) + '</td></tr>'+
+                        '</table>';
                     break;
                 case app.RecordTypes.MOTION_TIME:
-                    template = Ext.XTemplate.create('<table style="margin-left: 10px; width:100%">',
-                        '<tr><td class="device-data-subtitle">' + BleTag.Localization.RecordType + '</td><td class="device-data-value">{RecordTypeText}</td></tr>',
-                        '<tr><td class="device-data-subtitle">' + BleTag.Localization.Door + '</td><td class="device-data-value">{DoorStatus}</td></tr>',
-                        '<tr><td class="device-data-subtitle">' + BleTag.Localization.StartTimeMovement + '</td><td class="device-data-value">' + app.Utility.getDateFromMilliseconds(values.StartTimeMovement) + '</td></tr>',
-                        '<tr><td class="device-data-subtitle">' + BleTag.Localization.EndTimeMovement + '</td><td class="device-data-value">' + app.Utility.getDateFromMilliseconds(values.EndTimeMovement) + '</td></tr>',
-                        '<tr><td class="device-data-subtitle">' + BleTag.Localization.Time + '</td><td class="device-data-value">' + app.Utility.getDateFromMilliseconds(values.EventTime) + '</td></tr>',
-                        '</table>');
+                    template ='<table style="margin-left: 10px; width:100%">'+
+                        '<tr><td class="device-data-subtitle">' + "Record Type" + '</td><td class="device-data-value">{RecordTypeText}</td></tr>'+
+                        '<tr><td class="device-data-subtitle">' + "Door" + '</td><td class="device-data-value">{DoorStatus}</td></tr>'+
+                        '<tr><td class="device-data-subtitle">' + "StartTimeMovement" + '</td><td class="device-data-value">' + app.Utility.getDateFromMilliseconds(values.StartTimeMovement) + '</td></tr>'+
+                        '<tr><td class="device-data-subtitle">' + "EndTimeMovement" + '</td><td class="device-data-value">' + app.Utility.getDateFromMilliseconds(values.EndTimeMovement) + '</td></tr>'+
+                        '<tr><td class="device-data-subtitle">' + "Time" + '</td><td class="device-data-value">' + app.Utility.getDateFromMilliseconds(values.EventTime) + '</td></tr>'+
+                        '</table>';
                     break;
                 default:
-                    template = Ext.XTemplate.create('<table style="margin-left: 10px; width:100%">',
-                        '<tr><td class="device-data-subtitle">' + BleTag.Localization.RecordType + '</td><td class="device-data-value">{RecordTypeText}</td></tr>',
-                        '<tr><td class="device-data-subtitle">' + BleTag.Localization.Door + '</td><td class="device-data-value">{DoorStatus}</td></tr>',
-                        '<tr><td class="device-data-subtitle">' + BleTag.Localization.Time + '</td><td class="device-data-value">' + app.Utility.getDateFromMilliseconds(values.EventTime) + '</td></tr>',
-                        '</table>');
+                    template = '<table style="margin-left: 10px; width:100%">'+
+                        '<tr><td class="device-data-subtitle">' + "Record Type" + '</td><td class="device-data-value">{RecordTypeText}</td></tr>'+
+                        '<tr><td class="device-data-subtitle">' + "Door" + '</td><td class="device-data-value">{DoorStatus}</td></tr>'+
+                        '<tr><td class="device-data-subtitle">' + "Time" + '</td><td class="device-data-value">' + app.Utility.getDateFromMilliseconds(values.EventTime) + '</td></tr>'+
+                        '</table>';
                     break;
             }
 

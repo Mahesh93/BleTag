@@ -128,7 +128,7 @@
             if (command == app.BleCommands.SET_VALIDATE_PASSWORD) {
                 app.DebugDeviceService.debugModel.DebugDeviceListDataSource.read([]);
             } else
-               // me.showResponseWindow();
+                me.showResponseWindow();
         },
         showResponseWindow: function () {
             console.log('show response window');

@@ -795,3 +795,8 @@ button#OkCmdBtn.debugBtn {
     text-align: center;
     width: 100px;
 }
+.device-data-subtitle{
+    color: #256882;
+    width: 50%;
+    font-weight: bold;
+}

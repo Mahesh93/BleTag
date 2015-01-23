@@ -4,6 +4,9 @@
         DebugDeviceDataSource: null,
         DebugDeviceListDataSource: null,
         CommandDataSource: null,
+        config: {
+            commandParamData: [],
+        },
         init: function (e) {
             var that = this,
                 dataSource,
@@ -193,6 +196,7 @@
             });
         },
         createWindow: function (obj) {
+            debugger;
             var table = document.createElement("table");
             var tr;
             var td;
@@ -224,6 +228,8 @@
             buttonOk.className = "debugBtn";
             buttonOk.textContent = "Ok";
             buttonOk.id = "OkCmdBtn";
+            buttonOk.type = "button"
+            buttonOk.setAttribute('onclick', 'app.DebugDeviceService.onCommandWindowOkButtonClick()');
             toolCancel.appendChild(button);
             toolRow.appendChild(toolCancel);
             toolOk.appendChild(buttonOk);
@@ -254,14 +260,100 @@
         onFetchDataButtonClick: function (button) {
             debugger;
             var bluetooth = app.bluetoothService.bluetooth;
-           /* if (!bluetooth || !bluetooth.config.isConnected) {
-                alert('Please connect device');
-                return;
-            } */
+            /* if (!bluetooth || !bluetooth.config.isConnected) {
+                 alert('Please connect device');
+                 return;
+             } */
             app.DebugDeviceService.debugModel.DebugDeviceListDataSource.read([]);
 
             app.DebugDeviceService.executeCommand(app.BleCommands.FETCH_DATA);
-        }
+        },
+        addCommandParamData: function (value, isDirect) {
+            var param = this.debugModel.config.commandParamData || [];
+            if (isDirect) {
+                for (var i = 0; i < value.length; i++) {
+                    param.push(value[i]);
+                }
+            } else {
+                for (var i = value.length; i--;) {
+                    param.push(value[i]);
+                }
+            }
+            this.debugModel.config.commandParamData = param;           
+        },
+        onCommandWindowOkButtonClick: function (button) {
+            debugger;
+            var commandPanel = this.getCommandInputPanel();
+            var form = this.getCommandInputForm();
+            var command = commandPanel.getCommand();
+            this.debugModel.config.commandParamData = [];
+            var values = form.getValues();
+            switch (command) {
+                case app.BleCommands.SENSOR_ON:
+                case app.BleCommands.SENSOR_OFF:
+                    this.addCommandParamData(app.Utility.decimalToBytes(values.SensorGroupId, 1));
+                    break;
+                case app.BleCommands.LATEST_N_EVENTS:
+                    var store = Ext.getStore('DeviceData');
+                    store.removeAll();
+                    this.addCommandParamData(app.Utility.decimalToBytes(values.LatestEvent, 2));
+                    break;
+                case app.BleCommands.EVENT_DATA_FROM_IDX_IDY:
+                    this.addCommandParamData(app.Utility.decimalToBytes(values.EventIdX, 2));
+                    this.addCommandParamData(app.Utility.decimalToBytes(values.EventIdY, 2));
+                    break;
+                case app.BleCommands.SET_INTERVAL:
+                    if (values.Interval < 1 || values.Interval > 60) {
+                        alert("Minutes between 1 to 60");
+                        return;
+                    }
+                    this.addCommandParamData(app.Utility.decimalToBytes(values.Interval, 1));
+                    break;
+                case app.BleCommands.SET_REAL_TIME_CLOCK:
+                    var date = new Date(values.Date);
+
+                    if (!Ext.isDate(date)) {
+                        alert("Invalid Date");
+                        return;
+                    }
+                    this.addCommandParamData(app.Utility.decimalToBytes(date.getTime() / 1000, 4));
+                    break;
+                case app.BleCommands.SET_GPS_LOCATION:
+                    this.addCommandParamData(app.Utility.decimalToBytes(values.Latitude, 4));
+                    this.addCommandParamData(app.Utility.decimalToBytes(values.Longitude, 4));
+                    break;
+                case app.BleCommands.SET_MAJOR_MINOR_VERSION:
+                    this.addCommandParamData(app.Utility.decimalToBytes(values.Major, 2));
+                    this.addCommandParamData(app.Utility.decimalToBytes(values.Minor, 2));
+                    break;
+                case app.BleCommands.SET_SERIAL_NUMBER:
+                    //14 bytes max
+                    var buffer = app.Utility.stringToBytes(values.SerialNumber);
+                    this.addCommandParamData(new Uint8Array(buffer), true);
+                    break;
+                case app.BleCommands.SET_ADVERTISING_PERIOD:
+                    this.addCommandParamData(app.Utility.decimalToBytes(values.Milliseconds, 2));
+                    break;
+                case app.BleCommands.SET_SENSOR_THRESHOLD:
+                    this.addCommandParamData(app.Utility.decimalToBytes(values.Temperature, 2));
+                    this.addCommandParamData(app.Utility.decimalToBytes(values.Light, 2));
+                    this.addCommandParamData(app.Utility.decimalToBytes(values.Humidity, 2));
+                    this.addCommandParamData(app.Utility.decimalToBytes(values.Sound, 2));
+                    break;
+                case app.BleCommands.SET_CHANGE_PASSWORD:
+                    console.log('Password  - ' + values.Password);
+                    var bytes = app.Utility.getPasswordBytes(values.Password);
+                    this.addCommandParamData(bytes, true);
+                    break;
+                case app.BleCommands.SET_RSSI_FOR_IBEACON_FRAME:
+                    this.addCommandParamData(app.Utility.decimalToBytes(values.RssiValue, 1));
+                    break;
+                default:
+                    break;
+            }
+            commandPanel.hide();
+            this.executeCommand(command, this.getCommandParamData());
+        },
 
     };
 
