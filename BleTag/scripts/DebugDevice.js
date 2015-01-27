@@ -6,6 +6,8 @@
         CommandDataSource: null,
         config: {
             commandParamData: [],
+            formValues: [],
+            form: []
         },
         init: function (e) {
             var that = this,
@@ -68,135 +70,15 @@
                     foo: "bar"
                 }])
             });
-            $("#popup-content").kendoMobileListView({
-                template: kendo.template($("#deviceStatusTemplate").html()),
-                dataSource: kendo.data.DataSource.create([{
-                    foo: "bar"
-                }])
-            });
-            $("#scanlist").kendoMobileListView({
-                template: kendo.template($("#deviceStatusTemplate").html()),
-                dataSource: kendo.data.DataSource.create([{
-                    foo: "bar"
-                }])
-            });
             $(document).on('click', '#CancelCmdBtn', function () {
                 $("#commandDialog").data("kendoWindow").close();
                 $("#commandDialog").html("");
                 $("#commandDialog").data("kendoWindow").title("");
             });
-            $("#setIntervalToRead").click(function () {
-                var data = {
-                    title: "Set interval to read sensor periodically",
-                    fields: [{
-                        field: "Periodic Interval (In Minutes)",
-                        dataType: "number"
-                    }],
-                };
-                app.DebugDeviceService.createWindow(data);
-            });
-            $("#setRealTime").click(function () {
-                var data = {
-                    title: "Since 1st Oct 2014(MM/dd/yyy HH:mm:ss)",
-                    fields: [{
-                        field: "Date",
-                        dataType: "text",
-                        defaultValue: app.Utility.getTodayDate()
-                    }],
-                };
-                app.DebugDeviceService.createWindow(data);
-            });
-            $("#setGPSLocation").click(function () {
-                var data = {
-                    title: "Set GPS location of device",
-                    fields: [{
-                            field: "Latitude",
-                            dataType: "number"
-                        },
-                        {
-                            field: "Longitude",
-                            dataType: "number"
-                        }],
-                };
-                app.DebugDeviceService.createWindow(data);
-            });
-            $("#setMajorMinor").click(function () {
-                var data = {
-                    title: "Set Major/ Minor version of device",
-                    fields: [{
-                            field: "Major Version",
-                            dataType: "number"
-                        },
-                        {
-                            field: "Minor Version",
-                            dataType: "number"
-                        }],
-                };
-                app.DebugDeviceService.createWindow(data);
-            });
-            $("#setSerialOfDevice").click(function () {
-                var data = {
-                    title: "Set Serial# of device(14 byte device serial number)",
-                    fields: [{
-                        field: "Serial",
-                        dataType: "text",
-                        defaultValue: ""
-                        }],
-                };
-                app.DebugDeviceService.createWindow(data);
-            });
-            $("#setAdvertising").click(function () {
-                var data = {
-                    title: "Set Advertising period",
-                    fields: [{
-                        field: "Milli Seconds",
-                        dataType: "number"
-                        }],
-                };
-                app.DebugDeviceService.createWindow(data);
-            });
-            $("#changePassword").click(function () {
-                var data = {
-                    title: "Set password(Max 19 bytes)",
-                    fields: [{
-                        field: "Password",
-                        dataType: "text",
-                        defaultValue: ""
-                        }],
-                };
-                app.DebugDeviceService.createWindow(data);
-            });
-            $("#setRSSI").click(function () {
-                var data = {
-                    title: "RSSI value for 1 meter distance(0-255)",
-                    fields: [{
-                        field: "value",
-                        dataType: "number"
-                        }],
-                };
-                app.DebugDeviceService.createWindow(data);
-            });
-            $("#setSenorThreshold").click(function () {
-                var data = {
-                    title: "Set sensor thershold",
-                    fields: [{
-                            field: "Temperature out of threshold",
-                            dataType: "number"
-                        },
-                        {
-                            field: "Light out of threshold",
-                            dataType: "number"
-                        },
-                        {
-                            field: "Humidity out of threshold",
-                            dataType: "number"
-                        }],
-                };
-                app.DebugDeviceService.createWindow(data);
-            });
         },
         createWindow: function (obj) {
             debugger;
+            app.DebugDeviceService.debugModel.config.formValues = obj;
             var table = document.createElement("table");
             var tr;
             var td;
@@ -210,6 +92,7 @@
                 box.className = "TextBoxCmd";
                 box.type = obj.fields[i].dataType;
                 box.defaultValue = obj.fields[i].defaultValue;
+                box.id = "textValue" + [i];
                 fieldLabel.appendChild(label);
                 fieldText.appendChild(box);
                 tr.appendChild(fieldLabel);
@@ -229,7 +112,7 @@
             buttonOk.textContent = "Ok";
             buttonOk.id = "OkCmdBtn";
             buttonOk.type = "button"
-            buttonOk.setAttribute('onclick', 'app.DebugDeviceService.onCommandWindowOkButtonClick()');
+            buttonOk.setAttribute('onclick', 'app.DebugDeviceService.onCommandWindowOkButtonClick(app.DebugDeviceService.debugModel.config.formValues,app.DebugDeviceService.debugModel.config.form)');
             toolCancel.appendChild(button);
             toolRow.appendChild(toolCancel);
             toolOk.appendChild(buttonOk);
@@ -237,6 +120,7 @@
             table.appendChild(toolRow);
             var commandWindow = $("#commandDialog");
             commandWindow.append(table.innerHTML);
+            app.DebugDeviceService.debugModel.config.form = table.innerHTML;
 
             var accessWindow = $("#commandDialog").kendoWindow({
                 actions: {},
@@ -279,38 +163,156 @@
                     param.push(value[i]);
                 }
             }
-            this.debugModel.config.commandParamData = param;           
+            this.debugModel.config.commandParamData = param;
         },
-        onCommandWindowOkButtonClick: function (button) {
+        setIntervalToRead: function () {
+            var data = {
+                command: app.BleCommands.SET_INTERVAL,
+                title: "Set interval to read sensor periodically",
+                fields: [{
+                    field: "Periodic Interval (In Minutes)",
+                    dataType: "number"
+                    }],
+            };
+            app.DebugDeviceService.createWindow(data);
+        },
+        setRealTime: function () {
+            var data = {
+                command: app.BleCommands.SET_REAL_TIME_CLOCK,
+                title: "Since 1st Oct 2014(MM/dd/yyy HH:mm:ss)",
+                fields: [{
+                    field: "Date",
+                    dataType: "text",
+                    defaultValue: app.Utility.getTodayDate()
+                    }],
+            };
+            app.DebugDeviceService.createWindow(data);
+        },
+        setGPSLocation: function () {
+            var data = {
+                command: app.BleCommands.SET_GPS_LOCATION,
+                title: "Set GPS location of device",
+                fields: [{
+                        field: "Latitude",
+                        dataType: "number"
+                        },
+                    {
+                        field: "Longitude",
+                        dataType: "number"
+                        }],
+            };
+            app.DebugDeviceService.createWindow(data);
+        },
+        setMajorMinor: function () {
+            var data = {
+                command: app.BleCommands.SET_MAJOR_MINOR_VERSION,
+                title: "Set Major/ Minor version of device",
+                fields: [{
+                        field: "Major Version",
+                        dataType: "number"
+                        },
+                    {
+                        field: "Minor Version",
+                        dataType: "number"
+                        }],
+            };
+            app.DebugDeviceService.createWindow(data);
+        },
+        setSerialOfDevice: function () {
+            var data = {
+                command: app.BleCommands.SET_SERIAL_NUMBER,
+                title: "Set Serial# of device(14 byte device serial number)",
+                fields: [{
+                    field: "Serial",
+                    dataType: "text",
+                    defaultValue: ""
+                        }],
+            };
+            app.DebugDeviceService.createWindow(data);
+        },
+        setAdvertising: function () {
+            var data = {
+                command: app.BleCommands.SET_ADVERTISING_PERIOD,
+                title: "Set Advertising period",
+                fields: [{
+                    field: "Milli Seconds",
+                    dataType: "number"
+                        }],
+            };
+            app.DebugDeviceService.createWindow(data);
+        },
+        setSenorThreshold: function () {
+            var data = {
+                command: app.BleCommands.SET_SENSOR_THRESHOLD,
+                title: "Set sensor thershold",
+                fields: [{
+                        field: "Temperature out of threshold",
+                        dataType: "number"
+                        },
+                    {
+                        field: "Light out of threshold",
+                        dataType: "number"
+                        },
+                    {
+                        field: "Humidity out of threshold",
+                        dataType: "number"
+                        }],
+            };
+            app.DebugDeviceService.createWindow(data);
+        },
+        changePassword: function () {
+            var data = {
+                command: app.BleCommands.SET_CHANGE_PASSWORD,
+                title: "Set password(Max 19 bytes)",
+                fields: [{
+                    field: "Password",
+                    dataType: "text",
+                    defaultValue: ""
+                        }],
+            };
+            app.DebugDeviceService.createWindow(data);
+        },
+        setRSSI: function () {
+            var data = {
+                command: app.BleCommands.SET_RSSI_FOR_IBEACON_FRAME,
+                title: "RSSI value for 1 meter distance(0-255)",
+                fields: [{
+                    field: "value",
+                    dataType: "number"
+                        }],
+            };
+            app.DebugDeviceService.createWindow(data);
+        },
+        onCommandWindowOkButtonClick: function (formValues, form) {
             debugger;
-            var commandPanel = this.getCommandInputPanel();
-            var form = this.getCommandInputForm();
-            var command = commandPanel.getCommand();
+            var command = formValues.command;
             this.debugModel.config.commandParamData = [];
-            var values = form.getValues();
+            var values = formValues;
+
             switch (command) {
                 case app.BleCommands.SENSOR_ON:
                 case app.BleCommands.SENSOR_OFF:
-                    this.addCommandParamData(app.Utility.decimalToBytes(values.SensorGroupId, 1));
+                    this.addCommandParamData(app.Utility.decimalToBytes($("#textValue0").val(), 1));
                     break;
                 case app.BleCommands.LATEST_N_EVENTS:
                     var store = Ext.getStore('DeviceData');
                     store.removeAll();
-                    this.addCommandParamData(app.Utility.decimalToBytes(values.LatestEvent, 2));
+                    this.addCommandParamData(app.Utility.decimalToBytes($("#textValue0").val(), 2));
                     break;
                 case app.BleCommands.EVENT_DATA_FROM_IDX_IDY:
-                    this.addCommandParamData(app.Utility.decimalToBytes(values.EventIdX, 2));
-                    this.addCommandParamData(app.Utility.decimalToBytes(values.EventIdY, 2));
+                    this.addCommandParamData(app.Utility.decimalToBytes($("#textValue0").val(), 2));
+                    this.addCommandParamData(app.Utility.decimalToBytes($("#textValue1").val(), 2));
                     break;
                 case app.BleCommands.SET_INTERVAL:
-                    if (values.Interval < 1 || values.Interval > 60) {
+                    var interval=$("#textValue0").val();
+                    if (interval < 1 || interval > 60) {
                         alert("Minutes between 1 to 60");
                         return;
                     }
-                    this.addCommandParamData(app.Utility.decimalToBytes(values.Interval, 1));
+                    this.addCommandParamData(app.Utility.decimalToBytes(interval, 1));
                     break;
                 case app.BleCommands.SET_REAL_TIME_CLOCK:
-                    var date = new Date(values.Date);
+                    var date = new Date($("#textValue0").val());
 
                     if (!Ext.isDate(date)) {
                         alert("Invalid Date");
@@ -319,40 +321,38 @@
                     this.addCommandParamData(app.Utility.decimalToBytes(date.getTime() / 1000, 4));
                     break;
                 case app.BleCommands.SET_GPS_LOCATION:
-                    this.addCommandParamData(app.Utility.decimalToBytes(values.Latitude, 4));
-                    this.addCommandParamData(app.Utility.decimalToBytes(values.Longitude, 4));
+                    this.addCommandParamData(app.Utility.decimalToBytes($("#textValue0").val(), 4));
+                    this.addCommandParamData(app.Utility.decimalToBytes($("#textValue1").val(), 4));
                     break;
                 case app.BleCommands.SET_MAJOR_MINOR_VERSION:
-                    this.addCommandParamData(app.Utility.decimalToBytes(values.Major, 2));
-                    this.addCommandParamData(app.Utility.decimalToBytes(values.Minor, 2));
+                    this.addCommandParamData(app.Utility.decimalToBytes($("#textValue0").val(), 2));
+                    this.addCommandParamData(app.Utility.decimalToBytes($("#textValue1").val(), 2));
                     break;
                 case app.BleCommands.SET_SERIAL_NUMBER:
                     //14 bytes max
-                    var buffer = app.Utility.stringToBytes(values.SerialNumber);
+                    var buffer = app.Utility.stringToBytes($("#textValue0").val());
                     this.addCommandParamData(new Uint8Array(buffer), true);
                     break;
                 case app.BleCommands.SET_ADVERTISING_PERIOD:
-                    this.addCommandParamData(app.Utility.decimalToBytes(values.Milliseconds, 2));
+                    this.addCommandParamData(app.Utility.decimalToBytes($("#textValue0").val(), 2));
                     break;
                 case app.BleCommands.SET_SENSOR_THRESHOLD:
-                    this.addCommandParamData(app.Utility.decimalToBytes(values.Temperature, 2));
-                    this.addCommandParamData(app.Utility.decimalToBytes(values.Light, 2));
-                    this.addCommandParamData(app.Utility.decimalToBytes(values.Humidity, 2));
-                    this.addCommandParamData(app.Utility.decimalToBytes(values.Sound, 2));
+                    this.addCommandParamData(app.Utility.decimalToBytes($("#textValue0").val(), 2));
+                    this.addCommandParamData(app.Utility.decimalToBytes($("#textValue1").val(), 2));
+                    this.addCommandParamData(app.Utility.decimalToBytes($("#textValue2").val(), 2));                   
                     break;
                 case app.BleCommands.SET_CHANGE_PASSWORD:
-                    console.log('Password  - ' + values.Password);
-                    var bytes = app.Utility.getPasswordBytes(values.Password);
+                    console.log('Password  - ' + $("#textValue0").val());
+                    var bytes = app.Utility.getPasswordBytes($("#textValue0").val());
                     this.addCommandParamData(bytes, true);
                     break;
                 case app.BleCommands.SET_RSSI_FOR_IBEACON_FRAME:
-                    this.addCommandParamData(app.Utility.decimalToBytes(values.RssiValue, 1));
+                    this.addCommandParamData(app.Utility.decimalToBytes($("#textValue0").val(), 1));
                     break;
                 default:
                     break;
-            }
-            commandPanel.hide();
-            this.executeCommand(command, this.getCommandParamData());
+            }            
+            this.executeCommand(command, this.debugModel.config.commandParamData);
         },
 
     };
