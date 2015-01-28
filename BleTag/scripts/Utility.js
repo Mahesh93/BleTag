@@ -139,7 +139,6 @@
         renderDeviceData: function (values) {
             debugger;
             var template = null;
-
             switch (values.RecordType) {
                 case app.RecordTypes.HELTHY_EVENT:
 

@@ -31,8 +31,7 @@
             me.config.password = password;
             ble.connect(deviceAddress, me.connectSuccess, me.connectError);
         },
-        connectSuccess: function (obj) {
-            debugger;
+        connectSuccess: function (obj) {            
             console.log("Connected initial");
             var me = app.bluetoothService.bluetooth;
             me.config.isConnected = false;
@@ -95,7 +94,7 @@
         },
         startScanSuccess: function (obj) {
             console.log("Scan result... - " + obj.id);
-            var store = app.DebugDeviceService.debugModel.DebugDeviceDataSource;
+            var store = app.DebugDeviceService.debugModel.debugDeviceDataSource;
             // var index = store.findExact('MacAddress', obj.id);
             var data = store.get(obj.id);
             if (data)
@@ -146,7 +145,7 @@
         },
         initializeSuccess: function (obj) {
             console.log("initializeSuccess");
-            app.DebugDeviceService.debugModel.DebugDeviceDataSource.read([]);
+            app.DebugDeviceService.debugModel.debugDeviceDataSource.read([]);
             app.bluetoothService.bluetooth.startScan();
         },
         initializeError: function () {
@@ -154,11 +153,11 @@
         },
         writeBleCommand: function (command, param) {
             var me = app.bluetoothService.bluetooth;
-            me.activeCommand = command;
-            me.responseCount = 0;
+            me.config.activeCommand = command;
+            me.config.responseCount = 0;
 
             console.log("Command write : " + command + " Param : " + param);
-            console.log("writeBleCommand : " + me.responseCount);
+            console.log("writeBleCommand : " + me.config.responseCount);
             me.onUpdateStatus('Writing command...', false);
 
             var bytes = [];
@@ -185,8 +184,7 @@
             me.stopNotification();
             console.log("WRITE ERROR: " + reason);
         },
-        onData: function (data) {
-            debugger;
+        onData: function (data) {            
             var me = app.bluetoothService.bluetooth;
             var resCount = me.config.responseCount;
             resCount++;

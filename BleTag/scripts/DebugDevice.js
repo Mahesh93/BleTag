@@ -1,9 +1,10 @@
 (function (global) {
     var app = global.app = global.app || {};
     var DebugDeviceModel = kendo.data.ObservableObject.extend({
-        DebugDeviceDataSource: null,
-        DebugDeviceListDataSource: null,
-        CommandDataSource: null,
+        debugDeviceDataSource: null,
+        debugDeviceListDataSource: null,
+        commandDataSource: null,
+        debugSelectedDataSource: null,
         config: {
             commandParamData: [],
             formValues: [],
@@ -17,6 +18,15 @@
             kendo.data.ObservableObject.fn.init.apply(that, []);
             //When you build for Apache Cordova 3.0.0, apply this code instead of using relative URLs. In Apache Cordova 3.0.0, relative URLs might not work properly.           
 
+            var debugSelectedDataSource = new kendo.data.DataSource({
+                schema: {
+                    model: app.models.BleTag
+                },
+                data: []
+            });
+
+            that.set("debugSelectedDataSource", debugSelectedDataSource);
+
             var dataSource = new kendo.data.DataSource({
                 schema: {
                     model: app.models.BleTag
@@ -24,7 +34,7 @@
                 data: []
             });
 
-            that.set("DebugDeviceDataSource", dataSource);
+            that.set("debugDeviceDataSource", dataSource);
 
             var listDataSource = new kendo.data.DataSource({
                 schema: {
@@ -33,7 +43,7 @@
                 data: []
             });
 
-            that.set("DebugDeviceListDataSource", listDataSource);
+            that.set("debugDeviceListDataSource", listDataSource);
 
             var commandSource = new kendo.data.DataSource({
                 schema: {
@@ -42,7 +52,7 @@
                 data: []
             });
 
-            that.set("CommandDataSource", commandSource);
+            that.set("commandDataSource", commandSource);
         }
     });
     app.DebugDeviceService = {
@@ -52,10 +62,58 @@
             app.bluetoothService.bluetooth.onConnectWithPassword(data.MacAddress, "ins!gm@?", data);
             $("#scanningList").kendoMobileModalView("close");
         },
-        show: function (e) {
+        modelShow: function (e) {
             console.log('On Show');
             app.bluetoothService.bluetooth.initializeBluetooth();
         },
+        show: function (e) {
+            var record = new app.models.BleTag({
+                MacAddress: '',
+                Advertisement: '',
+                DeviceName: '',
+                ManufacturerUUID: '',
+                Major: 0,
+                Minor: 0,
+                Rssi: 0,
+                IsConnected: false
+            });
+            
+            var store = app.DebugDeviceService.debugModel.debugSelectedDataSource;
+            store.add(record);   
+            
+            var store = app.DebugDeviceService.debugModel.debugDeviceListDataSource;
+             debugger;
+            var model = new app.models.DeviceData({
+                DoorStatus: 'doorState'          
+            });
+            store.add(model);
+            model = new app.models.DeviceData({
+                DoorStatus: 'doorState 1'          
+            });
+            store.add(model);
+            model = new app.models.DeviceData({
+                DoorStatus: 'doorState 2'          
+            });
+            
+            store.add(model);  
+            model = new app.models.DeviceData({
+                DoorStatus: 'doorState 3'          
+            });            
+            store.add(model); 
+            model = new app.models.DeviceData({
+                DoorStatus: 'doorState 4'          
+            });            
+            store.add(model); 
+            model = new app.models.DeviceData({
+                DoorStatus: 'doorState 5'          
+            });            
+            store.add(model); 
+            model = new app.models.DeviceData({
+                DoorStatus: 'doorState 6'          
+            });           
+            store.add(model); 
+            
+        },       
         closeScanWindow: function (e) {
             $("#scanningList").kendoMobileModalView("close");
         },
@@ -63,21 +121,7 @@
             app.bluetoothService.bluetooth.initializeBluetooth();
         },
         debugModel: new DebugDeviceModel(),
-        debugInit: function () {
-            $("#debuglistview").kendoMobileListView({
-                template: kendo.template($("#deviceStatusTemplate").html()),
-                dataSource: kendo.data.DataSource.create([{
-                    foo: "bar"
-                }])
-            });
-            $(document).on('click', '#CancelCmdBtn', function () {
-                $("#commandDialog").data("kendoWindow").close();
-                $("#commandDialog").html("");
-                $("#commandDialog").data("kendoWindow").title("");
-            });
-        },
         createWindow: function (obj) {
-            debugger;
             app.DebugDeviceService.debugModel.config.formValues = obj;
             var table = document.createElement("table");
             var tr;
@@ -138,17 +182,16 @@
             accessWindow.open();
         },
         executeCommand: function (command, param) {
-            app.DebugDeviceService.debugModel.CommandDataSource.read([]);
+            app.DebugDeviceService.debugModel.commandDataSource.read([]);
             app.bluetoothService.bluetooth.writeBleCommand(command, param);
         },
         onFetchDataButtonClick: function (button) {
-            debugger;
             var bluetooth = app.bluetoothService.bluetooth;
             /* if (!bluetooth || !bluetooth.config.isConnected) {
                  alert('Please connect device');
                  return;
              } */
-            app.DebugDeviceService.debugModel.DebugDeviceListDataSource.read([]);
+            app.DebugDeviceService.debugModel.debugDeviceListDataSource.read([]);
 
             app.DebugDeviceService.executeCommand(app.BleCommands.FETCH_DATA);
         },
@@ -279,12 +322,11 @@
                 fields: [{
                     field: "value",
                     dataType: "number"
-                        }],
+                        }]
             };
             app.DebugDeviceService.createWindow(data);
         },
         onCommandWindowOkButtonClick: function (formValues, form) {
-            debugger;
             var command = formValues.command;
             this.debugModel.config.commandParamData = [];
             var values = formValues;
@@ -304,7 +346,7 @@
                     this.addCommandParamData(app.Utility.decimalToBytes($("#textValue1").val(), 2));
                     break;
                 case app.BleCommands.SET_INTERVAL:
-                    var interval=$("#textValue0").val();
+                    var interval = $("#textValue0").val();
                     if (interval < 1 || interval > 60) {
                         alert("Minutes between 1 to 60");
                         return;
@@ -339,7 +381,7 @@
                 case app.BleCommands.SET_SENSOR_THRESHOLD:
                     this.addCommandParamData(app.Utility.decimalToBytes($("#textValue0").val(), 2));
                     this.addCommandParamData(app.Utility.decimalToBytes($("#textValue1").val(), 2));
-                    this.addCommandParamData(app.Utility.decimalToBytes($("#textValue2").val(), 2));                   
+                    this.addCommandParamData(app.Utility.decimalToBytes($("#textValue2").val(), 2));
                     break;
                 case app.BleCommands.SET_CHANGE_PASSWORD:
                     console.log('Password  - ' + $("#textValue0").val());
@@ -351,7 +393,7 @@
                     break;
                 default:
                     break;
-            }            
+            }
             this.executeCommand(command, this.debugModel.config.commandParamData);
         },
 
