@@ -784,10 +784,10 @@ button#OkCmdBtn.debugBtn {
 .km-ble-loading:before {
     content: "\e0f3";
 }
-.device-data-list-container {	
-	font-size:13px;
+.device-data-list-container {
+    font-size: 13px;
 }
-.device-data-title{
+.device-data-title {
     font-weight: bold;
     background-color: #ffcc66;
     font-size: 18px;
@@ -795,8 +795,18 @@ button#OkCmdBtn.debugBtn {
     text-align: center;
     width: 100px;
 }
-.device-data-subtitle{
+.device-data-subtitle {
     color: #256882;
     width: 50%;
     font-weight: bold;
+}
+
+.div.km-split-content>.km-pane {
+    -moz-box-flex: 0.2;
+    -webkit-box-flex: 0.2;
+    -webkit-flex: 0.2;
+    -ms-flex: 0.2;
+    flex: 0.2;
+    width: auto;
+    height: auto;
 }

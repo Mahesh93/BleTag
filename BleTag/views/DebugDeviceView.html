@@ -1,6 +1,6 @@
 <div data-role="splitview" data-style="vertical">
-    <div data-role="pane" data-layout="debugDeviceDataLayout">
-        <div data-role="view" data-model="app.DebugDeviceService.debugModel" data-show="app.DebugDeviceService.show">
+    <div data-role="pane"  data-layout="debugDeviceDataLayout">
+        <div data-role="view"  data-model="app.DebugDeviceService.debugModel" data-show="app.DebugDeviceService.show">
             <ul data-role="listview"  data-template="deviceStatusTemplate" data-bind="source: debugSelectedDataSource"></ul>           
         </div>
         <div data-role="layout" data-id="debugDeviceDataLayout">
@@ -14,7 +14,7 @@
         </div>
     </div>
     
-    <div data-role="pane" style="-webkit-box-flex: 0.5">
+    <div data-role="pane" >
         <div data-role="view">
             <div data-role="toolbar" data-align="left" data-resizable="false">
                 <a class="nav-button" data-rel="drawer" data-icon="action" data-click="app.DebugDeviceService.onFetchDataButtonClick" data-role="button">Fetch Data</a>
@@ -24,7 +24,7 @@
         </div>
     </div>
     
-    <div data-role="pane" style="-webkit-box-flex: 2">
+    <div data-role="pane" >
         <div data-role="view" data-model="app.DebugDeviceService.debugModel">
             <ul data-role="listview" data-template="fetchDataTemplate" data-bind="source: debugDeviceListDataSource"></ul>
         </div>
@@ -155,3 +155,5 @@
         </table>
     </div>
 </script>
+
+
