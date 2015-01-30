@@ -1,7 +1,7 @@
-<div data-role="splitview" data-style="vertical">
-    <div data-role="pane"  data-layout="debugDeviceDataLayout">
-        <div data-role="view"  data-model="app.DebugDeviceService.debugModel" data-show="app.DebugDeviceService.show">
-            <ul data-role="listview"  data-template="deviceStatusTemplate" data-bind="source: debugSelectedDataSource"></ul>           
+<div data-role="splitview" data-style="vertical">    
+    <div data-role="pane" style="flex: 0.1 135px; flex-grow: 0.1; flex-basis: 135px;" data-layout="debugDeviceDataLayout">
+        <div data-role="view" data-stretch="true" data-model="app.DebugDeviceService.debugModel" data-show="app.DebugDeviceService.show">
+            <ul data-role="listview" data-template="deviceStatusTemplate" data-bind="source: debugSelectedDataSource"></ul>
         </div>
         <div data-role="layout" data-id="debugDeviceDataLayout">
             <div data-role="header">
@@ -12,20 +12,20 @@
             </div>
             <!-- application views will be rendered here -->
         </div>
+        
     </div>
-    
-    <div data-role="pane" >
+    <div data-role="pane" style="flex: 0.01 38px; flex-grow: 0.01; flex-basis: 38px;">
         <div data-role="view">
-            <div data-role="toolbar" data-align="left" data-resizable="false">
-                <a class="nav-button" data-rel="drawer" data-icon="action" data-click="app.DebugDeviceService.onFetchDataButtonClick" data-role="button">Fetch Data</a>
-                <a class="nav-button" data-rel="drawer" data-icon="delete" data-role="button">Disconnect</a>
-                <a class="nav-button" data-icon="search" data-rel="modalview" data-align="right" href="#scanningList" data-role="button">Scan</a>
+            <div data-role="toolbar" style="background-color: #2D0500; color:white;font-size:12px;text-align: left; padding-right: .50em;" data-resizable="false">
+                <a data-rel="drawer" data-icon="action" data-click="app.DebugDeviceService.onFetchDataButtonClick" data-role="button">Fetch Data</a>
+                <a data-rel="drawer" data-icon="delete" data-click="app.DebugDeviceService.onDisconnectButtonClick" data-role="button">Disconnect</a>
+                <a data-icon="search" data-rel="modalview" style="float: right" href="#scanningList" data-role="button">Scan</a>
             </div>
+            <ul id="responseWindow" />
         </div>
     </div>
-    
-    <div data-role="pane" >
-        <div data-role="view" data-model="app.DebugDeviceService.debugModel">
+    <div data-role="pane">
+        <div data-role="view" data-model="app.DebugDeviceService.debugModel">            
             <ul data-role="listview" data-template="fetchDataTemplate" data-bind="source: debugDeviceListDataSource"></ul>
         </div>
     </div>
@@ -40,6 +40,7 @@
     </header>
     <ul data-role="listview" data-click="app.DebugDeviceService.scanListSelection" data-template="scanStatusTemplate" data-bind="source: debugDeviceDataSource"></ul>
 </div>
+
 <script type="text/x-kendo-template" id="scanStatusTemplate">
     <a data-role="listview-link">
         <table style="width:100%">
@@ -124,36 +125,18 @@
             </tr>
             <tr>
                 <td>Status:</td>
-                <td>${IsConnected}</td>
+                <td><div>#if (IsConnected) {#<div>Connected</div>#}else{#<div>Disconnected</div>#}#</div></td>
             </tr>
         </table>
     </div>
 </script>
 <script type="text/x-kendo-template" id="fetchDataTemplate">
-    <div class="device-name-title">
+    <div class="device-data-list-container">
         <table style="width:100%">
             <tr>
-                <td>Device Name: </td>
-                <td> FF:E9:G3:F8:S2</td>
-            </tr>
-            <tr>
-                <td>UUID:</td>
-                <td>335935937jsd9qw010323</td>
-            </tr>
-            <tr>
-                <td>Major: 1</td>
-                <td>Minor: 2</td>
-            </tr>
-            <tr>
-                <td>RSSI:</td>
-                <td>-23</td>
-            </tr>
-            <tr>
-                <td>Status:</td>
-                <td>Disconnect</td>
+                <td class="device-data-title">Id: ${EventId}</td>
+                <td>#= app.Utility.renderDeviceData(data)#</td>
             </tr>
         </table>
     </div>
 </script>
-
-

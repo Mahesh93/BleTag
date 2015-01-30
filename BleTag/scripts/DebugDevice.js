@@ -58,7 +58,10 @@
     app.DebugDeviceService = {
         scanListSelection: function (obj) {
             var data = obj.dataItem;
-            console.log(data.MacAddress);
+            console.log(data.MacAddress);            
+            var store = app.DebugDeviceService.debugModel.debugSelectedDataSource;
+            store.data([data]);
+            
             app.bluetoothService.bluetooth.onConnectWithPassword(data.MacAddress, "ins!gm@?", data);
             $("#scanningList").kendoMobileModalView("close");
         },
@@ -77,43 +80,54 @@
                 Rssi: 0,
                 IsConnected: false
             });
-            
+
             var store = app.DebugDeviceService.debugModel.debugSelectedDataSource;
-            store.add(record);   
-            
-            var store = app.DebugDeviceService.debugModel.debugDeviceListDataSource;
-             debugger;
-            var model = new app.models.DeviceData({
-                DoorStatus: 'doorState'          
-            });
-            store.add(model);
-            model = new app.models.DeviceData({
-                DoorStatus: 'doorState 1'          
-            });
-            store.add(model);
-            model = new app.models.DeviceData({
-                DoorStatus: 'doorState 2'          
-            });
-            
-            store.add(model);  
-            model = new app.models.DeviceData({
-                DoorStatus: 'doorState 3'          
-            });            
-            store.add(model); 
-            model = new app.models.DeviceData({
-                DoorStatus: 'doorState 4'          
-            });            
-            store.add(model); 
-            model = new app.models.DeviceData({
-                DoorStatus: 'doorState 5'          
-            });            
-            store.add(model); 
-            model = new app.models.DeviceData({
-                DoorStatus: 'doorState 6'          
-            });           
-            store.add(model); 
-            
-        },       
+            store.add(record);           
+                       
+            /*
+                        store = app.DebugDeviceService.debugModel.debugDeviceListDataSource;
+
+                        var model = new app.models.DeviceData({
+                            EventId: 1,
+                            DoorStatus: 'doorState'
+                        });
+                        store.add(model);
+                        model = new app.models.DeviceData({
+                            EventId: 2,
+                            DoorStatus: 'doorState 1'
+                        });
+                        store.add(model);
+                        model = new app.models.DeviceData({
+                            EventId: 3,
+                            DoorStatus: 'doorState 2'
+                        });
+
+                        store.add(model);
+                        model = new app.models.DeviceData({
+                            EventId: 4,
+                            DoorStatus: 'doorState 3'
+                        });
+                        store.add(model);
+                        model = new app.models.DeviceData({
+                            EventId: 5,
+                            DoorStatus: 'doorState 4'
+                        });
+                        store.add(model);
+                        model = new app.models.DeviceData({
+                            EventId: 6,
+                            DoorStatus: 'doorState 5'
+                        });
+                        store.add(model);
+                        model = new app.models.DeviceData({
+                            EventId: 7,
+                            DoorStatus: 'doorState 6'
+                        });
+                        store.add(model);
+            */
+        },
+        onDisconnectButtonClick: function(e){
+            app.BluetoothDeviceActor.showResponseWindow();
+        },
         closeScanWindow: function (e) {
             $("#scanningList").kendoMobileModalView("close");
         },
@@ -181,8 +195,8 @@
             accessWindow.center();
             accessWindow.open();
         },
-        executeCommand: function (command, param) {
-            app.DebugDeviceService.debugModel.commandDataSource.read([]);
+        executeCommand: function (command, param) {           
+            app.BluetoothDeviceActor.config.commandData = [];
             app.bluetoothService.bluetooth.writeBleCommand(command, param);
         },
         onFetchDataButtonClick: function (button) {

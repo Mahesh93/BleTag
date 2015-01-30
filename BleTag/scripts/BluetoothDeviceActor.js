@@ -130,13 +130,35 @@
         },
         showResponseWindow: function () {
             console.log('show response window');
-            /*
-        var panel = this.getResponsePanel();
-        if (!panel) {
-            panel = Ext.Viewport.add({ xtype: 'responsePanel' });
-        }
-        panel.show();
-        */
+       
+            var me = this,
+                template = '<table class="device-name-selection">';
+
+            var dataList = me.config.commandData;
+            for (var i = 0; i < dataList.length; i++) {
+                var data = dataList[i];
+                var tr = '<tr><td style="width:${LabelWidth}">${Title}</td><td>: ${Data}</td></tr>';
+
+                var temp = kendo.template(tr);
+                template += temp(data);
+            }
+
+            template += '</table>';            
+
+            var responseWindow = $("#responseWindow").kendoWindow({
+                actions: ["Close"],
+                draggable: false,
+                modal: true,
+                resizable: false,
+                width: 370,                
+                title: "Response Data",
+                content: {
+                    template: template
+                }
+            }).data("kendoWindow");
+
+            responseWindow.center();
+            responseWindow.open();
         },
         processListData: function (bytes) {
             if (bytes == null || bytes.bytesLength == 0)
@@ -160,9 +182,9 @@
                     var record = me.processDeviceDataToStore(data[i].data);
                     storeData.push(record);
                 }
-                
+
                 app.DebugDeviceService.debugModel.debugDeviceListDataSource.data(storeData);
-                me.config.deviceData = storeData;                
+                me.config.deviceData = storeData;
                 bluetooth.onUpdateStatus('Process completed.', true);
             }
 
@@ -291,8 +313,6 @@
                 StartTimeMovement: startTimeMovement,
                 EndTimeMovement: endTimeMovement
             });
-            //var store = app.DebugDeviceService.debugModel.DebugDeviceListDataSource;
-            //store.add(model);
             return model;
         },
         addListData: function (bytes) {
@@ -321,6 +341,12 @@
             cmd.push(record);
             me.config.commandData = cmd;
         },
+        updateConnectionState: function (isConnected) {
+            var store = app.DebugDeviceService.debugModel.debugSelectedDataSource;
+            var data = store.data()[0];
+            data.IsConnected = true;
+            store.data([data]);
+        },
         handlePasswordResponse: function (bytes) {
             var me = this,
                 bluetooth = app.bluetoothService.bluetooth;
@@ -333,7 +359,7 @@
                 var record = bluetooth.config.record;
                 record.IsConnected = true;
                 console.log('connection success');
-                //panel.fireEvent('updateselection', record);
+                me.updateConnectionState(true);
 
             }
             if (bluetooth.config.responseCount == 1 && bytes[0] != 1) {

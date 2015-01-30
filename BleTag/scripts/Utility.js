@@ -1,31 +1,23 @@
 (function (global) {
     var app = global.app = global.app || {};
     app.Utility = {
+        dateOptions: {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit"
+        },
         getDate: function (date) {
-            var options = {
-                year: "numeric",
-                month: "2-digit",
-                day: "2-digit",
-                hour: "2-digit",
-                minute: "2-digit",
-                second: "2-digit"
-            };
             var dateArray = date.match(app.dateRegex).slice(1);
             var dt = dateArray[1] + "/" + dateArray[2] + "/" + dateArray[0] + " " + dateArray[3] + ":" + dateArray[4] + ":" + dateArray[5] + ":" + dateArray[6];
             var currentDate = new Date(dt);
-            return currentDate.toLocaleString("en-us", options).replace(/,/g, "");
+            return currentDate.toLocaleString("en-us", this.dateOptions).replace(/,/g, "");
         },
-        getTodayDate: function () {
-            var options = {
-                year: "numeric",
-                month: "2-digit",
-                day: "2-digit",
-                hour: "2-digit",
-                minute: "2-digit",
-                second: "2-digit"
-            };
+        getTodayDate: function () {           
             var currentDate = new Date();
-            return currentDate.toLocaleString("en-us", options).replace(/,/g, "");
+            return currentDate.toLocaleString("en-us", this.dateOptions).replace(/,/g, "");
         },
         getPasswordBytes: function (password) {
             var buffer = app.Utility.stringToBytes(password);
@@ -83,17 +75,6 @@
             }
             return array.buffer;
         },
-        base64ToHex: function (str, start, end) {
-            for (var i = 0, bin = atob(str.replace(/[ \r\n]+$/, "")), hex = []; i < bin.length; ++i) {
-                var tmp = bin.charCodeAt(i).toString(16);
-                if (tmp.length === 1) tmp = "0" + tmp;
-                hex[hex.length] = tmp;
-            }
-            if (start)
-                return Ext.Array.toArray(hex, start, end ? end : hex.length).join(" ");
-
-            return hex.join(" ");
-        },
         readWord: function (bytes) {
             return bytes[0] + bytes[1] * 256;
         },
@@ -114,7 +95,8 @@
                 return null;
 
             var date = new Date(val * 1000);
-            return Ext.Date.format(date, app.Localization.DateTimeWithSecondFormat);
+            //Need to set format date
+            return date.toLocaleString("en-us", this.dateOptions).replace(/,/g, "");            
         },
         decimalToBytes: function (val, len) {
             var bytes = [];
@@ -136,21 +118,20 @@
                 return (~dec).toString(2);
             }
         },
-        renderDeviceData: function (values) {
-            debugger;
+        renderDeviceData: function (values) {            
             var template = null;
             switch (values.RecordType) {
                 case app.RecordTypes.HELTHY_EVENT:
 
-                    template = '<table style="margin-left: 10px; width:100%">'+
-                        '<tr><td class="device-data-subtitle">' + "Record Type" + '</td><td class="device-data-value">{RecordTypeText}</td></tr>'+
-                        '<tr><td class="device-data-subtitle">' + "Door" + '</td><td class="device-data-value">{DoorStatus}</td></tr>'+
-                        '<tr><td class="device-data-subtitle">' + "Temperature" + '</td><td class="device-data-value">{TemperatureValue}</td></tr>'+
-                        '<tr><td class="device-data-subtitle">' + "Humidity" + '</td><td class="device-data-value">{HumidityValue} %rH</td></tr>'+
-                        '<tr><td class="device-data-subtitle">' + "AmbientLight" + '</td><td class="device-data-value">{AmbientlightValue} lux</td></tr>'+
-                        '<tr><td class="device-data-subtitle">' + "SoundLevel" + '</td><td class="device-data-value">{SoundLevel}</td></tr>'+
-                        '<tr><td class="device-data-subtitle">' + "BatteryLevel" + '</td><td class="device-data-value">{BatteryLevel}</td></tr>'+
-                        '<tr><td class="device-data-subtitle">' + "Time" + '</td><td class="device-data-value">' + app.Utility.getDateFromMilliseconds(values.EventTime) + '</td></tr>'+
+                    template = '<table style="margin-left: 10px; width:100%">' +
+                        '<tr><td class="device-data-subtitle">' + "Record Type" + '</td><td class="device-data-value">${RecordTypeText}</td></tr>' +
+                        '<tr><td class="device-data-subtitle">' + "Door" + '</td><td class="device-data-value">${DoorStatus}</td></tr>' +
+                        '<tr><td class="device-data-subtitle">' + "Temperature" + '</td><td class="device-data-value">${TemperatureValue}</td></tr>' +
+                        '<tr><td class="device-data-subtitle">' + "Humidity" + '</td><td class="device-data-value">${HumidityValue} %rH</td></tr>' +
+                        '<tr><td class="device-data-subtitle">' + "AmbientLight" + '</td><td class="device-data-value">${AmbientlightValue} lux</td></tr>' +
+                        '<tr><td class="device-data-subtitle">' + "SoundLevel" + '</td><td class="device-data-value">${SoundLevel}</td></tr>' +
+                        '<tr><td class="device-data-subtitle">' + "BatteryLevel" + '</td><td class="device-data-value">${BatteryLevel}</td></tr>' +
+                        '<tr><td class="device-data-subtitle">' + "Time" + '</td><td class="device-data-value">' + app.Utility.getDateFromMilliseconds(values.EventTime) + '</td></tr>' +
                         '</table>';
                     break;
                 case app.RecordTypes.LINEAR_MOTION:
@@ -171,85 +152,87 @@
                             measurement = "ft";
                     }
 
-                    template ='<table style="margin-left: 10px; width:100%">'+
-                        '<tr><td class="device-data-subtitle">' + "Record Type" + '</td><td class="device-data-value">{RecordTypeText}</td></tr>'+
-                        '<tr><td class="device-data-subtitle">' + "Door" + '</td><td class="device-data-value">{DoorStatus}</td></tr>'+
-                        '<tr><td class="device-data-subtitle">' + "Distance" + '</td><td class="device-data-value">{DistanceLsb} ' + measurement + '</td></tr>'+
-                        '<tr><td class="device-data-subtitle">' + "Angle" + '</td><td class="device-data-value">{Angle}</td></tr>'+
-                        '<tr><td class="device-data-subtitle">' + "MagnetX" + '</td><td class="device-data-value">{MagnetX}</td></tr>'+
-                        '<tr><td class="device-data-subtitle">' + "MagnetY" + '</td><td class="device-data-value">{MagnetY}</td></tr>'+
-                        '<tr><td class="device-data-subtitle">' + "Time" + '</td><td class="device-data-value">' + app.Utility.getDateFromMilliseconds(values.EventTime) + '</td></tr>'+
+                    template = '<table style="margin-left: 10px; width:100%">' +
+                        '<tr><td class="device-data-subtitle">' + "Record Type" + '</td><td class="device-data-value">${RecordTypeText}</td></tr>' +
+                        '<tr><td class="device-data-subtitle">' + "Door" + '</td><td class="device-data-value">${DoorStatus}</td></tr>' +
+                        '<tr><td class="device-data-subtitle">' + "Distance" + '</td><td class="device-data-value">${DistanceLsb} ' + measurement + '</td></tr>' +
+                        '<tr><td class="device-data-subtitle">' + "Angle" + '</td><td class="device-data-value">${Angle}</td></tr>' +
+                        '<tr><td class="device-data-subtitle">' + "MagnetX" + '</td><td class="device-data-value">${MagnetX}</td></tr>' +
+                        '<tr><td class="device-data-subtitle">' + "MagnetY" + '</td><td class="device-data-value">${MagnetY}</td></tr>' +
+                        '<tr><td class="device-data-subtitle">' + "Time" + '</td><td class="device-data-value">' + app.Utility.getDateFromMilliseconds(values.EventTime) + '</td></tr>' +
                         '</table>';
                     break;
                 case app.RecordTypes.ANGULAR_MOTION:
 
-                    template ='<table style="margin-left: 10px; width:100%">'+
-                        '<tr><td class="device-data-subtitle">' + "Record Type" + '</td><td class="device-data-value">{RecordTypeText}</td></tr>'+
-                        '<tr><td class="device-data-subtitle">' + "Door" + '</td><td class="device-data-value">{DoorStatus}</td></tr>'+
-                        '<tr><td class="device-data-subtitle">' + "PosXNegX" + '</td><td class="device-data-value">{PosX}/ {NegX}</td></tr>'+
-                        '<tr><td class="device-data-subtitle">' + "PosYNegY" + '</td><td class="device-data-value">{PosY}/ {NegY}</td></tr>'+
-                        '<tr><td class="device-data-subtitle">' + "PosZNegZ" + '</td><td class="device-data-value">{PosZ}/ {NegZ}</td></tr>'+
-                        '<tr><td class="device-data-subtitle">' + "Time" + '</td><td class="device-data-value">' + app.Utility.getDateFromMilliseconds(values.EventTime) + '</td></tr>'+
+                    template = '<table style="margin-left: 10px; width:100%">' +
+                        '<tr><td class="device-data-subtitle">' + "Record Type" + '</td><td class="device-data-value">${RecordTypeText}</td></tr>' +
+                        '<tr><td class="device-data-subtitle">' + "Door" + '</td><td class="device-data-value">${DoorStatus}</td></tr>' +
+                        '<tr><td class="device-data-subtitle">' + "PosXNegX" + '</td><td class="device-data-value">${PosX}/ ${NegX}</td></tr>' +
+                        '<tr><td class="device-data-subtitle">' + "PosYNegY" + '</td><td class="device-data-value">${PosY}/ ${NegY}</td></tr>' +
+                        '<tr><td class="device-data-subtitle">' + "PosZNegZ" + '</td><td class="device-data-value">${PosZ}/ ${NegZ}</td></tr>' +
+                        '<tr><td class="device-data-subtitle">' + "Time" + '</td><td class="device-data-value">' + app.Utility.getDateFromMilliseconds(values.EventTime) + '</td></tr>' +
                         '</table>';
                     break;
                 case app.RecordTypes.MAGNET_MOTION:
-                    template = '<table style="margin-left: 10px; width:100%">'+
-                        '<tr><td class="device-data-subtitle">' + "Record Type" + '</td><td class="device-data-value">{RecordTypeText}</td></tr>'+
-                        '<tr><td class="device-data-subtitle">' + "Door" + '</td><td class="device-data-value">{DoorStatus}</td></tr>'+
-                        '<tr><td class="device-data-subtitle">' + "MagnetX" + '</td><td class="device-data-value">{MagnetX}</td></tr>'+
-                        '<tr><td class="device-data-subtitle">' + "MagnetY" + '</td><td class="device-data-value">{MagnetY}</td></tr>'+
-                        '<tr><td class="device-data-subtitle">' + "MagnetZ" + '</td><td class="device-data-value">{MagnetZ}</td></tr>'+
-                        '<tr><td class="device-data-subtitle">' + "Time" + '</td><td class="device-data-value">' + app.Utility.getDateFromMilliseconds(values.EventTime) + '</td></tr>'+
+                    template = '<table style="margin-left: 10px; width:100%">' +
+                        '<tr><td class="device-data-subtitle">' + "Record Type" + '</td><td class="device-data-value">${RecordTypeText}</td></tr>' +
+                        '<tr><td class="device-data-subtitle">' + "Door" + '</td><td class="device-data-value">${DoorStatus}</td></tr>' +
+                        '<tr><td class="device-data-subtitle">' + "MagnetX" + '</td><td class="device-data-value">${MagnetX}</td></tr>' +
+                        '<tr><td class="device-data-subtitle">' + "MagnetY" + '</td><td class="device-data-value">${MagnetY}</td></tr>' +
+                        '<tr><td class="device-data-subtitle">' + "MagnetZ" + '</td><td class="device-data-value">${MagnetZ}</td></tr>' +
+                        '<tr><td class="device-data-subtitle">' + "Time" + '</td><td class="device-data-value">' + app.Utility.getDateFromMilliseconds(values.EventTime) + '</td></tr>' +
                         '</table>';
                     break;
                 case app.RecordTypes.DOOR_EVENT:
-                    template ='<table style="margin-left: 10px; width:100%">'+
-                        '<tr><td class="device-data-subtitle">' + "RecordType" + '</td><td class="device-data-value">{RecordTypeText}</td></tr>'+
-                        '<tr><td class="device-data-subtitle">' + "Door" + '</td><td class="device-data-value">{DoorStatus}</td></tr>'+
-                        '<tr><td class="device-data-subtitle">' + "Time" + '</td><td class="device-data-value">' + app.Utility.getDateFromMilliseconds(values.EventTime) + '</td></tr>'+
+                    template = '<table style="margin-left: 10px; width:100%">' +
+                        '<tr><td class="device-data-subtitle">' + "RecordType" + '</td><td class="device-data-value">${RecordTypeText}</td></tr>' +
+                        '<tr><td class="device-data-subtitle">' + "Door" + '</td><td class="device-data-value">${DoorStatus}</td></tr>' +
+                        '<tr><td class="device-data-subtitle">' + "Time" + '</td><td class="device-data-value">' + app.Utility.getDateFromMilliseconds(values.EventTime) + '</td></tr>' +
                         '</table>';
                     break;
                 case app.RecordTypes.IMAGE_EVENT:
-                    template ='<table style="margin-left: 10px; width:100%">'+
-                        '<tr><td class="device-data-subtitle">' + "Record Type" + '</td><td class="device-data-value">{RecordTypeText}</td></tr>'+
-                        '<tr><td class="device-data-subtitle">' + "PosX" + '</td><td class="device-data-value">{PosX}</td></tr>'+
-                        '<tr><td class="device-data-subtitle">' + "NegX" + '</td><td class="device-data-value">{NegX}</td></tr>'+
-                        '<tr><td class="device-data-subtitle">' + "PosY" + '</td><td class="device-data-value">{PosY}</td></tr>'+
-                        '<tr><td class="device-data-subtitle">' + "NegY" + '</td><td class="device-data-value">{NegY}</td></tr>'+
-                        '<tr><td class="device-data-subtitle">' + "PosZ" + '</td><td class="device-data-value">{PosZ}</td></tr>'+
-                        '<tr><td class="device-data-subtitle">' + "NegZ" + '</td><td class="device-data-value">{NegZ}</td></tr>'+
-                        '<tr><td class="device-data-subtitle">' + "ImageSize" + '</td><td class="device-data-value">{ImageSize}</td></tr>'+
-                        '<tr><td class="device-data-subtitle">' + "Time" + '</td><td class="device-data-value">' + app.Utility.getDateFromMilliseconds(values.EventTime) + '</td></tr>'+
+                    template = '<table style="margin-left: 10px; width:100%">' +
+                        '<tr><td class="device-data-subtitle">' + "Record Type" + '</td><td class="device-data-value">${RecordTypeText}</td></tr>' +
+                        '<tr><td class="device-data-subtitle">' + "PosX" + '</td><td class="device-data-value">${PosX}</td></tr>' +
+                        '<tr><td class="device-data-subtitle">' + "NegX" + '</td><td class="device-data-value">${NegX}</td></tr>' +
+                        '<tr><td class="device-data-subtitle">' + "PosY" + '</td><td class="device-data-value">${PosY}</td></tr>' +
+                        '<tr><td class="device-data-subtitle">' + "NegY" + '</td><td class="device-data-value">${NegY}</td></tr>' +
+                        '<tr><td class="device-data-subtitle">' + "PosZ" + '</td><td class="device-data-value">${PosZ}</td></tr>' +
+                        '<tr><td class="device-data-subtitle">' + "NegZ" + '</td><td class="device-data-value">${NegZ}</td></tr>' +
+                        '<tr><td class="device-data-subtitle">' + "ImageSize" + '</td><td class="device-data-value">${ImageSize}</td></tr>' +
+                        '<tr><td class="device-data-subtitle">' + "Time" + '</td><td class="device-data-value">' + app.Utility.getDateFromMilliseconds(values.EventTime) + '</td></tr>' +
                         '</table>';
                     break;
                 case app.RecordTypes.GPS_EVENT:
-                    template ='<table style="margin-left: 10px; width:100%">'+
-                        '<tr><td class="device-data-subtitle">' + "RecordType" + '</td><td class="device-data-value">{RecordTypeText}</td></tr>'+
-                        '<tr><td class="device-data-subtitle">' + "Door" + '</td><td class="device-data-value">{DoorStatus}</td></tr>'+
-                        '<tr><td class="device-data-subtitle">' + "Latitude" + '</td><td class="device-data-value">{Latitude}</td></tr>'+
-                        '<tr><td class="device-data-subtitle">' + "Longitude" + '</td><td class="device-data-value">{Longitude}</td></tr>'+
-                        '<tr><td class="device-data-subtitle">' + "Time" + '</td><td class="device-data-value">' + app.Utility.getDateFromMilliseconds(values.EventTime) + '</td></tr>'+
+                    template = '<table style="margin-left: 10px; width:100%">' +
+                        '<tr><td class="device-data-subtitle">' + "RecordType" + '</td><td class="device-data-value">${RecordTypeText}</td></tr>' +
+                        '<tr><td class="device-data-subtitle">' + "Door" + '</td><td class="device-data-value">${DoorStatus}</td></tr>' +
+                        '<tr><td class="device-data-subtitle">' + "Latitude" + '</td><td class="device-data-value">${Latitude}</td></tr>' +
+                        '<tr><td class="device-data-subtitle">' + "Longitude" + '</td><td class="device-data-value">${Longitude}</td></tr>' +
+                        '<tr><td class="device-data-subtitle">' + "Time" + '</td><td class="device-data-value">' + app.Utility.getDateFromMilliseconds(values.EventTime) + '</td></tr>' +
                         '</table>';
                     break;
                 case app.RecordTypes.MOTION_TIME:
-                    template ='<table style="margin-left: 10px; width:100%">'+
-                        '<tr><td class="device-data-subtitle">' + "Record Type" + '</td><td class="device-data-value">{RecordTypeText}</td></tr>'+
-                        '<tr><td class="device-data-subtitle">' + "Door" + '</td><td class="device-data-value">{DoorStatus}</td></tr>'+
-                        '<tr><td class="device-data-subtitle">' + "StartTimeMovement" + '</td><td class="device-data-value">' + app.Utility.getDateFromMilliseconds(values.StartTimeMovement) + '</td></tr>'+
-                        '<tr><td class="device-data-subtitle">' + "EndTimeMovement" + '</td><td class="device-data-value">' + app.Utility.getDateFromMilliseconds(values.EndTimeMovement) + '</td></tr>'+
-                        '<tr><td class="device-data-subtitle">' + "Time" + '</td><td class="device-data-value">' + app.Utility.getDateFromMilliseconds(values.EventTime) + '</td></tr>'+
+                    template = '<table style="margin-left: 10px; width:100%">' +
+                        '<tr><td class="device-data-subtitle">' + "Record Type" + '</td><td class="device-data-value">${RecordTypeText}</td></tr>' +
+                        '<tr><td class="device-data-subtitle">' + "Door" + '</td><td class="device-data-value">${DoorStatus}</td></tr>' +
+                        '<tr><td class="device-data-subtitle">' + "StartTimeMovement" + '</td><td class="device-data-value">' + app.Utility.getDateFromMilliseconds(values.StartTimeMovement) + '</td></tr>' +
+                        '<tr><td class="device-data-subtitle">' + "EndTimeMovement" + '</td><td class="device-data-value">' + app.Utility.getDateFromMilliseconds(values.EndTimeMovement) + '</td></tr>' +
+                        '<tr><td class="device-data-subtitle">' + "Time" + '</td><td class="device-data-value">' + app.Utility.getDateFromMilliseconds(values.EventTime) + '</td></tr>' +
                         '</table>';
                     break;
                 default:
-                    template = '<table style="margin-left: 10px; width:100%">'+
-                        '<tr><td class="device-data-subtitle">' + "Record Type" + '</td><td class="device-data-value">{RecordTypeText}</td></tr>'+
-                        '<tr><td class="device-data-subtitle">' + "Door" + '</td><td class="device-data-value">{DoorStatus}</td></tr>'+
-                        '<tr><td class="device-data-subtitle">' + "Time" + '</td><td class="device-data-value">' + app.Utility.getDateFromMilliseconds(values.EventTime) + '</td></tr>'+
+                    template = '<table style="margin-left: 10px; width:100%">' +
+                        '<tr><td class="device-data-subtitle">' + "Record Type" + '</td><td class="device-data-value">${RecordTypeText}</td></tr>' +
+                        '<tr><td class="device-data-subtitle">' + "Door" + '</td><td class="device-data-value">${DoorStatus}</td></tr>' +
+                        '<tr><td class="device-data-subtitle">' + "Time" + '</td><td class="device-data-value">' + app.Utility.getDateFromMilliseconds(values.EventTime) + '</td></tr>' +
                         '</table>';
                     break;
             }
 
-            return template.apply(values);
+            var temp = kendo.template(template);
+            var result = temp(values);
+            return result;
         }
     }
 })(window);
