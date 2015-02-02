@@ -1,4 +1,4 @@
-<div data-role="splitview" data-style="vertical">    
+<div data-role="splitview" data-style="vertical">
     <div data-role="pane" style="flex: 0.1 135px; flex-grow: 0.1; flex-basis: 135px;" data-layout="debugDeviceDataLayout">
         <div data-role="view" data-stretch="true" data-model="app.DebugDeviceService.debugModel" data-show="app.DebugDeviceService.show">
             <ul data-role="listview" data-template="deviceStatusTemplate" data-bind="source: debugSelectedDataSource"></ul>
@@ -12,7 +12,6 @@
             </div>
             <!-- application views will be rendered here -->
         </div>
-        
     </div>
     <div data-role="pane" style="flex: 0.01 38px; flex-grow: 0.01; flex-basis: 38px;">
         <div data-role="view">
@@ -25,7 +24,7 @@
         </div>
     </div>
     <div data-role="pane">
-        <div data-role="view" data-model="app.DebugDeviceService.debugModel">            
+        <div data-role="view" data-model="app.DebugDeviceService.debugModel">
             <ul data-role="listview" data-template="fetchDataTemplate" data-bind="source: debugDeviceListDataSource"></ul>
         </div>
     </div>
@@ -40,7 +39,6 @@
     </header>
     <ul data-role="listview" data-click="app.DebugDeviceService.scanListSelection" data-template="scanStatusTemplate" data-bind="source: debugDeviceDataSource"></ul>
 </div>
-
 <script type="text/x-kendo-template" id="scanStatusTemplate">
     <a data-role="listview-link">
         <table style="width:100%">
@@ -63,45 +61,17 @@
         </table>
     </a>
 </script>
-<div data-role="drawer" id="debug-list-menu" style="width: 60%" data-title="Navigation" data-position="right" data-swipe-to-open=false>
+<div data-role="drawer" id="debug-list-menu" data-model="app.DebugDeviceService.debugModel" style="width: 60%" data-title="Navigation" data-position="right" data-swipe-to-open=false>
     <header data-role="header">
         <div data-role="navbar">
             <span data-role="view-title"></span>
         </div>
     </header>
-    <ul class="navmenu" data-role="listview">
-        <li>Request all saved sensor event/data</li>
-        <li>Get Firmware Detail</li>
-        <li>Get current time</li>
-        <li>Get Serial Number of Device</li>
-        <li>Restart Device</li>
-        <li>Reset device</li>
-        <li>Turn sensor on</li>
-        <li>Turn sensor off</li>
-        <li>Read current sensor data</li>
-        <li>Get event count</li>
-        <li>Download image</li>
-        <li>Take Picture</li>
-        <li>Read Gyroscope</li>
-        <li>Get latest n events</li>
-        <li>Event/data from ID x to ID Y</li>
-        <li>Erase all event data</li>
-        <li>Sound Buzzer</li>
-        <li onclick="app.DebugDeviceService.setIntervalToRead()" id="setIntervalToRead">Set interval to read sensor periodically</li>
-        <li onclick="app.DebugDeviceService.setRealTime()" id="setRealTime">Set real time clock</li>
-        <li onclick="app.DebugDeviceService.setGPSLocation()" id="setGPSLocation">Set GPS location of device</li>
-        <li onclick="app.DebugDeviceService.setMajorMinor()" id="setMajorMinor">Set Major/ Minor versoin of device</li>
-        <li onclick="app.DebugDeviceService.setSerialOfDevice()" id="setSerialOfDevice">Set Serial# of device</li>
-        <li onclick="app.DebugDeviceService.setAdvertising()" id="setAdvertising">Set Advertising period</li>
-        <li onclick="app.DebugDeviceService.setSenorThreshold()" id="setSenorThreshold">Set sensor threshold</li>
-        <li>Set standby mode on</li>
-        <li>Set standby mode off</li>
-        <li>Put device in DFU</li>
-        <li onclick="app.DebugDeviceService.changePassword()" id="changePassword">Change Password</li>
-        <li onclick="app.DebugDeviceService.setRSSI()" id="setRSSI">Set RSSI for iBeacon Frame</li>
-        <li>Read Configuration Parameter</li>
-    </ul>
+    <ul class="navmenu" data-bind="source: debugMenuDataSource" data-template="debugMenuTemplate" data-click="app.DebugDeviceService.menuClick" data-role="listview"></ul>
 </div>
+<script type="text/x-kendo-template" id="debugMenuTemplate">
+    <a data-role="listview-link">${Title}</a>  
+</script>
 <!-- this is the template used by the listview. template items are automatically
      wrapped in an <li> by Kendo UI Mobile -->
 <script type="text/x-kendo-template" id="deviceStatusTemplate">
@@ -125,7 +95,11 @@
             </tr>
             <tr>
                 <td>Status:</td>
-                <td><div>#if (IsConnected) {#<div>Connected</div>#}else{#<div>Disconnected</div>#}#</div></td>
+                <td>
+                    <div>#if (IsConnected) {#
+                        <div>Connected</div>#}else{#
+                        <div>Disconnected</div>#}#</div>
+                </td>
             </tr>
         </table>
     </div>

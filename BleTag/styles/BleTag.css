@@ -731,7 +731,7 @@ a.settings-text {
 #scanlist {
     display: none;
 }
-button#CancelCmdBtn.debugBtn {
+button#cancelCmdBtn.debugBtn {
     color: #fff;
     background: #D31B25;
     margin-top: 3px;
@@ -742,6 +742,7 @@ button#CancelCmdBtn.debugBtn {
 }
 .TextBoxCmd {
     height: 25px;
+    width: 60px;
     border-style: solid;
     border-width: 0px 0px 1px 0px;
     outline: 0;
@@ -751,8 +752,7 @@ button#CancelCmdBtn.debugBtn {
 .CommandWinTitlebar .k-window-actions {
     background: #D31B25;
     color: #fff;
-    height: 50%;
-    white-space: normal;
+    font-size: 13px;
 }
 .window-footer {
     bottom: 0;
@@ -762,7 +762,7 @@ button#CancelCmdBtn.debugBtn {
     padding: 3px 0 2px;
     border-top: 1px solid #e5e5e5;
 }
-button#OkCmdBtn.debugBtn {
+button#okCmdBtn.debugBtn {
     color: #fff;
     background: #D31B25;
     margin-top: 3px;
@@ -770,7 +770,7 @@ button#OkCmdBtn.debugBtn {
     margin-bottom: 3px;
     padding: .5em .8em;
     border-style: solid;
-    margin-left: 50%;
+    float: right;
     width: 66px;
 }
 .km-close-e:after,
@@ -802,4 +802,8 @@ button#OkCmdBtn.debugBtn {
 }
 .device-name-selection table tr td{
     width: 100px;
+}
+.footer-container{
+    margin-top: 15px;   
+    border-top: 1px solid #e5e5e5;
 }
