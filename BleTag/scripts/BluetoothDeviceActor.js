@@ -344,7 +344,7 @@
         updateConnectionState: function (isConnected) {
             var store = app.DebugDeviceService.debugModel.debugSelectedDataSource;
             var data = store.data()[0];
-            data.IsConnected = true;
+            data.IsConnected = isConnected;
             store.data([data]);
         },
         handlePasswordResponse: function (bytes) {
@@ -354,10 +354,6 @@
             if (bluetooth.config.responseCount == 1 && bytes[0] == 1) {
                 bluetooth.config.isConnected = true;
                 localStorage.setItem("BlePassword", bluetooth.config.password);
-
-                //var panel = this.getDebugDevicePanel();
-                var record = bluetooth.config.record;
-                record.IsConnected = true;
                 console.log('connection success');
                 me.updateConnectionState(true);
 

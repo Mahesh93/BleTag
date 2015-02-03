@@ -31,7 +31,7 @@
             me.config.password = password;
             ble.connect(deviceAddress, me.connectSuccess, me.connectError);
         },
-        connectSuccess: function (obj) {            
+        connectSuccess: function (obj) {
             console.log("Connected initial");
             var me = app.bluetoothService.bluetooth;
             me.config.isConnected = false;
@@ -49,24 +49,19 @@
             me.onUpdateStatus("CONNECT ERROR: " + reason, true);
         },
         onUpdateStatus: function (arg, canClose) {
-            console.log("calling status  : param 1" + arg + " Param 2:" + canClose);
-            if (canClose) {
+            console.log("calling status  : param 1" + arg + " Param 2:" + canClose);            if (canClose) {
                 console.log("disable mask");
-                //Ext.Viewport.setMasked(false);
+                kendo.ui.progress($('body div[data-role=splitview]'), false);
+                
                 return;
             }
-            /*
-            Ext.Viewport.setMasked({
-                xtype: 'loadmask',
-                message: arg
-            });*/
+            kendo.ui.progress($('body div[data-role=splitview]'), true);
         },
         startScan: function () {
             console.log('start scan');
             var me = this;
             var paramsObj = { /*"serviceUuids":[heartRateServiceUuid] */ };
             ble.scan([], (me.config.scanDuration / 1000), me.startScanSuccess, me.startScanError, paramsObj);
-            //Ext.Function.defer(this.scanTimeout, this.getScanDuration(), this);
 
         },
         onDisconnectDevice: function () {
@@ -82,11 +77,9 @@
         disconnectSuccess: function (obj) {
             console.log("disconnectSuccess");
             var me = app.bluetoothService.bluetooth;
-            var record = me.config.record;
-            record.IsConnected = false;
-            //panel.fireEvent('updateselection', record);
+            app.BluetoothDeviceActor.updateConnectionState(false);
             me.config.record = null;
-            me.config.IsConnected = false;
+            me.config.isConnected = false;
             me.stopNotification();
         },
         disconnectError: function (error) {
@@ -125,7 +118,7 @@
                 MacAddress: obj.id,
                 Advertisement: app.Utility.arrayBufferToBase64(obj.advertising),
                 DeviceName: obj.name,
-                ManufacturerUUID: uuid,
+                ManufacturerUUID: uuid.toUpperCase(),
                 Major: MAJOR_VER,
                 Minor: MINOR_VER,
                 Rssi: MEASURED_POWER,
@@ -140,7 +133,7 @@
         initializeBluetooth: function () {
             var me = this;
             console.log('initialize bluetooth');
-            //bluetoothle is an global object of third party    	
+            //ble is an global object of third party    	
             ble.isEnabled(me.initializeSuccess, me.initializeError);
         },
         initializeSuccess: function (obj) {
@@ -180,11 +173,16 @@
         },
         writeFailure: function (reason) {
             var me = app.bluetoothService.bluetooth;
+            console.log("WRITE ERROR: " + reason);
+            if (reason.indexOf('is not connected') != -1) {
+                me.disconnectSuccess();
+                return;
+            }
             me.onUpdateStatus('Writing command error completed...', true);
             me.stopNotification();
-            console.log("WRITE ERROR: " + reason);
+
         },
-        onData: function (data) {            
+        onData: function (data) {
             var me = app.bluetoothService.bluetooth;
             var resCount = me.config.responseCount;
             resCount++;
