@@ -5,6 +5,7 @@
         init: function (e) {
             var that = this,
                 dataSource,
+                summaryMenuDataSource,
                 jsonUrlToLoad;
             kendo.data.ObservableObject.fn.init.apply(that, []);
             jsonUrlToLoad = "http://cooler.insigmainc.com/Controllers/AssetInfo.ashx?action=list&asArray=0&limit=0&sort=AssetId&dir=DESC";
@@ -28,6 +29,32 @@
 
             });
             that.set("summaryListDataSource", dataSource);
+
+            var summaryMenuDataSource = new kendo.data.DataSource({
+                schema: {
+                    model: app.models.Menu
+                },
+                data: [{
+                        Title: 'Scan',
+                        MenuId: 1,
+                        ImageCls: 'scan-nav'
+                },
+                    {
+                        Title: 'Debug',
+                        MenuId: 2,
+                        ImageCls: 'debug-nav'
+                }, {
+                        Title: 'Switch Language',
+                        MenuId: 3,
+                        ImageCls: 'lang-nav'
+                }, {
+                        Title: 'Switch to Test Server',
+                        MenuId: 4,
+                        ImageCls: 'server-nav'
+                }]
+            });
+
+            that.set("summaryMenuDataSource", summaryMenuDataSource);
         }
     });
     app.summaryListService = {
@@ -36,6 +63,24 @@
                 LocationId: e.view.params.locationId
             });
 
+        },
+        menuClick: function (item) {
+            var menuId = item.dataItem.MenuId;
+            var me = app.summaryListService;
+
+            switch (menuId) {
+                case 1:
+                    break;
+                case 2:
+                    app.BleTag.main.navigate('views/DebugDeviceView.html');
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+                default:
+                    break;
+            }
         },
         viewModel: new SummaryListViewModel(),
         spaces: function () {

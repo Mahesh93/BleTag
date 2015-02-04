@@ -8,7 +8,13 @@
             },
             'MenuId': {
                 type: 'number'
-            }            
+            },
+            'Url': {
+                type: 'string'
+            },
+            'ImageCls': {
+                type: 'string'
+            }
         }
     });
     app.models.Menu = model;

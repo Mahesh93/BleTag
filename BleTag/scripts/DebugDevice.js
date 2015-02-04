@@ -210,8 +210,11 @@
                     };
                     app.DebugDeviceService.createWindow(data);
                     break;
-                case app.BleCommands.CURRENT_SENSOR_DATA:
-                    me.executeCommand(app.BleCommands.CURRENT_SENSOR_DATA);
+                case app.BleCommands.CURRENT_SENSOR_DATA:    
+                    //Response for the current sensor data comming late, based on the number of total events.
+                    //$('ul[data-template=fetchDataTemplate]').data("kendoMobileListView").scroller().reset();
+                    app.DebugDeviceService.debugModel.debugDeviceListDataSource.read();                   
+                    app.DebugDeviceService.executeCommand(app.BleCommands.CURRENT_SENSOR_DATA);
                     break;
                 case app.BleCommands.EVENT_COUNT:
                     me.executeCommand(app.BleCommands.EVENT_COUNT);
@@ -545,11 +548,11 @@
                 alert('Please connect device');
                 return;
             }
-            app.DebugDeviceService.debugModel.debugDeviceListDataSource.read([]);
+            app.DebugDeviceService.debugModel.debugDeviceListDataSource.read();
             app.DebugDeviceService.executeCommand(app.BleCommands.FETCH_DATA);
         },
         addCommandParamData: function (value, isDirect) {
-            var param = this.debugModel.config.commandParamData || [];
+            var param = app.DebugDeviceService.debugModel.config.commandParamData || [];
             if (isDirect) {
                 for (var i = 0; i < value.length; i++) {
                     param.push(value[i]);
@@ -559,7 +562,7 @@
                     param.push(value[i]);
                 }
             }
-            this.debugModel.config.commandParamData = param;
+            app.DebugDeviceService.debugModel.config.commandParamData = param;
         },
         onCommandWindowOkButtonClick: function (button) {
             var formValues = app.DebugDeviceService.debugModel.config.formValues,
@@ -632,11 +635,11 @@
                     break;
                 default:
                     var password = $("#textValue0").val();
-                    console.log('Password  - ' + password);                    
-                    var data = app.DebugDeviceService.selectedRecord;                
+                    console.log('Password  - ' + password);
+                    var data = app.DebugDeviceService.selectedRecord;
                     me.closeCommandWindow();
                     app.bluetoothService.bluetooth.onConnectWithPassword(data.MacAddress, password, data);
-                    return;                    
+                    return;
             }
             me.closeCommandWindow();
             me.executeCommand(command, me.debugModel.config.commandParamData);

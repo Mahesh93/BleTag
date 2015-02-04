@@ -49,10 +49,11 @@
             me.onUpdateStatus("CONNECT ERROR: " + reason, true);
         },
         onUpdateStatus: function (arg, canClose) {
-            console.log("calling status  : param 1" + arg + " Param 2:" + canClose);            if (canClose) {
+            console.log("calling status  : param 1" + arg + " Param 2:" + canClose);
+            if (canClose) {
                 console.log("disable mask");
                 kendo.ui.progress($('body div[data-role=splitview]'), false);
-                
+
                 return;
             }
             kendo.ui.progress($('body div[data-role=splitview]'), true);
@@ -77,6 +78,7 @@
         disconnectSuccess: function (obj) {
             console.log("disconnectSuccess");
             var me = app.bluetoothService.bluetooth;
+            me.onUpdateStatus('Disconnect Success...', true);
             app.BluetoothDeviceActor.updateConnectionState(false);
             me.config.record = null;
             me.config.isConnected = false;
@@ -94,7 +96,7 @@
                 return;
 
             var bytes = new Uint8Array(obj.advertising);
-
+            console.log(bytes);
             var BEACON_LENGTH = app.Utility.readSingle(bytes.subarray(0, 1));
             var AD_TYPE = app.Utility.readSingle(bytes.subarray(1, 2));
             var BEACON_FLAGS = app.Utility.readSingle(bytes.subarray(2, 3));
@@ -105,9 +107,9 @@
 
             var BEACON_TYPE = app.Utility.readWord(bytes.subarray(7, 9));
             var uuid = app.Utility.bytesToHex(obj.advertising, 9, 25);
-
-            var MAJOR_VER = app.Utility.bytesToHex(obj.advertising, 25, 27);
-            var MINOR_VER = app.Utility.bytesToHex(obj.advertising, 27, 29);
+            
+            var MAJOR_VER = parseInt(app.Utility.bytesToHex(obj.advertising, 25, 27), 16);
+            var MINOR_VER = parseInt(app.Utility.bytesToHex(obj.advertising, 27, 29), 16);
             var MEASURED_POWER = app.Utility.readSingle(bytes.subarray(29, 30));
             //Second part
             var DEVICE_DATA_LENGTH = app.Utility.readSingle(bytes.subarray(30, 31));
@@ -132,6 +134,7 @@
         },
         initializeBluetooth: function () {
             var me = this;
+            me.onUpdateStatus('Initializing...', true);
             console.log('initialize bluetooth');
             //ble is an global object of third party    	
             ble.isEnabled(me.initializeSuccess, me.initializeError);
@@ -174,7 +177,7 @@
         writeFailure: function (reason) {
             var me = app.bluetoothService.bluetooth;
             console.log("WRITE ERROR: " + reason);
-            if (reason.indexOf('is not connected') != -1) {
+            if (typeof(reason) === 'string' && reason.indexOf('is not connected') != -1) {
                 me.disconnectSuccess();
                 return;
             }
@@ -195,6 +198,7 @@
         },
         onError: function (reason) {
             var me = app.bluetoothService.bluetooth;
+            me.onUpdateStatus(reason, true);
             me.stopNotification();
             console.log("ERROR: " + reason); // real apps should use notification.alert
         },

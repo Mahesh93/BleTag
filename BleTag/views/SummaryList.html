@@ -1,5 +1,5 @@
 <div data-role="view" id="two-drawer-home" data-title="Summary List" data-layout="summary" data-model="app.summaryListService.viewModel" data-show="app.summaryListService.show">
-    <ul data-role="listview" data-template="summaryTemplate" data-auto-bind="false" data-bind="source: summaryListDataSource"></ul>    
+    <ul data-role="listview" data-template="summaryTemplate" data-auto-bind="false" data-bind="source: summaryListDataSource"></ul>
 </div>
 <div data-role="layout" data-id="summary">
     <div data-role="header">
@@ -11,51 +11,71 @@
     <!-- application views will be rendered here -->
 </div>
 <!-- application drawer and contents -->
-<div data-role="drawer" id="summary-list-menu" style="width: 60%" data-title="Navigation" data-position="right" data-swipe-to-open=false>
+<div data-role="drawer" id="summary-list-menu" data-model="app.summaryListService.viewModel" style="width: 60%" data-title="Navigation" data-position="right" data-swipe-to-open=false>
     <header data-role="header">
         <div data-role="navbar">
             <span data-role="view-title"></span>
         </div>
     </header>
-    <ul class="navmenu" data-role="listview">
-        <li><div class="cooler-list-navigation-icon-base scan-nav"></div>Scan</li>
-        <li><div class="cooler-list-navigation-icon-base debug-nav"></div>
-            <a style="text-decoration:none;" href='views/DebugDeviceView.html?' data-role="listview-link">Debug</a></li>       
-        <li><div class="cooler-list-navigation-icon-base lang-nav"></div>Switch Language</li>
-        <!--<a href="views/switchLanguage.html">Switch Language</a>-->
-        <li><div class="cooler-list-navigation-icon-base server-nav"></div>Switch to Test Server</li>
-    </ul>
+    <ul class="navmenu" data-bind="source: summaryMenuDataSource" data-template="summaryMenuTemplate" data-click="app.summaryListService.menuClick" data-role="listview"></ul>
 </div>
+<script type="text/x-kendo-template" id="summaryMenuTemplate">
+    <a data-role="listview-link">
+        <div class="cooler-list-navigation-icon-base #=ImageCls#"></div>
+        <div>${Title}</div>
+    </a>
+</script>
 <script type="text/x-kendo-template" id="summaryTemplate">
     <div id="listtemp" class="container">
-    <a id="locationList" href='views/SummaryDetail.html?assetId=#:AssetId#&serialNumber=#:SerialNumber#' data-role="listview-link">
-	<table style="width:100%">
-	<tr>
-	<td rowspan="4">
-	<div class="cooler-list-item-device-status-base cooler-list-quesMarkImage">&nbsp;</div>		
-	<div class="cooler-list-image-container cooler-list-image">&nbsp;</div>
-	</td>
-	</tr>
-	 <tr>
-	<td><div #if (Temperature < 35.6) {# class="cooler-list-image-small cooler-list-lowtemperature"#}else if(Temperature > 39.2){# class="cooler-list-image-small cooler-list-hightemperature"#}else{# class="cooler-list-image-small cooler-list-inrangetemperature"#}#></td>
-	<td><div>#= app.summaryListService.getLightImg(LightIntensity)#</td>
-	<td><div #if(LatestProcessedImageId!=0){#<div>#= app.summaryListService.getPurityImg(Stock, ForeignProduct,Columns,Shelves)#</div>#}#</div></td>
-	<td><div #if(LatestProcessedImageId!=0){#<div>#= app.summaryListService.getStockImg(Stock, ForeignProduct,Columns,Shelves)#</div>#}#</div></td>
-	</tr>
-	<tr>
-	<td><div class="cooler-list-label">${Temperature.toFixed(1)}</div></td>
-	<td><div class="cooler-list-label">#=app.summaryListService.getLightIntensityValue(LightIntensity)#</div></td>
-	<td><div #if(LatestProcessedImageId!=0){#<div class="cooler-list-label">#= app.summaryListService.getPurityPerc(Stock, ForeignProduct,Columns,Shelves)#</div>#}#</div></td>
-	<td><div #if(LatestProcessedImageId!=0){#<div>#=app.summaryListService.getStockPerc(Columns, Shelves, Stock, ForeignProduct)#</div>#}#</div></td>
-	</tr>
-	<tr>
-	<td><div class="cooler-list-label">${app.summaryListService.getTemperatureText(Temperature)}</div></td>
-	<td><div class="cooler-list-label">#=app.summaryListService.getLightIntensityText(LightIntensity)#</div></td>
-	<td><div #if(LatestProcessedImageId!=0){#<div class="cooler-list-label">#=app.summaryListService.getPurityPercText(Columns, Shelves, Stock, ForeignProduct)#</div>#}#</div></td>
-	<td><div #if(LatestProcessedImageId!=0){#<div>#=app.summaryListService.getStockPercText(Columns, Shelves, Stock,ForeignProduct)#</div>#}#</div></td>
-	</tr>
-	</table>	
+        <a id="locationList" href='views/SummaryDetail.html?assetId=#:AssetId#&serialNumber=#:SerialNumber#' data-role="listview-link">
+            <table style="width:100%">
+                <tr>
+                    <td rowspan="4">
+                        <div class="cooler-list-item-device-status-base cooler-list-quesMarkImage">&nbsp;</div>
+                        <div class="cooler-list-image-container cooler-list-image">&nbsp;</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div #if (Temperature < 35.6) {# class="cooler-list-image-small cooler-list-lowtemperature" #}else if(Temperature> 39.2){# class="cooler-list-image-small cooler-list-hightemperature"#}else{# class="cooler-list-image-small cooler-list-inrangetemperature"#}#></td>
+                    <td>
+                        <div>#= app.summaryListService.getLightImg(LightIntensity)#</td>
+                    <td>
+                        <div #if(LatestProcessedImageId!=0){#<div>#= app.summaryListService.getPurityImg(Stock, ForeignProduct,Columns,Shelves)#</div>#}#</div>
+                    </td>
+                    <td>
+                        <div #if(LatestProcessedImageId!=0){#<div>#= app.summaryListService.getStockImg(Stock, ForeignProduct,Columns,Shelves)#</div>#}#</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="cooler-list-label">${Temperature.toFixed(1)}</div>
+                    </td>
+                    <td>
+                        <div class="cooler-list-label">#=app.summaryListService.getLightIntensityValue(LightIntensity)#</div>
+                    </td>
+                    <td>
+                        <div #if(LatestProcessedImageId!=0){#<div class="cooler-list-label">#= app.summaryListService.getPurityPerc(Stock, ForeignProduct,Columns,Shelves)#</div>#}#</div>
+    </td>
+    <td>
+        <div #if(LatestProcessedImageId!=0){#<div>#=app.summaryListService.getStockPerc(Columns, Shelves, Stock, ForeignProduct)#</div>#}#</div>
+    </td>
+    </tr>
+    <tr>
+        <td>
+            <div class="cooler-list-label">${app.summaryListService.getTemperatureText(Temperature)}</div>
+        </td>
+        <td>
+            <div class="cooler-list-label">#=app.summaryListService.getLightIntensityText(LightIntensity)#</div>
+        </td>
+        <td>
+            <div #if(LatestProcessedImageId!=0){#<div class="cooler-list-label">#=app.summaryListService.getPurityPercText(Columns, Shelves, Stock, ForeignProduct)#</div>#}#</div>
+        </td>
+        <td>
+            <div #if(LatestProcessedImageId!=0){#<div>#=app.summaryListService.getStockPercText(Columns, Shelves, Stock,ForeignProduct)#</div>#}#</div>
+        </td>
+    </tr>
+    </table>
     </a>
     </div>
-
 </script>

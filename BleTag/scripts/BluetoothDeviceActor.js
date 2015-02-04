@@ -47,7 +47,7 @@
             me.config.listData = null;
 
             var success = isSuccess === 1 ? 'Success' : 'Failed';
-            var labelWidth = '50%';
+            var labelWidth = '70%';
             if (command === app.BleCommands.EVENT_DATA_FROM_IDX_IDY)
                 labelWidth = "240px";
             if (command === app.BleCommands.CURRENT_TIME)
@@ -175,7 +175,7 @@
                 console.log("List result completed");
                 bluetooth.onUpdateStatus('Processing list data...');
                 var data = me.config.listData;
-                var storeData = [];
+                var storeData = [];                
                 //var store = app.DebugDeviceService.debugModel.DebugDeviceListDataSource;
                 for (var i in data) {
                     console.log(data[i].data);

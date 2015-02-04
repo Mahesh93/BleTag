@@ -1,12 +1,12 @@
-<div data-role="view" data-title="Summary Detail" data-layout="summaryDetail" data-model="app.summaryDetailService.viewModel" data-show="app.summaryDetailService.show">    
-    <ul data-role="listview" data-template="summaryTemplate" data-auto-bind="false" data-bind="source: summaryDetailDataSource"></ul> 
+<div data-role="view" data-title="Summary Detail" data-layout="summaryDetail" data-model="app.summaryDetailService.viewModel" data-show="app.summaryDetailService.show">
+    <ul data-role="listview" data-template="summaryTemplate" data-auto-bind="false" data-bind="source: summaryDetailDataSource"></ul>
     <div id="fusionchartsTitle" class="km-group-title">Product Distribution</div>
     <div id="fusioncharts"></div>
     <div id="distributionData"></div>
     <div id="lastProcessedImageTitle" class="km-group-title"></div>
-    <img id="lastProcessedImage" class="center fit"/>
+    <img id="lastProcessedImage" class="center fit" />
     <div id="lastImageTitle" class="km-group-title"></div>
-    <img id="lastImage" class="center fit"/>
+    <img id="lastImage" class="center fit" />
 </div>
 <div data-role="layout" data-id="summaryDetail">
     <div data-role="header">
@@ -18,21 +18,17 @@
     <!-- application views will be rendered here -->
 </div>
 <!-- application drawer and contents -->
-<div data-role="drawer" id="summary-detail-menu" style="width: 60%" data-title="Navigation" data-position="right" data-swipe-to-open=false>
+<div data-role="drawer" id="summary-detail-menu" data-model="app.summaryDetailService.viewModel" style="width: 60%" data-title="Navigation" data-position="right" data-swipe-to-open=false>
     <div data-role="header">
         <div data-role="navbar">
             <span data-role="view-title"></span>
         </div>
     </div>
-    <ul class="navmenu" data-role="listview">
-       <li><div class="cooler-list-navigation-icon-base scan-nav"></div>
-           <a style="text-decoration:none;" href='views/CoolerDataList.html?' data-role="listview-link">View Data</a>
-        </li>
-        <li><div class="cooler-list-navigation-icon-base debug-nav"></div>
-            <a style="text-decoration:none;" href='views/CoolerImageList.html?' data-role="listview-link">View Pictures</a>
-        </li>       
-        <!--<li><div class="cooler-list-navigation-icon-base lang-nav"></div>Download Data</li>-->
-        <!--<a href="views/switchLanguage.html">Switch Language</a>-->
-        <li><div class="cooler-list-navigation-icon-base server-nav"></div>Take Picture</li>
-    </ul>
+    <ul class="navmenu" data-bind="source: summaryDetailMenuDataSource" data-template="summaryDetailMenuTemplate" data-click="app.summaryDetailService.menuClick" data-role="listview"></ul>
 </div>
+<script type="text/x-kendo-template" id="summaryDetailMenuTemplate">
+    <a data-role="listview-link">
+        <div class="cooler-list-navigation-icon-base #=ImageCls#"></div>
+        <div>${Title}</div>
+    </a>
+</script>
